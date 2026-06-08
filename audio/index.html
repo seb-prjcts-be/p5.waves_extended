@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="audio.doc.title">Audio × Waves · p5.waves extended</title>
+  <meta name="description" content="Audio × Waves - 12 concepten waarin geluid de structuur van p5.waves stuurt (en omgekeerd), per thema doorzoekbaar met #trefwoorden. Onderdeel van p5.waves extended.">
+  <script src="../i18n.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../extended.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo"><a href="../index.html" style="text-decoration:none;color:inherit;">p5.<span>waves</span> extended</a></div>
+    <button class="nav-hamburger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('nav-open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#collections" data-i18n="nav.overview">Overzicht</a></li>
+      <li><a href="index.html" class="active">Audio</a></li>
+      <li><a href="overzicht.html" data-i18n="nav.live12">Alle 12 live</a></li>
+      <li><a href="../styleguide.html">Styleguide</a></li>
+      <li><button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language" data-i18n="lang.toggle">EN</button></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="audio" class="section">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="audio.tag">audio × waves · onderzoek</div>
+      <h2 data-i18n="audio.title">p5.<span class="accent">wavs</span></h2>
+      <p class="section-desc" data-i18n="audio.desc">Wat maakt p5.waves méér dan een opgenomen audiogolf? Geluid stuurt hier niet de <em>vorm</em> maar de <em>structuur</em>: de tijd, de morph, de golf-identiteit, gesloten vormen op de beat - en omgekeerd wordt een golf geluid. Zoek of klik een trefwoord om op thema te filteren.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-row">
+        <span class="search-icon">/</span>
+        <input id="search" type="text" placeholder="Zoek op titel of trefwoord…" autocomplete="off" data-i18n-attr="placeholder:search.placeholder">
+      </div>
+      <div class="tag-row" id="tag-row"><!-- chips injected by JS --></div>
+      <div class="filter-meta"><span id="visible-count">0</span> <span data-i18n="filter.of">van</span> <span id="total-count">0</span> <span data-i18n="filter.concepts">concepten</span></div>
+    </div>
+
+    <div class="collection-grid" id="grid"><!-- cards injected by JS --></div>
+    <div class="no-results" id="no-results" data-i18n="noresults.concept">Geen concept gevonden voor deze filter.</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Built with <a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a> + <a href="https://p5js.org" target="_blank">p5.js</a> · native Web Audio</p>
+    <p class="footer-sub">Part of the p5.waves ecosystem · v3.3.0 · <a href="RESEARCH.md">RESEARCH.md</a></p>
+    <p class="footer-sub">♪ brunk – Akoxylo · Creative Commons · <a href="https://brunk.be" target="_blank" rel="noopener">brunk.be</a></p>
+  </footer>
+
+  <script>
+    var CONCEPTS = [
+      { n: '01', url: 'concepten/01-fft-als-t/', title: 'FFT als t', star: true, dir: 'geluid → golf',
+        desc: 'Een FFT-resultaat als tijd-driver. Rauw vs geaccumuleerd vs per-bin.',
+        tags: ['fft', 'tijd', 'spectrum', 'geluid-naar-golf'] },
+      { n: '02', url: 'concepten/02-spectrum-amplitude/', title: 'Spectrum → amplitude-lagen', dir: 'geluid → golf',
+        desc: 'Bass, mid en treble sturen elk de amplitude van een eigen golflaag.',
+        tags: ['spectrum', 'amplitude', 'lagen', 'geluid-naar-golf'] },
+      { n: '03', url: 'concepten/03-reactieve-skyline/', title: 'Reactieve skyline', dir: 'geluid → golf',
+        desc: 'De x-as wordt het spectrum; de lint-dikte is de energie per frequentie.',
+        tags: ['spectrum', 'energie', 'skyline', 'geluid-naar-golf'] },
+      { n: '04', url: 'concepten/04-beat-shift/', title: 'Beat → shift', dir: 'geluid → golf',
+        desc: 'Beat-gequantiseerde t: elke tel kiest het nummer een nieuwe golf.',
+        tags: ['beat', 'shift', 'geluid-naar-golf'] },
+      { n: '05', url: 'concepten/05-energie-morph/', title: 'Energie → morph + flux → wild', dir: 'geluid → golf',
+        desc: 'Luidheid morpht sine naar batman; spectrale flux injecteert chaos.',
+        tags: ['energie', 'morph', 'wild', 'flux', 'geluid-naar-golf'] },
+      { n: '06', url: 'concepten/06-golf-wavetable/', title: 'Golf als wavetable', dir: 'golf → geluid',
+        desc: 'De omkering: een p5.waves-golf wordt een oscillator. Hoor zijn timbre.',
+        tags: ['wavetable', 'sonificatie', 'timbre', 'golf-naar-geluid'] },
+      { n: '07', url: 'concepten/07-closed-ring-beat/', title: 'Closed-form ring op de beat', star: true, dir: 'geavanceerd',
+        desc: 'Gesloten ringen (closing-groep) die naadloos op de beat van vorm wisselen.',
+        tags: ['closed-form', 'ring', 'beat', 'periodiciteit', 'geavanceerd'] },
+      { n: '07b', url: 'concepten/07b-closed-ring-beat/', title: 'Closed-form ring per band', dir: 'geavanceerd',
+        desc: 'Drie ringen, drie banden: grootste naar bass, middelste naar treble, binnenste naar mid.',
+        tags: ['closed-form', 'ring', 'banden', 'beat', 'geavanceerd'] },
+      { n: '08', url: 'concepten/08-golf-op-golf/', title: 'Golf op golf', dir: 'geavanceerd',
+        desc: 'Domein-warp: golf A buigt de ruimte van golf B; bass stuurt de sterkte.',
+        tags: ['domein-warp', 'interferentie', 'bass', 'geavanceerd'] },
+      { n: '09', url: 'concepten/09-timbre-identiteit/', title: 'Timbre → identiteit', dir: 'geavanceerd',
+        desc: 'Het spectraal zwaartepunt kiest de golf-identiteit - van dof tot scherp.',
+        tags: ['timbre', 'spectraal-zwaartepunt', 'identiteit', 'geavanceerd'] },
+      { n: '10', url: 'concepten/10-interferentieveld/', title: 'Interferentie-veld', dir: 'geavanceerd',
+        desc: 'Golf op golf in 2D met twee samplers - de v3.3.0-opvolger van createGrid.',
+        tags: ['interferentie', 'sampler', '2d', 'geavanceerd'] },
+      { n: '11', url: 'concepten/11-chladni-resonantie/', title: 'Chladni-resonantie', dir: 'geavanceerd',
+        desc: 'Nulpuntlijnen van sX(x·m)·sY(y·n) + sX(x·n)·sY(y·m). Beat wisselt de resonantie-mode.',
+        tags: ['chladni', 'resonantie', 'beat', 'geavanceerd'] }
+    ];
+
+    (function () {
+      var grid = document.getElementById('grid');
+      var tagRow = document.getElementById('tag-row');
+      var searchInput = document.getElementById('search');
+      var visibleCount = document.getElementById('visible-count');
+      var totalCount = document.getElementById('total-count');
+      var noResults = document.getElementById('no-results');
+      var activeTag = null;
+      var cards = [];
+
+      function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+      function cardHTML(c) {
+        var tagEls = c.tags.map(function (t) { return '<em>#' + esc(t) + '</em>'; }).join('');
+        var hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.desc).toLowerCase();
+        var status = c.star ? '<span class="card-status">★ uitgelicht</span>' : '';
+        return '<a class="collection-card" href="' + esc(c.url) + '"'
+          + ' data-title="' + esc(c.title) + '"'
+          + ' data-tags="' + esc(c.tags.join(' ')) + '"'
+          + ' data-search="' + esc(hay) + '">'
+          + status
+          + '<div class="card-index">concept ' + esc(c.n) + ' · ' + esc(c.dir) + '</div>'
+          + '<h3>' + esc(c.title) + '</h3>'
+          + '<p>' + esc(c.desc) + '</p>'
+          + '<div class="card-tags">' + tagEls + '</div>'
+          + '</a>';
+      }
+
+      function buildTagChips() {
+        var all = {};
+        CONCEPTS.forEach(function (c) { c.tags.forEach(function (t) { all[t] = true; }); });
+        Object.keys(all).sort().forEach(function (tag) {
+          var chip = document.createElement('button');
+          chip.className = 'tag-chip';
+          chip.textContent = '#' + tag;
+          chip.dataset.tag = tag;
+          chip.addEventListener('click', function () {
+            if (activeTag === tag) { activeTag = null; chip.classList.remove('active'); }
+            else {
+              activeTag = tag;
+              tagRow.querySelectorAll('.tag-chip').forEach(function (x) { x.classList.remove('active'); });
+              chip.classList.add('active');
+            }
+            apply();
+          });
+          tagRow.appendChild(chip);
+        });
+      }
+
+      function apply() {
+        var q = searchInput.value.trim().toLowerCase().replace(/^#/, '');
+        var shown = 0;
+        cards.forEach(function (card) {
+          var matchText = !q || card.dataset.search.indexOf(q) !== -1;
+          var matchTag = !activeTag || card.dataset.tags.split(/\s+/).indexOf(activeTag) !== -1;
+          var show = matchText && matchTag;
+          card.hidden = !show;
+          if (show) shown++;
+        });
+        visibleCount.textContent = shown;
+        noResults.style.display = shown ? 'none' : 'block';
+      }
+
+      grid.innerHTML = CONCEPTS.map(cardHTML).join('');
+      cards = Array.prototype.slice.call(grid.querySelectorAll('.collection-card'));
+      totalCount.textContent = CONCEPTS.length;
+      buildTagChips();
+      searchInput.addEventListener('input', apply);
+      apply();
+    })();
+  </script>
+
+</body>
+</html>

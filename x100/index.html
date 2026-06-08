@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="x100.doc.title">X100 - Grids · p5.waves extended</title>
+  <meta name="description" content="X100 - een doorlopend onderzoek naar p5.waves in honderden kleine 50×50 animaties, verdeeld over 7 versies. Per thema doorzoekbaar met #trefwoorden. Onderdeel van p5.waves extended.">
+  <script src="../i18n.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../extended.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo"><a href="../index.html" style="text-decoration:none;color:inherit;">p5.<span>waves</span> extended</a></div>
+    <button class="nav-hamburger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('nav-open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#collections" data-i18n="nav.overview">Overzicht</a></li>
+      <li><a href="index.html" class="active">X100</a></li>
+      <li><a href="library/">Frame Library</a></li>
+      <li><a href="../styleguide.html">Styleguide</a></li>
+      <li><button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language" data-i18n="lang.toggle">EN</button></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="x100" class="section">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="x100.tag">x100 · honderd-frame grids</div>
+      <h2 data-i18n="x100.title">X100 - <span class="accent">Grids</span></h2>
+      <p class="section-desc" data-i18n="x100.desc">Een doorlopend onderzoek naar wat de p5.waves library kan, verteld in honderden kleine 50×50 animaties - telkens een 10×10 raster van 100 frames. Zeven versies, elk een eigen lens. Zoek of klik een trefwoord om op thema te filteren.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-row">
+        <span class="search-icon">/</span>
+        <input id="search" type="text" placeholder="Zoek op titel of trefwoord…" autocomplete="off" data-i18n-attr="placeholder:search.placeholder">
+      </div>
+      <div class="tag-row" id="tag-row"><!-- chips injected by JS --></div>
+      <div class="filter-meta"><span id="visible-count">0</span> <span data-i18n="filter.of">van</span> <span id="total-count">0</span> <span data-i18n="filter.items">items</span></div>
+    </div>
+
+    <div class="collection-grid" id="grid"><!-- cards injected by JS --></div>
+    <div class="no-results" id="no-results" data-i18n="noresults.item">Geen item gevonden voor deze filter.</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Built with <a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a> + <a href="https://p5js.org" target="_blank">p5.js</a></p>
+    <p class="footer-sub">Part of the p5.waves ecosystem · v3.3.0</p>
+  </footer>
+
+  <script>
+    var ITEMS = [
+      { url: 'library/', n: '★', title: 'Frame Library', star: true, kind: 'browser',
+        desc: 'Gecureerde browser door alle frames - zoek, filter en kopieer de code van elk frame.',
+        tags: ['browser', 'zoeken', 'frames', 'code'] },
+      { url: 'p5.wavesX100_v01/', n: 'v01', title: 'Technique Showcase', kind: 'versie',
+        desc: 'p5.js zelf getoond: shape-primitieven, math-curven, kleur, golven, patronen, particles, pixels, typografie, 3D. p5.waves in ~35% van de frames.',
+        tags: ['techniek', 'p5js', 'showcase', 'patronen', 'particles', '3d', 'typografie'] },
+      { url: 'p5.wavesX100_v02/', n: 'v02', title: 'Library-Driven', kind: 'versie',
+        desc: 'Elke frame gebruikt p5.waves. Tien visuele lenzen: van rauwe waveforms tot vorm, kleur, beweging, patroon, organisch, textuur, compositie, 3D en extremen.',
+        tags: ['library-driven', 'lenzen', 'waves', 'kleur', 'beweging'] },
+      { url: 'p5.wavesX100_v03/', n: 'v03', title: 'Third Iteration', kind: 'versie',
+        desc: 'Een door de gebruiker toegevoegde iteratie op het 100-frame raster.',
+        tags: ['iteratie'] },
+      { url: 'p5.wavesX100_v04/', n: 'v04', title: 'Wildly Creative', kind: 'versie',
+        desc: 'Maximale creativiteit, de library als engine: kloppend hart, tandwielen, aurora, Newton’s cradle, mieren, vuur, voxel-landschap, sterrenstelsels, 3D-DNA.',
+        tags: ['wild', 'creatief', 'organisch', '3d', 'kleur'] },
+      { url: 'p5.wavesX100_v05/', n: 'v05', title: 'B&W Typography', kind: 'versie',
+        desc: 'Puur zwart-wit, de letter als onderwerp.',
+        tags: ['typografie', 'zwart-wit', 'letters'] },
+      { url: 'p5.wavesX100_v06/', n: 'v06', title: 'Oswald Grayscale', kind: 'versie',
+        desc: 'Oswald in grijswaarden op achtergrond 245 - typografie, stil en sober.',
+        tags: ['typografie', 'grijswaarden', 'oswald'] },
+      { url: 'p5.wavesX100_v07/', n: 'v07', title: '100 Tiny Worlds', kind: 'versie',
+        desc: 'Thematische rijen: levende wezens, optisch spel, chromatisch, wave-showcase, textiel, fluïde, glitch, kosmisch. ~11.800 W()-calls per render.',
+        tags: ['thematisch', 'organisch', 'optisch', 'textiel', 'fluide', 'glitch', 'kosmisch'] }
+    ];
+
+    (function () {
+      var grid = document.getElementById('grid');
+      var tagRow = document.getElementById('tag-row');
+      var searchInput = document.getElementById('search');
+      var visibleCount = document.getElementById('visible-count');
+      var totalCount = document.getElementById('total-count');
+      var noResults = document.getElementById('no-results');
+      var activeTag = null;
+      var cards = [];
+
+      function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+      function cardHTML(c) {
+        var tagEls = c.tags.map(function (t) { return '<em>#' + esc(t) + '</em>'; }).join('');
+        var hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.desc).toLowerCase();
+        var status = c.star ? '<span class="card-status">★ browser</span>' : '';
+        return '<a class="collection-card" href="' + esc(c.url) + '"'
+          + ' data-title="' + esc(c.title) + '"'
+          + ' data-tags="' + esc(c.tags.join(' ')) + '"'
+          + ' data-search="' + esc(hay) + '">'
+          + status
+          + '<div class="card-index">' + esc(c.n) + ' · ' + esc(c.kind) + '</div>'
+          + '<h3>' + esc(c.title) + '</h3>'
+          + '<p>' + esc(c.desc) + '</p>'
+          + '<div class="card-tags">' + tagEls + '</div>'
+          + '</a>';
+      }
+
+      function buildTagChips() {
+        var all = {};
+        ITEMS.forEach(function (c) { c.tags.forEach(function (t) { all[t] = true; }); });
+        Object.keys(all).sort().forEach(function (tag) {
+          var chip = document.createElement('button');
+          chip.className = 'tag-chip';
+          chip.textContent = '#' + tag;
+          chip.dataset.tag = tag;
+          chip.addEventListener('click', function () {
+            if (activeTag === tag) { activeTag = null; chip.classList.remove('active'); }
+            else {
+              activeTag = tag;
+              tagRow.querySelectorAll('.tag-chip').forEach(function (x) { x.classList.remove('active'); });
+              chip.classList.add('active');
+            }
+            apply();
+          });
+          tagRow.appendChild(chip);
+        });
+      }
+
+      function apply() {
+        var q = searchInput.value.trim().toLowerCase().replace(/^#/, '');
+        var shown = 0;
+        cards.forEach(function (card) {
+          var matchText = !q || card.dataset.search.indexOf(q) !== -1;
+          var matchTag = !activeTag || card.dataset.tags.split(/\s+/).indexOf(activeTag) !== -1;
+          var show = matchText && matchTag;
+          card.hidden = !show;
+          if (show) shown++;
+        });
+        visibleCount.textContent = shown;
+        noResults.style.display = shown ? 'none' : 'block';
+      }
+
+      grid.innerHTML = ITEMS.map(cardHTML).join('');
+      cards = Array.prototype.slice.call(grid.querySelectorAll('.collection-card'));
+      totalCount.textContent = ITEMS.length;
+      buildTagChips();
+      searchInput.addEventListener('input', apply);
+      apply();
+    })();
+  </script>
+
+</body>
+</html>

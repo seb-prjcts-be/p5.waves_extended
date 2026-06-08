@@ -1,0 +1,10 @@
+# OS-rommel
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Lokale Claude-config (niet publiek)
+.claude/
+
+# Apache no-cache helper (lokaal bouwen, niet nodig op GH-Pages)
+.htaccess

@@ -1,0 +1,26 @@
+@import url("../campaign/base.css");
+
+body.campaign-sketch {
+  background: #f1f1f1;
+}
+
+#campaign-root {
+  max-width: 1220px;
+}
+
+.campaign-stage {
+  border-width: 1px;
+  border-color: #20201c;
+  background: #f5f5f5;
+  box-shadow: 0 24px 64px rgba(32, 32, 28, 0.18);
+}
+
+.campaign-caption-copy {
+  max-width: 840px;
+}
+
+.campaign-badge,
+.campaign-chip {
+  border-width: 1px;
+  background: #f5f5f5;
+}

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>p5.waves Frame Library — prjcts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --bg-surface: #f1f1f1;
+      --text: #121212;
+      --text-dim: #666666;
+      --accent: #ff0000;
+      --accent-hover: #cc0000;
+      --accent-light: rgba(255, 0, 0, 0.15);
+      --border: #e0e0e0;
+      --font-heading: 'Oswald', sans-serif;
+      --font-body: 'IBM Plex Mono', 'Courier New', monospace;
+      --font-serif: 'Alegreya', Georgia, serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem; line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh; padding: 2rem;
+    }
+    header { max-width: 1400px; margin: 0 auto 2rem; }
+    .back-link {
+      color: var(--text-dim); text-decoration: none; font-size: 0.8rem;
+      display: inline-block; margin-bottom: 1rem;
+      transition: color 0.2s ease;
+    }
+    .back-link:hover { color: var(--accent); }
+    h1 {
+      font-family: var(--font-heading); font-weight: 400;
+      font-size: 2.4rem; line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+    .subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+      max-width: 70ch;
+    }
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center;
+      padding: 1rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .filters label {
+      font-family: var(--font-heading);
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-right: 0.3rem;
+    }
+    select, input[type=text] {
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem; font-family: var(--font-body); font-size: 0.8rem;
+      border-radius: 0;
+    }
+    select:focus, input[type=text]:focus { outline: none; border-color: var(--accent); }
+    input[type=text] { min-width: 200px; }
+    .count {
+      margin-left: auto;
+      color: var(--text-dim); font-size: 0.8rem;
+      font-family: var(--font-heading);
+      letter-spacing: 0.05em;
+    }
+    #grid {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 120px));
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .card {
+      background: var(--bg-surface);
+      border: 1px dashed var(--accent-light);
+      padding: 0.6rem; cursor: pointer;
+      width: 120px;
+      transition: border-color 0.2s ease;
+    }
+    .card:hover { border-color: var(--accent); border-style: solid; }
+    .card canvas {
+      display: block; width: 50px; height: 50px;
+      image-rendering: pixelated;
+      background: #000;
+      margin: 0 auto 0.6rem;
+    }
+    .card .title {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      text-align: center;
+    }
+    .card .meta {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+      display: flex; justify-content: space-between;
+      font-family: var(--font-body);
+    }
+    .card .tags {
+      display: flex; flex-wrap: wrap; gap: 0.2rem; margin-top: 0.35rem;
+      justify-content: center;
+    }
+    .tag {
+      background: var(--bg);
+      color: var(--text-dim);
+      padding: 0.1rem 0.35rem;
+      font-size: 0.6rem;
+      border: 1px solid var(--border);
+    }
+    /* Modal */
+    #modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(245, 245, 245, 0.95); z-index: 100;
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    #modal.open { display: flex; }
+    .modal-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      max-width: 900px; width: 100%;
+      max-height: 90vh; overflow: auto;
+      padding: 2rem; position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 0.8rem; right: 0.8rem;
+      background: none; border: 1px solid var(--border);
+      color: var(--text-dim);
+      width: 32px; height: 32px;
+      cursor: pointer; font-family: var(--font-body);
+      font-size: 1.1rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+    .modal-grid {
+      display: grid; grid-template-columns: auto 1fr; gap: 2rem;
+    }
+    .modal-canvas-wrap {
+      padding: 8px;
+      border: 1px dashed var(--accent-light);
+      background: var(--bg);
+      align-self: start;
+    }
+    .modal-grid canvas {
+      display: block;
+      width: 50px; height: 50px;
+      image-rendering: pixelated;
+      background: #000;
+    }
+    .modal-info h2 {
+      font-family: var(--font-heading); font-weight: 400;
+      font-size: 1.6rem; margin-bottom: 0.3rem;
+    }
+    .modal-info .desc {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+    .modal-info dl { font-size: 0.8rem; margin-bottom: 1rem; }
+    .modal-info dl div {
+      margin-bottom: 0.3rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-info dt {
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      display: inline-block; width: 110px;
+      font-size: 0.7rem;
+    }
+    .modal-info dd { display: inline; color: var(--text); font-family: var(--font-body); }
+    .modal-code {
+      grid-column: 1 / 3;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text);
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.5rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .copy-btn:hover { background: var(--accent); color: var(--bg); }
+    @media (max-width: 768px) {
+      body { padding: 1rem; }
+      h1 { font-size: 1.8rem; }
+      .modal-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../" class="back-link">← terug naar versies</a>
+    <h1>Frame Library</h1>
+    <p class="subtitle">50×50 kleine getuigen van grote wiskunde — gecureerde p5.waves frames, elk een miniatuur demonstratie van wat één library kan wanneer je hem als motor gebruikt.</p>
+    <div class="filters">
+      <label>versie</label>
+      <select id="f-version">
+        <option value="">alle</option>
+      </select>
+      <label>tag</label>
+      <select id="f-tag">
+        <option value="">alle</option>
+      </select>
+      <label>golftype</label>
+      <select id="f-wave">
+        <option value="">alle</option>
+      </select>
+      <label>zoek</label>
+      <input type="text" id="f-search" placeholder="titel of beschrijving…">
+      <span class="count" id="count"></span>
+    </div>
+  </header>
+
+  <div id="grid"></div>
+
+  <div id="modal">
+    <div class="modal-content">
+      <button class="modal-close">×</button>
+      <div class="modal-grid">
+        <div class="modal-canvas-wrap">
+          <canvas id="modal-canvas" width="50" height="50"></canvas>
+        </div>
+        <div class="modal-info">
+          <h2 id="m-title"></h2>
+          <p class="desc" id="m-desc"></p>
+          <dl>
+            <div><dt>id</dt><dd id="m-id"></dd></div>
+            <div><dt>bron</dt><dd id="m-source"></dd></div>
+            <div><dt>rij</dt><dd id="m-row"></dd></div>
+            <div><dt>W() calls</dt><dd id="m-wcalls"></dd></div>
+            <div><dt>golven</dt><dd id="m-waves"></dd></div>
+            <div><dt>tags</dt><dd id="m-tags"></dd></div>
+          </dl>
+        </div>
+        <pre class="modal-code" id="m-code"></pre>
+      </div>
+      <button class="copy-btn" id="copy-btn">▸ kopieer code</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/seb-prjcts-be/p5.waves@v2.1.0/p5.waves.min.js"></script>
+  <script>
+  // ── Library state ──
+  let LIB = null;
+  let FILTERED = [];
+  let ACTIVE = null; // active modal frame
+
+  // ── Load JSON ──
+  fetch('frames-library.json')
+    .then(r => r.json())
+    .then(data => {
+      LIB = data;
+      // Compile frame functions
+      LIB.frames.forEach(f => {
+        try {
+          // eslint-disable-next-line no-eval
+          f.fn = (0, eval)('(' + f.code + ')');
+        } catch(e) {
+          console.warn('Failed to compile', f.id, e);
+          f.fn = null;
+        }
+      });
+      initFilters();
+      applyFilters();
+    })
+    .catch(e => {
+      document.getElementById('grid').innerHTML =
+        '<p style="color:#f66">Failed to load frames-library.json: ' + e.message + '</p>';
+    });
+
+  function initFilters() {
+    const versions = [...new Set(LIB.frames.map(f => f.version))].sort();
+    const tags = [...new Set(LIB.frames.flatMap(f => f.tags))].sort();
+    const waves = [...new Set(LIB.frames.flatMap(f => f.waves_used))].sort();
+
+    const vSel = document.getElementById('f-version');
+    versions.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      vSel.appendChild(o);
+    });
+    const tSel = document.getElementById('f-tag');
+    tags.forEach(t => {
+      const o = document.createElement('option');
+      o.value = t; o.textContent = t;
+      tSel.appendChild(o);
+    });
+    const wSel = document.getElementById('f-wave');
+    waves.forEach(w => {
+      const o = document.createElement('option');
+      o.value = w; o.textContent = w;
+      wSel.appendChild(o);
+    });
+
+    ['f-version', 'f-tag', 'f-wave'].forEach(id =>
+      document.getElementById(id).addEventListener('change', applyFilters));
+    document.getElementById('f-search').addEventListener('input', applyFilters);
+  }
+
+  function applyFilters() {
+    const v = document.getElementById('f-version').value;
+    const t = document.getElementById('f-tag').value;
+    const w = document.getElementById('f-wave').value;
+    const q = document.getElementById('f-search').value.toLowerCase().trim();
+
+    FILTERED = LIB.frames.filter(f => {
+      if (v && f.version !== v) return false;
+      if (t && !f.tags.includes(t)) return false;
+      if (w && !f.waves_used.includes(w)) return false;
+      if (q) {
+        const hay = (f.title + ' ' + f.description + ' ' + f.tags.join(' ')).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    document.getElementById('count').textContent = FILTERED.length + ' / ' + LIB.frames.length + ' frames';
+    renderGrid();
+  }
+
+  // ── Grid rendering ──
+  function renderGrid() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    FILTERED.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.id = f.id;
+      card.innerHTML = `
+        <canvas width="50" height="50" data-id="${f.id}"></canvas>
+        <div class="title">${f.title}</div>
+        <div class="meta"><span>${f.version}#${f.index}</span><span>${f.row_name}</span></div>
+        <div class="tags">${f.tags.slice(0,4).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      `;
+      card.addEventListener('click', () => openModal(f));
+      grid.appendChild(card);
+    });
+
+    // Build p5.Graphics buffers (one shared 50×50 buffer — reused for each frame)
+    if (!window.__p5Bootstrap) {
+      window.__p5Bootstrap = new p5((p) => {
+        p.setup = () => {
+          const c = p.createCanvas(1, 1);
+          c.elt.style.position = 'fixed';
+          c.elt.style.left = '-9999px';
+          p.noLoop();
+          window.__sharedBuffer = p.createGraphics(50, 50);
+          window.__p5 = p;
+          startRenderLoop();
+        };
+      });
+    } else {
+      startRenderLoop();
+    }
+  }
+
+  let __startTime = null;
+  let __rafId = null;
+  function startRenderLoop() {
+    if (__rafId) cancelAnimationFrame(__rafId);
+    __startTime = performance.now();
+    let fc = 0;
+    function tick() {
+      const t = (performance.now() - __startTime) / 1000;
+      fc++;
+      const g = window.__sharedBuffer;
+      const cards = document.querySelectorAll('.card canvas');
+      cards.forEach(cardCanvas => {
+        const id = cardCanvas.dataset.id;
+        const frame = FILTERED.find(f => f.id === id);
+        if (!frame || !frame.fn) return;
+        g.push();
+        g.background(frame.version === 'v06' ? 245 : 0);
+        try { renderFrameToGraphics(frame.fn, g, t, fc); } catch(e) {}
+        g.pop();
+        const ctx = cardCanvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, 50, 50);
+        ctx.drawImage(g.canvas, 0, 0);
+      });
+      if (ACTIVE && ACTIVE.fn) {
+        g.push();
+        g.background(ACTIVE.version === 'v06' ? 245 : 0);
+        try { renderFrameToGraphics(ACTIVE.fn, g, t, fc); } catch(e) {}
+        g.pop();
+        const mc = document.getElementById('modal-canvas');
+        const mctx = mc.getContext('2d');
+        mctx.imageSmoothingEnabled = false;
+        mctx.clearRect(0, 0, 50, 50);
+        mctx.drawImage(g.canvas, 0, 0);
+      }
+      __rafId = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+
+  // Render a frame function to a p5.Graphics by temporarily hijacking global p5 functions
+  function renderFrameToGraphics(fn, g, t, fc) {
+    // List of p5 drawing functions the frames use
+    const redirects = [
+      'fill','stroke','noFill','noStroke','strokeWeight','background',
+      'ellipse','circle','rect','line','point','triangle','quad','arc',
+      'beginShape','vertex','curveVertex','bezierVertex','endShape','bezier',
+      'push','pop','translate','rotate','scale','shearX','shearY','resetMatrix',
+      'rectMode','ellipseMode','textSize','textAlign','textFont','textStyle','text',
+      'colorMode','color','lerpColor','blendMode',
+      'sin','cos','tan','atan2','sqrt','pow','exp','abs','floor','ceil','round',
+      'map','lerp','constrain','dist','min','max','random','noise','nf','int','radians','degrees',
+      'second','minute','hour'
+    ];
+    // Constants
+    const consts = {PI:Math.PI,TWO_PI:Math.PI*2,HALF_PI:Math.PI/2,QUARTER_PI:Math.PI/4,
+      CENTER:'center',LEFT:'left',RIGHT:'right',TOP:'top',BOTTOM:'bottom',BASELINE:'baseline',
+      HSB:'hsb',RGB:'rgb',CLOSE:'close',CORNER:'corner',CORNERS:'corners',
+      BOLD:'bold',NORMAL:'normal',ITALIC:'italic',BLEND:'source-over',ADD:'lighter',
+      PIE:'pie',CHORD:'chord',OPEN:'open'};
+
+    const saved = {};
+    redirects.forEach(name => {
+      saved[name] = window[name];
+      if (typeof g[name] === 'function') {
+        window[name] = g[name].bind(g);
+      }
+    });
+    const savedConsts = {};
+    Object.keys(consts).forEach(k => {
+      savedConsts[k] = window[k];
+      if (window[k] === undefined) window[k] = consts[k];
+    });
+    // Inject helpers: W(), STATE, FRAMES, drawingContext
+    const savedW = window.W;
+    window.W = (c, o) => Waves.wave(c, o);
+    const savedDC = window.drawingContext;
+    window.drawingContext = g.drawingContext;
+    const savedSTATE = window.STATE;
+    if (!window.__LIB_STATE) window.__LIB_STATE = {};
+    window.STATE = window.__LIB_STATE;
+
+    try {
+      fn(t, fc);
+    } catch(e) { /* swallow */ }
+
+    // Restore
+    redirects.forEach(name => { window[name] = saved[name]; });
+    Object.keys(savedConsts).forEach(k => { if (savedConsts[k] === undefined) delete window[k]; else window[k] = savedConsts[k]; });
+    window.W = savedW;
+    window.drawingContext = savedDC;
+    window.STATE = savedSTATE;
+  }
+
+  // ── Modal ──
+  function openModal(f) {
+    ACTIVE = f;
+    document.getElementById('m-title').textContent = f.title;
+    document.getElementById('m-desc').textContent = f.description;
+    document.getElementById('m-id').textContent = f.id;
+    document.getElementById('m-source').textContent = f.version + ' frame #' + f.index;
+    document.getElementById('m-row').textContent = 'row ' + f.row + ' — ' + f.row_name;
+    document.getElementById('m-wcalls').textContent = f.w_calls;
+    document.getElementById('m-waves').textContent = f.waves_used.join(', ') || '(none detected)';
+    document.getElementById('m-tags').textContent = f.tags.join(', ');
+    document.getElementById('m-code').textContent = f.code;
+    document.getElementById('modal').classList.add('open');
+  }
+  document.querySelector('.modal-close').addEventListener('click', () => {
+    document.getElementById('modal').classList.remove('open');
+    ACTIVE = null;
+  });
+  document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target.id === 'modal') {
+      document.getElementById('modal').classList.remove('open');
+      ACTIVE = null;
+    }
+  });
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    if (!ACTIVE) return;
+    navigator.clipboard.writeText(ACTIVE.code);
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ gekopieerd';
+    setTimeout(() => btn.textContent = '▸ kopieer code', 1500);
+  });
+  </script>
+  <script src="../back.js"></script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.waves extended - styleguide</title>
+  <meta name="description" content="De canonieke styleguide voor p5.waves extended: de gedeelde interne opmaak en structuur waaraan elk onderzoek voldoet.">
+  <script src="i18n.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="extended.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.2/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/seb-prjcts-be/p5.waves@v3.3.0/p5.waves.min.js"></script>
+  <style>
+    /* styleguide-only layout (sg-*) - niet deel van het kit */
+    .sg-wrap { max-width: 1000px; margin: 0 auto; padding: 6rem 2rem 5rem; }
+    .sg-section { margin-bottom: 4rem; }
+    .sg-section > h2 {
+      font-family: 'Oswald', sans-serif; font-size: 1.6rem; text-transform: uppercase;
+      letter-spacing: 0.05em; border-bottom: 2px solid #000; padding-bottom: 0.4rem; margin-bottom: 0.4rem;
+    }
+    .sg-num { font-family: 'Consolas', monospace; color: var(--text-faint); font-size: 1rem; margin-right: 0.5rem; }
+    .sg-rule { color: var(--text-muted); line-height: 1.7; font-size: 0.95rem; margin: 0.6rem 0 1.4rem; }
+    .sg-rule code { font-family: 'Consolas', monospace; background: var(--bg2); padding: 0.1em 0.4em; font-size: 0.88em; }
+    .sg-demo {
+      border: 1px solid var(--border-mid); background: var(--surface);
+      padding: 1.6rem; margin-bottom: 0.8rem;
+    }
+    .sg-demo.dark { background: var(--bg2); }
+    .sg-label {
+      font-family: 'Consolas', monospace; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 0.9rem;
+    }
+    .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem; }
+    .sg-swatch { border: 1px solid var(--border); }
+    .sg-swatch .chip { height: 64px; }
+    .sg-swatch .meta { padding: 0.5rem 0.6rem; font-family: 'Consolas', monospace; font-size: 0.72rem; }
+    .sg-swatch .meta b { display: block; color: var(--text); font-weight: 500; }
+    .sg-swatch .meta span { color: var(--text-muted); }
+    .sg-type-row { display: flex; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--border); padding: 0.7rem 0; }
+    .sg-type-row .tag { font-family: 'Consolas', monospace; font-size: 0.72rem; color: var(--text-faint); min-width: 130px; }
+    .sg-dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .sg-dodont h4 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.9rem; margin-bottom: 0.6rem; }
+    .sg-dodont ul { margin: 0; padding-left: 1.1rem; }
+    .sg-dodont li { color: var(--text-muted); line-height: 1.65; font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .sg-do h4 { color: #000; } .sg-do li::marker { content: '✓  '; }
+    .sg-dont h4 { color: var(--text-muted); } .sg-dont li::marker { content: '✕  '; }
+    .sg-anatomy { counter-reset: step; list-style: none; padding: 0; margin: 1rem 0 0; }
+    .sg-anatomy li { counter-increment: step; display: flex; gap: 1rem; margin-bottom: 0.9rem; align-items: baseline; }
+    .sg-anatomy li::before {
+      content: counter(step); font-family: 'Oswald', sans-serif; background: #000; color: #fff;
+      min-width: 1.7rem; height: 1.7rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sg-anatomy b { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
+    .sg-anatomy span { color: var(--text-muted); }
+    @media (max-width: 700px) { .sg-dodont { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">p5.<span>waves</span> extended</div>
+    <button class="nav-hamburger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('nav-open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Platform</a></li>
+      <li><a href="index.html#collections" data-i18n="nav.collections">Collecties</a></li>
+      <li><a href="styleguide.html" class="active">Styleguide</a></li>
+      <li><a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a></li>
+      <li><button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language" data-i18n="lang.toggle">EN</button></li>
+    </ul>
+  </nav>
+
+  <div class="sg-wrap">
+
+    <header style="margin-bottom:3.5rem;">
+      <div class="hero-badge">canonieke bron van waarheid</div>
+      <h1 style="font-family:'Oswald',sans-serif; font-size:clamp(2.5rem,7vw,4rem); font-weight:600; letter-spacing:0.01em; margin:1rem 0 0.6rem;">Styleguide</h1>
+      <p style="color:var(--text-muted); line-height:1.7; max-width:640px;">
+        De gedeelde interne opmaak én structuur waaraan <strong style="color:var(--text);">elk onderzoek</strong> in p5.waves extended voldoet.
+        De chrome rond elke sketch is overal identiek sober zwart-wit; de generatieve kunst zelf behoudt haar eigen beeld en kleur.
+        Deze pagina gebruikt exact <code style="font-family:'Consolas',monospace;">style.css</code> + <code style="font-family:'Consolas',monospace;">extended.css</code> - wat je ziet, ís het kit.
+      </p>
+    </header>
+
+    <!-- 0. PRINCIPES -->
+    <section class="sg-section">
+      <h2><span class="sg-num">00</span>Principes</h2>
+      <p class="sg-rule">
+        <strong>Eenheid</strong> - elk onderzoek deelt dezelfde typografie, palet, headers, navigatie en componenten.
+        <strong>Juistheid</strong> - niets vernietigen; originelen blijven als archief, harmonisatie gebeurt op kopieën.
+        <strong>Sobere chrome, behouden kunst</strong> - de pagina-opmaak is zwart-wit en stil; de waves zíjn de kleur.
+      </p>
+    </section>
+
+    <!-- 1. KLEUR & WAVE-BANDEN -->
+    <section class="sg-section">
+      <h2><span class="sg-num">01</span>Kleur &amp; wave-banden</h2>
+      <p class="sg-rule">Twee paletten, strikt gescheiden. Het <strong>chrome-palet</strong> (zwart-wit, CSS-variabelen in <code>:root</code>) is de enige kleur in de opmaak - zwart (<code>#000</code>) is het enige accent. Het <strong>wave-palet</strong> is de kunst: dezelfde vijf kleuren als de library-hero, uitsluitend voor generatieve output, nooit in de chrome.</p>
+
+      <div class="sg-label">Chrome-palet</div>
+      <div class="sg-swatches">
+        <div class="sg-swatch"><div class="chip" style="background:var(--bg)"></div><div class="meta"><b>--bg</b><span>#f5f5f5</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:var(--bg2)"></div><div class="meta"><b>--bg2</b><span>#eeeeee</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:var(--surface)"></div><div class="meta"><b>--surface</b><span>#ffffff</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:var(--text)"></div><div class="meta"><b>--text</b><span>#111111</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:var(--text-muted)"></div><div class="meta"><b>--text-muted</b><span>#666666</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:var(--text-faint)"></div><div class="meta"><b>--text-faint</b><span>#999999</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:#000"></div><div class="meta"><b>accent</b><span>#000000</span></div></div>
+      </div>
+
+      <div class="sg-label" style="margin-top:1.6rem;">Wave-palet - de kunst</div>
+      <div class="sg-swatches">
+        <div class="sg-swatch"><div class="chip" style="background:#174cff"></div><div class="meta"><b>blauw</b><span>#174cff</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:#ff3b2f"></div><div class="meta"><b>rood</b><span>#ff3b2f</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:#d7ff22"></div><div class="meta"><b>geel</b><span>#d7ff22</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:#ff4fb3"></div><div class="meta"><b>roze</b><span>#ff4fb3</span></div></div>
+        <div class="sg-swatch"><div class="chip" style="background:#00c7ff"></div><div class="meta"><b>cyaan</b><span>#00c7ff</span></div></div>
+      </div>
+      <p class="sg-rule" style="margin:1rem 0 0;">Achtergrond-banden gebruiken neutrale grijswaarden (<code>225 · 205 · 180 · 150</code>) op lage alpha voor diepte.</p>
+
+      <div class="sg-label" style="margin-top:1.6rem;">Wave-hero - live (zelfde techniek als de library showcase)</div>
+      <div class="sg-demo" style="padding:0; overflow:hidden;">
+        <div id="sg-hero-demo" style="height:200px;"></div>
+      </div>
+    </section>
+
+    <!-- 2. TYPOGRAFIE -->
+    <section class="sg-section">
+      <h2><span class="sg-num">02</span>Typografie</h2>
+      <p class="sg-rule"><strong>Oswald</strong> voor koppen, labels en knoppen (uppercase). <strong>Inter</strong> voor lopende tekst. <strong>Consolas</strong> voor code, tags en technische labels.</p>
+      <div class="sg-demo">
+        <div class="sg-type-row"><span class="tag">Oswald 600 · h2</span><h2 style="margin:0; font-family:'Oswald'; text-transform:uppercase; letter-spacing:0.03em;">Sectietitel</h2></div>
+        <div class="sg-type-row"><span class="tag">Inter 400 · body</span><p style="margin:0; font-size:0.97rem; line-height:1.7; color:var(--text-muted);">Lopende tekst in Inter, rustig en leesbaar.</p></div>
+        <div class="sg-type-row"><span class="tag">Consolas · label</span><span style="font-family:'Consolas',monospace; font-size:0.8rem; color:var(--text);">Waves.wave(y, 'name')</span></div>
+      </div>
+    </section>
+
+    <!-- 3. KNOPPEN & BADGES -->
+    <section class="sg-section">
+      <h2><span class="sg-num">03</span>Knoppen &amp; badges</h2>
+      <div class="sg-demo">
+        <div class="sg-label">.cta-btn · .copy-btn · .card-status · .section-tag</div>
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; align-items:center;">
+          <a class="cta-btn" href="#" onclick="return false;">Primaire actie</a>
+          <button class="copy-btn">Kopieer</button>
+          <span class="card-status">98 sketches</span>
+          <span class="card-status todo">onderzoek</span>
+          <span class="section-tag">technisch label</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SECTIE-HEADER -->
+    <section class="sg-section">
+      <h2><span class="sg-num">04</span>Sectie-header</h2>
+      <p class="sg-rule">Elke sectie opent met dezelfde drieslag: <code>.section-tag</code> → <code>h2</code> → korte <code>.section-desc</code>. Gecentreerd, max 680px.</p>
+      <div class="sg-demo">
+        <div class="section-header" style="margin-bottom:0;">
+          <div class="section-tag">doorzoekbaar met #trefwoorden</div>
+          <h2>De <span class="accent">collecties</span></h2>
+          <p class="section-desc">Eén korte zin die de sectie kadert.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ZOEK + TAGS -->
+    <section class="sg-section">
+      <h2><span class="sg-num">05</span>Zoek &amp; #trefwoorden</h2>
+      <p class="sg-rule">Het hart van het platform. Een vrije-tekst zoekbalk plus chips die automatisch uit de <code>data-tags</code> van de items worden opgebouwd. Filteren is client-side. Elk onderzoek krijgt dit op zijn eigen niveau (collectie én losse sketch).</p>
+      <div class="sg-demo">
+        <div class="filter-bar" style="margin-bottom:0;">
+          <div class="search-row"><span class="search-icon">/</span><input type="text" placeholder="Zoek op titel of trefwoord…" autocomplete="off"></div>
+          <div class="tag-row">
+            <button class="tag-chip active">#shift</button>
+            <button class="tag-chip">#morph</button>
+            <button class="tag-chip">#grid</button>
+            <button class="tag-chip">#chladni</button>
+            <button class="tag-chip">#periodiciteit</button>
+          </div>
+          <div class="filter-meta"><span>3</span> van <span>12</span> items</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. KAARTEN -->
+    <section class="sg-section">
+      <h2><span class="sg-num">06</span>Kaarten</h2>
+      <p class="sg-rule">Eén kaarttype voor zowel collecties als losse sketches. Status-badge, index, titel, telling, omschrijving, en <code>#tags</code> onderaan. <code>data-title</code> + <code>data-tags</code> voeden de filter.</p>
+      <div class="sg-demo dark">
+        <div class="collection-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+          <a class="collection-card" href="#" onclick="return false;" data-title="voorbeeld" data-tags="shift morph">
+            <span class="card-status">98 sketches</span>
+            <div class="card-index">02 · daily_p5.waves</div>
+            <h3>Daily - Studies</h3>
+            <div class="card-count">98 gedateerde sketches</div>
+            <p>Korte omschrijving van wat deze collectie of sketch onderzoekt.</p>
+            <div class="card-tags"><em>#shift</em><em>#morph</em><em>#curatie</em></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. TERUG-BALK -->
+    <section class="sg-section">
+      <h2><span class="sg-num">07</span>Terug-balk</h2>
+      <p class="sg-rule">Boven elk gebundeld onderzoek staat dezelfde vaste balk (<code>.view-bar</code>): links altijd <strong>← Overzicht</strong>, in het midden de breadcrumb, rechts "in eigen tab". De weg terug is overal identiek.</p>
+      <div class="sg-demo" style="padding:0; overflow:hidden;">
+        <div class="view-bar" style="position:static;">
+          <span class="view-back"><span class="arrow">&#8592;</span> Overzicht</span>
+          <div class="view-title"><span class="muted">p5.waves extended /</span> Daily - Studies</div>
+          <div class="view-spacer"></div>
+          <span class="view-open">In eigen tab &#8599;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CODE-BLOK -->
+    <section class="sg-section">
+      <h2><span class="sg-num">08</span>Code-blok</h2>
+      <p class="sg-rule">Warme off-white achtergrond (<code>#faf8f3</code>), Consolas, Atom-One-Light tokens. Voor snippets en config.</p>
+      <div class="sg-demo">
+        <div class="code-block"><code>const s = Waves.createSampler({ group: 'gentle', shift: true });
+const y = s.sample(x, t);</code></div>
+      </div>
+    </section>
+
+    <!-- 9. CONTROLS -->
+    <section class="sg-section">
+      <h2><span class="sg-num">09</span>Controls-paneel</h2>
+      <p class="sg-rule">Interactieve onderzoeken delen hetzelfde paneel: <code>.controls-panel</code> met <code>.control-group</code>'s. Labels in Oswald, waarde rechts in Consolas, <code>accent-color:#000</code> op sliders.</p>
+      <div class="sg-demo dark">
+        <div class="controls-panel" style="position:static; max-width:280px;">
+          <div class="control-group">
+            <label>Wave <span>sine</span></label>
+            <select><option>sine</option><option>noise</option></select>
+          </div>
+          <div class="control-group">
+            <label>Amplitude <span>68</span></label>
+            <input type="range" min="0" max="120" value="68">
+          </div>
+          <div class="control-group checkbox-group">
+            <label class="check-label"><input type="checkbox" checked> Wild mode</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. PAGINASTRUCTUUR -->
+    <section class="sg-section">
+      <h2><span class="sg-num">10</span>Paginastructuur</h2>
+      <p class="sg-rule">De verplichte anatomie van elk onderzoek. De vorm van de inhoud mag verschillen (raster, catalogus, concept-galerij, PoC), maar deze volgorde en componenten zijn vast.</p>
+      <ol class="sg-anatomy">
+        <li><div><b>Terug-balk</b> - <span>vaste <code>.view-bar</code> bovenaan, weg terug naar het overzicht.</span></div></li>
+        <li><div><b>Sectie-header</b> - <span><code>.section-tag</code> → <code>h2</code> → korte omschrijving.</span></div></li>
+        <li><div><b>Zoek &amp; #tags</b> - <span>waar er meerdere items zijn: zoekbalk + chip-filter op sketch-niveau.</span></div></li>
+        <li><div><b>Inhoud</b> - <span>kaart-raster, canvas, of controls+canvas - altijd in het kit.</span></div></li>
+        <li><div><b>Footer</b> - <span>identieke voet met verwijzing naar p5.waves.</span></div></li>
+      </ol>
+    </section>
+
+    <!-- 11. REGELS -->
+    <section class="sg-section">
+      <h2><span class="sg-num">11</span>Regels</h2>
+      <div class="sg-dodont">
+        <div class="sg-do">
+          <h4>Wel</h4>
+          <ul>
+            <li>Chrome strikt zwart-wit, scherpe hoeken (<code>border-radius:0</code>).</li>
+            <li>Componenten uit <code>style.css</code> + <code>extended.css</code> hergebruiken.</li>
+            <li>Elk item voorzien van <code>data-tags</code> met #trefwoorden.</li>
+            <li>Generatieve kunst haar eigen beeld en kleur laten houden.</li>
+            <li>Originele onderzoeksmappen onaangeroerd laten als archief.</li>
+          </ul>
+        </div>
+        <div class="sg-dont">
+          <h4>Niet</h4>
+          <ul>
+            <li>Eigen kleuren of fonts in de chrome introduceren.</li>
+            <li>Component-CSS dupliceren per onderzoek - alles leeft in het kit.</li>
+            <li>Afgeronde hoeken, schaduwen of decoratie toevoegen.</li>
+            <li>De sketch-output platslaan naar grijswaarden.</li>
+            <li>De rail van p5waves.org nabouwen - die levert de site-shell.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. FAMILIE MET DE LIBRARY -->
+    <section class="sg-section">
+      <h2><span class="sg-num">12</span>Familie met de library</h2>
+      <p class="sg-rule">p5.waves extended deelt de canonieke <code>style.css</code> van de p5.waves-library - de chrome is dezelfde familie. Twee dingen liggen daarbij vast: de <strong>nav</strong> (zelfde <code>#navbar</code>-structuur, alleen de links verschillen per site) en de <strong>footer</strong> (twee <code>&lt;p&gt;</code>, <code>.footer-sub</code>).</p>
+      <div class="sg-demo">
+        <div class="sg-label">canonieke nav - zelfde structuur als de library, eigen links</div>
+        <div class="code-block"><code>&lt;nav id="navbar"&gt;
+  &lt;div class="nav-logo"&gt;p5.&lt;span&gt;waves&lt;/span&gt; extended&lt;/div&gt;
+  &lt;button class="nav-hamburger" …&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/button&gt;
+  &lt;ul class="nav-links"&gt;
+    &lt;li&gt;&lt;a href="index.html" class="active"&gt;Platform&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="index.html#collections"&gt;Collecties&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="styleguide.html"&gt;Styleguide&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></div>
+        <div class="sg-label" style="margin-top:1.2rem;">canonieke footer - identiek aan de library</div>
+        <div class="code-block"><code>&lt;footer&gt;
+  &lt;p&gt;Built with &lt;a href="…/p5.waves"&gt;p5.waves&lt;/a&gt; + &lt;a href="https://p5js.org"&gt;p5.js&lt;/a&gt;&lt;/p&gt;
+  &lt;p class="footer-sub"&gt;Part of the p5.waves ecosystem · v3.3.0&lt;/p&gt;
+&lt;/footer&gt;</code></div>
+      </div>
+      <div class="sg-dodont">
+        <div class="sg-do">
+          <h4>Volg de library</h4>
+          <ul>
+            <li><code>#navbar</code> met logo + hamburger + <code>.nav-links</code>.</li>
+            <li><code>.section</code> / <code>.section-header</code> / <code>.section-tag</code> / <code>.section-desc</code>.</li>
+            <li>Fonts Oswald + Inter via dezelfde Google-Fonts-link; p5.js 2.2.2.</li>
+          </ul>
+        </div>
+        <div class="sg-dont">
+          <h4>Library-anomalieën NIET overnemen</h4>
+          <ul>
+            <li><code>periodicity.html</code> gebruikt een afwijkende <code>.nav</code> i.p.v. <code>#navbar</code> - niet kopiëren.</li>
+            <li>Pagina-eigen inline CSS (about/waves/curation) is page-scoped - niet als kit behandelen.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>Built with <a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a> + <a href="https://p5js.org" target="_blank">p5.js</a></p>
+    <p class="footer-sub">Part of the p5.waves ecosystem · v3.3.0</p>
+  </footer>
+
+  <script>
+  /* Live wave-banden in de styleguide - contained (niet full-window),
+     zelfde createSampler-techniek als hero.js. */
+  (function () {
+    function start() {
+      if (!window.p5 || !window.Waves) { setTimeout(start, 40); return; }
+      var host = document.getElementById('sg-hero-demo');
+      if (!host) return;
+      new p5(function (p) {
+        var FG = [
+          { yPct: 0.28, range: [-13, 13], freq: 0.010, phase: 0.3, color: '#174cff', alpha: 150, thickness: 24, seed: 20 },
+          { yPct: 0.42, range: [-12, 12], freq: 0.012, phase: 1.8, color: '#ff3b2f', alpha: 160, thickness: 24, seed: 21 },
+          { yPct: 0.55, range: [-11, 11], freq: 0.014, phase: 3.2, color: '#d7ff22', alpha: 170, thickness: 24, seed: 22 },
+          { yPct: 0.67, range: [-10, 10], freq: 0.016, phase: 0.9, color: '#ff4fb3', alpha: 180, thickness: 24, seed: 23 },
+          { yPct: 0.79, range: [-9, 9],   freq: 0.018, phase: 2.1, color: '#00c7ff', alpha: 190, thickness: 24, seed: 24 }
+        ];
+        var sm = [], t = 0;
+        p.setup = function () {
+          p.createCanvas(host.clientWidth, 200).parent(host);
+          p.frameRate(30);
+          for (var i = 0; i < FG.length; i++) {
+            var f = FG[i];
+            sm.push(Waves.createSampler({
+              shift: true, shiftInterval: 3 + i, shiftDuration: 1.2,
+              seed: f.seed, range: f.range, frequency: f.freq, phase: f.phase
+            }));
+          }
+        };
+        p.draw = function () {
+          p.background(245);
+          t += 0.018;
+          for (var i = 0; i < FG.length; i++) {
+            var f = FG[i];
+            var baseY = p.height * f.yPct;
+            p.noStroke();
+            var c = p.color(f.color); c.setAlpha(f.alpha); p.fill(c);
+            p.beginShape();
+            for (var x = 0; x <= p.width; x += 3) { p.vertex(x, baseY + sm[i].sample(x * 0.4, t)); }
+            for (var x = p.width; x >= 0; x -= 3) { p.vertex(x, baseY + f.thickness); }
+            p.endShape(p.CLOSE);
+          }
+        };
+        p.windowResized = function () { p.resizeCanvas(host.clientWidth, 200); };
+      }, 'sg-hero-demo');
+    }
+    start();
+  })();
+  </script>
+
+</body>
+</html>

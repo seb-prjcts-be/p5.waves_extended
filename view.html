@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.waves extended — collectie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="extended.css">
+</head>
+<body class="view-shell">
+
+  <header class="view-bar">
+    <a class="view-back" href="index.html#collections"><span class="arrow">&#8592;</span> Overzicht</a>
+    <div class="view-title"><span class="muted">p5.waves extended /</span> <span id="title">collectie</span></div>
+    <div class="view-spacer"></div>
+    <a class="view-open" id="open-tab" href="#" target="_blank" rel="noopener">In eigen tab &#8599;</a>
+  </header>
+
+  <iframe class="view-frame" id="frame" title="collectie"></iframe>
+
+  <script>
+    (function () {
+      var COLLECTIONS = {
+        x100:     { title: 'X100 — Grids',            url: '../p5.wavesX100/index.html' },
+        daily:    { title: 'Daily — Studies',         url: '../daily_p5.waves/index.html' },
+        audio:    { title: 'Audio × Waves',           url: '../p5.wavs/overzicht.html' }
+      };
+
+      var key = new URLSearchParams(window.location.search).get('c');
+      var col = COLLECTIONS[key];
+      var frame = document.getElementById('frame');
+
+      if (!col) {
+        frame.outerHTML = '<div class="view-missing">Onbekende collectie. <a href="index.html" style="margin-left:.5rem;">Terug naar overzicht</a></div>';
+        return;
+      }
+
+      document.getElementById('title').textContent = col.title;
+      document.title = 'p5.waves extended — ' + col.title;
+      frame.src = col.url;
+      document.getElementById('open-tab').href = col.url;
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "id": "p5-wavesx100",
+  "slug": "p5-wavesx100",
+  "title": "p5.wavesX100",
+  "type": "module",
+  "env": {
+    "live": 1,
+    "local": 1,
+    "online": 0,
+    "extern": 0
+  },
+  "lifecycle": "def",
+  "repo": {
+    "git": 0,
+    "host": "",
+    "visibility": ""
+  },
+  "tech": [],
+  "ai": "assisted",
+  "org": {},
+  "version": {},
+  "privacy_checked": 0,
+  "collection": 0,
+  "other_tags": [],
+  "_legacy_stable_id": "module-live-local-ai-p5-wavesx100-62e69950",
+  "_schema": 1
+}

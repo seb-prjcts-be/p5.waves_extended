@@ -1,0 +1,44 @@
+{
+  "project": {
+    "name": "",
+    "status": "unknown",
+    "type": "unknown",
+    "canonical_source": "project.json"
+  },
+  "links": {
+    "local": "",
+    "live": "",
+    "github": ""
+  },
+  "tech": {
+    "uses_php": false,
+    "uses_javascript": false,
+    "uses_p5": false,
+    "uses_p5_waves": false,
+    "uses_database": false,
+    "uses_composer": false,
+    "uses_npm": false,
+    "uses_build_step": false
+  },
+  "ai_permissions": {
+    "may_edit_copy": true,
+    "may_edit_css": true,
+    "may_edit_javascript": true,
+    "may_refactor": false,
+    "may_create_files": false,
+    "may_delete_files": false,
+    "may_rename_files": false,
+    "may_change_ui_direction": false,
+    "may_change_color_system": false,
+    "may_change_architecture": false
+  },
+  "ai_question_policy": {
+    "must_ask_before_major_ui_change": true,
+    "must_ask_before_architecture_change": true,
+    "must_ask_before_deleting_code": true,
+    "must_ask_before_renaming_files": true,
+    "must_ask_before_changing_public_urls": true,
+    "must_not_ask_when_answer_is_in_project_files": true,
+    "must_not_ask_for_obvious_small_fixes": true
+  }
+}

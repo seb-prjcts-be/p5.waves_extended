@@ -1,0 +1,27 @@
+{
+  "id": "daily-p5-waves",
+  "slug": "daily-p5-waves",
+  "title": "daily_p5.waves",
+  "type": "module",
+  "env": {
+    "live": 1,
+    "local": 1,
+    "online": 0,
+    "extern": 0
+  },
+  "lifecycle": "def",
+  "repo": {
+    "git": 0,
+    "host": "",
+    "visibility": ""
+  },
+  "tech": [],
+  "ai": "chatgpt_updated",
+  "org": {},
+  "version": {},
+  "privacy_checked": 0,
+  "collection": 0,
+  "other_tags": [],
+  "_legacy_stable_id": "module-live-local-ai-chatgpt-updated-daily-p5-waves-328696dd",
+  "_schema": 1
+}

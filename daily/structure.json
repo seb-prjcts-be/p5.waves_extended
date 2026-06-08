@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "/",
+      "purpose": "Project root",
+      "contains": "Entry files and project metadata",
+      "ai_may_create_files": false,
+      "ai_may_delete_files": false
+    },
+    {
+      "path": "/docs",
+      "purpose": "Human and AI-readable project documentation",
+      "contains": "Decisions, inbox notes, and AI log",
+      "ai_may_create_files": false,
+      "ai_may_edit_existing_files": true,
+      "ai_may_delete_files": false
+    }
+  ]
+}

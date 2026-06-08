@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="daily.doc.title">Daily - Studies · p5.waves extended</title>
+  <meta name="description" content="Daily - 94 gedateerde p5.waves-studies, per move-familie doorzoekbaar met #trefwoorden. Onderdeel van p5.waves extended.">
+  <script src="../i18n.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../extended.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo"><a href="../index.html" style="text-decoration:none;color:inherit;">p5.<span>waves</span> extended</a></div>
+    <button class="nav-hamburger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('nav-open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#collections" data-i18n="nav.overview">Overzicht</a></li>
+      <li><a href="index.html" class="active">Daily</a></li>
+      <li><a href="../styleguide.html">Styleguide</a></li>
+      <li><a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a></li>
+      <li><button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language" data-i18n="lang.toggle">EN</button></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="daily" class="section">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="daily.tag">daily · gedateerde studies</div>
+      <h2 data-i18n="daily.title">Daily - <span class="accent">Studies</span></h2>
+      <p class="section-desc" data-i18n="daily.desc">Een dagelijkse reeks p5.waves-studies, elk met een eigen move: threshold, shift, morph, wild mode, grid-logica, sampler. Zoek of klik een trefwoord om op move-familie te filteren.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-row">
+        <span class="search-icon">/</span>
+        <input id="search" type="text" placeholder="Zoek op titel, move of trefwoord…" autocomplete="off" data-i18n-attr="placeholder:daily.search.placeholder">
+      </div>
+      <div class="tag-row" id="tag-row"><!-- chips injected by JS --></div>
+      <div class="filter-meta"><span id="visible-count">0</span> <span data-i18n="filter.of">van</span> <span id="total-count">0</span> <span data-i18n="filter.studies">studies</span></div>
+    </div>
+
+    <div class="collection-grid" id="grid"><!-- cards injected by JS --></div>
+    <div class="no-results" id="no-results" data-i18n="noresults.study">Geen studie gevonden voor deze filter.</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Built with <a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a> + <a href="https://p5js.org" target="_blank">p5.js</a></p>
+    <p class="footer-sub">Part of the p5.waves ecosystem · v3.3.0</p>
+  </footer>
+
+  <script>
+    (function () {
+      var grid = document.getElementById('grid');
+      var tagRow = document.getElementById('tag-row');
+      var searchInput = document.getElementById('search');
+      var visibleCount = document.getElementById('visible-count');
+      var totalCount = document.getElementById('total-count');
+      var noResults = document.getElementById('no-results');
+      var activeTag = null;
+      var cards = [];
+
+      function slug(s) { return (s || '').toLowerCase().trim().replace(/\s+/g, '-'); }
+      function trim(s, n) { s = s || ''; return s.length > n ? s.slice(0, n).replace(/\s+\S*$/, '') + '…' : s; }
+      function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+      function tagsFor(item) {
+        var t = [];
+        if (item.moveFamily) t.push(slug(item.moveFamily));
+        if (item.primaryMove) t.push(slug(item.primaryMove));
+        if (item.mode) t.push(slug(item.mode));
+        return t.filter(function (x, i) { return x && t.indexOf(x) === i; });
+      }
+
+      function cardHTML(item) {
+        var tags = tagsFor(item);
+        var tagEls = tags.map(function (t) { return '<em>#' + esc(t) + '</em>'; }).join('');
+        var searchHay = (item.titleCase + ' ' + tags.join(' ') + ' ' + (item.deck || '')).toLowerCase();
+        return '<a class="collection-card" href="' + esc(item.url) + '"'
+          + ' data-title="' + esc(item.titleCase || item.displayTitle) + '"'
+          + ' data-tags="' + esc(tags.join(' ')) + '"'
+          + ' data-search="' + esc(searchHay) + '">'
+          + '<span class="card-status">' + esc(item.promoTier || '') + (item.promoScore ? ' · ' + item.promoScore : '') + '</span>'
+          + '<div class="card-index">' + esc(item.dateStamp || '') + ' · ' + esc(item.primaryMove || '') + '</div>'
+          + '<h3>' + esc(item.titleCase || item.displayTitle) + '</h3>'
+          + '<div class="card-count">' + esc(item.moveFamily || '') + '</div>'
+          + '<p>' + esc(trim(item.deck, 180)) + '</p>'
+          + '<div class="card-tags">' + tagEls + '</div>'
+          + '</a>';
+      }
+
+      function buildTagChips(items) {
+        var all = {};
+        items.forEach(function (it) { tagsFor(it).forEach(function (t) { all[t] = true; }); });
+        Object.keys(all).sort().forEach(function (tag) {
+          var chip = document.createElement('button');
+          chip.className = 'tag-chip';
+          chip.textContent = '#' + tag;
+          chip.dataset.tag = tag;
+          chip.addEventListener('click', function () {
+            if (activeTag === tag) { activeTag = null; chip.classList.remove('active'); }
+            else {
+              activeTag = tag;
+              tagRow.querySelectorAll('.tag-chip').forEach(function (c) { c.classList.remove('active'); });
+              chip.classList.add('active');
+            }
+            apply();
+          });
+          tagRow.appendChild(chip);
+        });
+      }
+
+      function apply() {
+        var q = searchInput.value.trim().toLowerCase().replace(/^#/, '');
+        var shown = 0;
+        cards.forEach(function (card) {
+          var matchText = !q || card.dataset.search.indexOf(q) !== -1;
+          var matchTag = !activeTag || card.dataset.tags.split(/\s+/).indexOf(activeTag) !== -1;
+          var show = matchText && matchTag;
+          card.hidden = !show;
+          if (show) shown++;
+        });
+        visibleCount.textContent = shown;
+        noResults.style.display = shown ? 'none' : 'block';
+      }
+
+      fetch('campaign/manifest.json')
+        .then(function (r) { return r.json(); })
+        .then(function (items) {
+          grid.innerHTML = items.map(cardHTML).join('');
+          cards = Array.prototype.slice.call(grid.querySelectorAll('.collection-card'));
+          totalCount.textContent = items.length;
+          buildTagChips(items);
+          searchInput.addEventListener('input', apply);
+          apply();
+        })
+        .catch(function (e) {
+          grid.innerHTML = '<p class="no-results" style="display:block;">Kon de catalogus niet laden (' + e + ').</p>';
+        });
+    })();
+  </script>
+
+</body>
+</html>

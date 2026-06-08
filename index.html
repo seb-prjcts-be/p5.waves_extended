@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="doc.title">p5.waves extended - experimenten, per thema doorzoekbaar</title>
+  <meta name="description" content="p5.waves extended - één platform dat de losse p5.waves-experimenten samenbrengt per thema, doorzoekbaar met #trefwoorden. Een uitbreiding op de p5.waves library.">
+  <script src="i18n.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="extended.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.2/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/seb-prjcts-be/p5.waves@v3.3.0/p5.waves.min.js"></script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">p5.<span>waves</span> extended</div>
+    <button class="nav-hamburger" aria-label="Toggle menu" onclick="this.closest('nav').classList.toggle('nav-open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#hero" class="active">Platform</a></li>
+      <li><a href="#collections" data-i18n="nav.collections">Collecties</a></li>
+      <li><a href="styleguide.html">Styleguide</a></li>
+      <li><a href="#about" data-i18n="nav.about">Over</a></li>
+      <li><a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a></li>
+      <li><button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language" data-i18n="lang.toggle">EN</button></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div id="hero-canvas"></div>
+    <div class="hero-overlay">
+      <div class="hero-text">
+        <div class="hero-badge" data-i18n="hero.badge">uitbreiding op de p5.waves library</div>
+        <h1>p5.<span class="accent">waves</span> extended</h1>
+        <p class="hero-sub" data-i18n="hero.sub">De losse experimenten, samengebracht op één plek.<br>Geordend per thema, doorzoekbaar met #trefwoorden.</p>
+        <a href="#collections" class="cta-btn" data-i18n="hero.cta">Naar de collecties &#8595;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section section-dark">
+    <p class="intro-lead" data-i18n="intro.lead">
+      Rond p5.waves zijn losse studies gegroeid - grids, dagelijkse posters, audio-onderzoek.
+      <strong>p5.waves extended</strong> bundelt ze tot één samenhangend geheel in dezelfde sobere vormgeving als de library zelf,
+      zodat je per thema kunt bladeren en zoeken in plaats van losse mappen.
+    </p>
+  </section>
+
+  <!-- COLLECTIONS -->
+  <section id="collections" class="section">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="collections.tag">doorzoekbaar met #trefwoorden</div>
+      <h2 data-i18n="collections.title">De <span class="accent">collecties</span></h2>
+      <p class="section-desc" data-i18n="collections.desc">Type een woord of klik een trefwoord aan om te filteren.</p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-row">
+        <span class="search-icon">/</span>
+        <input id="search" type="text" placeholder="Zoek op titel of trefwoord…" autocomplete="off" data-i18n-attr="placeholder:search.placeholder">
+      </div>
+      <div class="tag-row" id="tag-row"><!-- chips injected by JS --></div>
+      <div class="filter-meta"><span id="visible-count">3</span> <span data-i18n="filter.of">van</span> <span id="total-count">3</span> <span data-i18n="filter.collections">collecties</span></div>
+    </div>
+
+    <div class="collection-grid" id="grid">
+
+      <a class="collection-card" href="x100/index.html"
+         data-title="X100 - honderd-frame grids"
+         data-tags="grid 100frames generatief techniek thematisch verkenning">
+        <span class="card-status" data-i18n="card.x100.status">7 versies</span>
+        <div class="card-index">01 · p5.wavesX100</div>
+        <h3>X100 - Grids</h3>
+        <div class="card-count" data-i18n="card.x100.count">7 versies × 100 frames</div>
+        <p data-i18n="card.x100.desc">Diepe verkenning van p5.waves via een 10×10 raster van geanimeerde frames. Van techniek-showcase tot "100 Tiny Worlds".</p>
+        <div class="card-tags">
+          <em>#grid</em><em>#100frames</em><em>#generatief</em><em>#thematisch</em>
+        </div>
+      </a>
+
+      <a class="collection-card" href="daily/index.html"
+         data-title="Daily - dagelijkse posters en studies"
+         data-tags="dagelijks poster shift morph threshold curatie wildmode sampler studie">
+        <span class="card-status" data-i18n="card.daily.status">98 sketches</span>
+        <div class="card-index">02 · daily_p5.waves</div>
+        <h3>Daily - Studies</h3>
+        <div class="card-count" data-i18n="card.daily.count">98 gedateerde sketches</div>
+        <p data-i18n="card.daily.desc">Een dagelijkse reeks geannoteerde studies - threshold, shift, morph, grid-logica - met verwijzingen naar Riley, Molnár, LeWitt, Kelly.</p>
+        <div class="card-tags">
+          <em>#dagelijks</em><em>#poster</em><em>#shift</em><em>#morph</em><em>#curatie</em>
+        </div>
+      </a>
+
+      <a class="collection-card" href="audio/index.html"
+         data-title="Audio - geluid maal waves"
+         data-tags="audio fft chladni sonificatie reactief spectrum beat onderzoek physics">
+        <span class="card-status" data-i18n="card.audio.status">11 concepten</span>
+        <div class="card-index">03 · p5.wavs</div>
+        <h3>p5.<span class="accent">wavs</span></h3>
+        <div class="card-count" data-i18n="card.audio.count">11 research-concepten</div>
+        <p data-i18n="card.audio.desc">Geluid en waves die elkaar sturen: FFT als tijddriver, spectrum naar amplitude, beat-getriggerde shifts, Chladni-patronen, sonificatie.</p>
+        <div class="card-tags">
+          <em>#audio</em><em>#fft</em><em>#chladni</em><em>#sonificatie</em><em>#reactief</em>
+        </div>
+      </a>
+
+    </div>
+    <div class="no-results" id="no-results" data-i18n="noresults">Geen collectie gevonden voor deze filter.</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section section-dark">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="about.tag">over dit platform</div>
+      <h2 data-i18n="about.title">Eén <span class="accent">geheel</span></h2>
+      <p class="section-desc" data-i18n="about.desc">
+        p5.waves extended is geen nieuwe library, maar een vitrine: het toont de experimenten rond p5.waves
+        als één samenhangend, doorzoekbaar geheel in dezelfde sobere zwart-wit vormgeving. Eenheid en juistheid voorop.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Built with <a href="https://github.com/seb-prjcts-be/p5.waves" target="_blank">p5.waves</a> + <a href="https://p5js.org" target="_blank">p5.js</a></p>
+    <p class="footer-sub">Part of the p5.waves ecosystem · v3.3.0</p>
+  </footer>
+
+  <script>
+    (function () {
+      var grid = document.getElementById('grid');
+      var cards = Array.prototype.slice.call(grid.querySelectorAll('.collection-card'));
+      var search = document.getElementById('search');
+      var tagRow = document.getElementById('tag-row');
+      var visibleCount = document.getElementById('visible-count');
+      var totalCount = document.getElementById('total-count');
+      var noResults = document.getElementById('no-results');
+
+      totalCount.textContent = cards.length;
+
+      // Collect every unique tag across cards
+      var allTags = {};
+      cards.forEach(function (card) {
+        card.dataset.tags.split(/\s+/).forEach(function (t) {
+          if (t) allTags[t] = true;
+        });
+      });
+
+      var activeTag = null;
+
+      Object.keys(allTags).sort().forEach(function (tag) {
+        var chip = document.createElement('button');
+        chip.className = 'tag-chip';
+        chip.textContent = '#' + tag;
+        chip.dataset.tag = tag;
+        chip.addEventListener('click', function () {
+          if (activeTag === tag) {
+            activeTag = null;
+            chip.classList.remove('active');
+          } else {
+            activeTag = tag;
+            tagRow.querySelectorAll('.tag-chip').forEach(function (c) { c.classList.remove('active'); });
+            chip.classList.add('active');
+          }
+          apply();
+        });
+        tagRow.appendChild(chip);
+      });
+
+      function apply() {
+        var q = search.value.trim().toLowerCase().replace(/^#/, '');
+        var shown = 0;
+        cards.forEach(function (card) {
+          var hay = (card.dataset.title + ' ' + card.dataset.tags).toLowerCase();
+          var matchText = !q || hay.indexOf(q) !== -1;
+          var matchTag = !activeTag || card.dataset.tags.split(/\s+/).indexOf(activeTag) !== -1;
+          var show = matchText && matchTag;
+          card.hidden = !show;
+          if (show) shown++;
+        });
+        visibleCount.textContent = shown;
+        noResults.style.display = shown ? 'none' : 'block';
+      }
+
+      search.addEventListener('input', apply);
+      apply();
+    })();
+  </script>
+
+  <script src="hero.js"></script>
+
+</body>
+</html>

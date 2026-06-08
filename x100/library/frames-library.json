@@ -1,0 +1,2265 @@
+{
+  "schema_version": 1,
+  "library_version": "1.0.0",
+  "description": "Curated 50x50 p5.waves frames — each deeply exploits the p5.waves library",
+  "scaffold": {
+    "canvas_size": 50,
+    "signature": "(t, fc) => void",
+    "context": "drawn at local 0,0 to 50,50 (already translated and clipped)",
+    "helpers": {
+      "W": "function W(c, o) { return Waves.wave(c, o); }",
+      "dependencies": [
+        "p5.js ^1.11.3",
+        "p5.waves ^2.1.0"
+      ]
+    }
+  },
+  "frames": [
+    {
+      "id": "v02-10",
+      "version": "v02",
+      "index": 10,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Breathing Heart",
+      "description": "Cardioid curve with sharp-peaks beat — heartbeat scale pulse",
+      "tags": [
+        "shape",
+        "organic",
+        "pulse"
+      ],
+      "waves_used": [
+        "wobble sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noFill(); strokeWeight(1.2);\n    for (let i = 0; i < 5; i++) {\n      const r = W(t, {wave:'wobble sine', seed:100+i, range:[4,20-i*2]});\n      stroke(200-i*30, 100+i*30, 255, 200);\n      ellipse(25, 25, r*2, r*2);\n    }\n  }"
+    },
+    {
+      "id": "v02-11",
+      "version": "v02",
+      "index": 11,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Wave Gear",
+      "description": "Gear shape — tooth count and depth driven by stepped and bumpy sine",
+      "tags": [
+        "shape",
+        "mechanical"
+      ],
+      "waves_used": [
+        "bumpy sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noFill(); stroke(255,180,100); strokeWeight(1);\n    beginShape();\n    for (let i = 0; i < 8; i++) {\n      const a = i*TWO_PI/8;\n      const r = W(a, {wave:'bumpy sine', t:t, seed:110, range:[8,20]});\n      vertex(25+cos(a)*r, 25+sin(a)*r);\n    }\n    endShape(CLOSE);\n  }"
+    },
+    {
+      "id": "v02-12",
+      "version": "v02",
+      "index": 12,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Morphing Star",
+      "description": "N-pointed star where point count oscillates via stepped sine",
+      "tags": [
+        "shape",
+        "morph"
+      ],
+      "waves_used": [
+        "pulse"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    for (let i = 0; i < 6; i++) {\n      const w = W(t, {wave:'pulse', seed:120+i, range:[2,8]});\n      const h = W(t*0.7, {wave:'pulse', seed:121+i, range:[3,12]});\n      fill(W(i*0.3,{seed:125+i,t:t,range:[80,255]}), 100, 200);\n      rect(4+i*7, 25-h/2, w, h, 1);\n    }\n  }"
+    },
+    {
+      "id": "v02-19",
+      "version": "v02",
+      "index": 19,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Up-Down Noise Scatter",
+      "description": "Random ellipses with up-down-noise driven positions and sizes",
+      "tags": [
+        "raw",
+        "noise",
+        "scatter"
+      ],
+      "waves_used": [
+        "up down noise"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for (let i = 0; i < 15; i++) {\n      const x = W(i*0.2, {wave:'up down noise', t:t, seed:190, range:[3,47]});\n      const y = W(i*0.2, {wave:'up down noise', t:t*0.7, seed:191, range:[3,47]});\n      const sz = W(i, {wave:'up down noise', t:t, seed:192, range:[2,7]});\n      fill(W(i,{seed:193,t:t,range:[150,255]}), 100, 200, 180);\n      ellipse(x, y, sz, sz);\n    }\n  }"
+    },
+    {
+      "id": "v02-25",
+      "version": "v02",
+      "index": 25,
+      "row": 2,
+      "row_name": "Color",
+      "title": "Prismatic Fan",
+      "description": "Rotating HSB wedges — wedge count from stepped wave",
+      "tags": [
+        "color",
+        "radial"
+      ],
+      "waves_used": [
+        "grow random"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    const pulse = W(t, {wave:'grow random', seed:250, range:[0.3,1]});\n    for (let i = 6; i >= 0; i--) {\n      const a = map(i,6,0,5,200) * pulse;\n      fill(255, 0, W(t,{wave:'grow random',seed:251,range:[100,255]}), a);\n      ellipse(25, 25, 8+i*6, 8+i*6);\n    }\n  }"
+    },
+    {
+      "id": "v02-26",
+      "version": "v02",
+      "index": 26,
+      "row": 2,
+      "row_name": "Color",
+      "title": "Thermal Camera",
+      "description": "Heat map from squared sine + distance — cyan→red gradient",
+      "tags": [
+        "color",
+        "pixel",
+        "heat"
+      ],
+      "waves_used": [
+        "steps"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    colorMode(HSB,360,100,100); noStroke();\n    for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) {\n      const h = W((r*5+c)*0.1, {wave:'steps', t:t, seed:260, range:[0,360]});\n      fill(h%360, 80, 85);\n      rect(c*10, r*10, 10, 10);\n    }\n    colorMode(RGB);\n  }"
+    },
+    {
+      "id": "v02-29",
+      "version": "v02",
+      "index": 29,
+      "row": 2,
+      "row_name": "Color",
+      "title": "RGB Split Glitch",
+      "description": "Three color channels offset by zig-zag waves — additive blend",
+      "tags": [
+        "color",
+        "glitch",
+        "rgb"
+      ],
+      "waves_used": [
+        "bald patch"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    colorMode(HSB,360,100,100); noStroke();\n    for (let x = 0; x < 50; x += 2) {\n      const v = W(x*0.06, {wave:'bald patch', t:t, seed:290, range:[0,100]});\n      fill((x*7+t*30)%360, v, 90);\n      rect(x, 0, 2, 50);\n    }\n    colorMode(RGB);\n  }"
+    },
+    {
+      "id": "v02-32",
+      "version": "v02",
+      "index": 32,
+      "row": 3,
+      "row_name": "Wave",
+      "title": "Windshield Wiper",
+      "description": "Rotating wiper — triangle wave for angle, stepped for speed",
+      "tags": [
+        "motion",
+        "mechanical"
+      ],
+      "waves_used": [
+        "sine",
+        "fuzzy peak sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noFill(); strokeWeight(1.5);\n    const s = W(t, {wave:'fuzzy peak sine', seed:320, range:[8,40]});\n    const rot = W(t, {wave:'fuzzy peak sine', seed:321, range:[0,PI/4]});\n    stroke(W(t,{seed:322,wave:'sine',range:[100,255]}), 200, 255);\n    push(); translate(25,25); rotate(rot); rectMode(CENTER);\n    rect(0,0,s,s);\n    pop();\n  }"
+    },
+    {
+      "id": "v02-35",
+      "version": "v02",
+      "index": 35,
+      "row": 3,
+      "row_name": "Wave",
+      "title": "Pendulum Wave",
+      "description": "7 pendulums with ramp-up-sine driven lengths — phase cascade",
+      "tags": [
+        "motion",
+        "physics",
+        "pendulum"
+      ],
+      "waves_used": [
+        "wobble sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noFill(); stroke(80,80,255,100); strokeWeight(0.8);\n    beginShape();\n    for (let x = 0; x < 50; x++) vertex(x, W(x*0.08,{wave:'wobble sine',t:t,seed:350,range:[10,40]}));\n    endShape();\n    const px = (t*15)%50;\n    const py = W(px*0.08, {wave:'wobble sine',t:t,seed:350,range:[10,40]});\n    noStroke(); fill(255,100,100);\n    ellipse(px, py, 6, 6);\n  }"
+    },
+    {
+      "id": "v02-56",
+      "version": "v02",
+      "index": 56,
+      "row": 5,
+      "row_name": "Particles",
+      "title": "Blob Creature",
+      "description": "Radial blob — outline from bumpy sine + noise, with eyes",
+      "tags": [
+        "organic",
+        "creature"
+      ],
+      "waves_used": [
+        "sine",
+        "bumpy sine",
+        "noise"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    fill(W(t,{seed:560,wave:'sine',range:[80,200]}), 220, 150);\n    beginShape();\n    for (let a = 0; a <= TWO_PI; a += 0.15) {\n      const r = W(a, {wave:'bumpy sine', t:t, seed:561, range:[8,18]})\n              + W(a*2, {wave:'noise', t:t*0.5, seed:562, range:[-3,3]});\n      vertex(25+cos(a)*r, 25+sin(a)*r);\n    }\n    endShape(CLOSE);\n    // Eyes\n    fill(0); ellipse(22,22,3,3); ellipse(28,22,3,3);\n  }"
+    },
+    {
+      "id": "v02-57",
+      "version": "v02",
+      "index": 57,
+      "row": 5,
+      "row_name": "Particles",
+      "title": "Tendril Growth",
+      "description": "Three tendrils growing upward — zig-zag wave controls curl",
+      "tags": [
+        "organic",
+        "growth"
+      ],
+      "waves_used": [
+        "zig-zag sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noFill(); strokeWeight(1);\n    for (let j = 0; j < 3; j++) {\n      stroke(80, W(j,{seed:570+j,t:t,range:[150,255]}), 100);\n      let x = 25, y = 48;\n      beginShape();\n      for (let i = 0; i < 25; i++) {\n        const angle = W(i*0.15, {wave:'zig-zag sine', t:t+j, seed:573+j, range:[-PI/3,PI/3]}) - PI/2;\n        x += cos(angle)*2; y += sin(angle)*2;\n        vertex(x,y);\n      }\n      endShape();\n    }\n  }"
+    },
+    {
+      "id": "v02-59",
+      "version": "v02",
+      "index": 59,
+      "row": 5,
+      "row_name": "Particles",
+      "title": "DNA Helix",
+      "description": "Two classic-sine strands with cross rungs — color-coded depth",
+      "tags": [
+        "organic",
+        "dna"
+      ],
+      "waves_used": [
+        "classic sine",
+        "sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    strokeWeight(1.5);\n    for (let y = 0; y < 50; y += 2) {\n      const x1 = 25 + W(y*0.08, {wave:'classic sine', t:t, seed:590, range:[-12,12]});\n      const x2 = 25 + W(y*0.08, {wave:'classic sine', t:t, seed:590, range:[-12,12], phase:PI});\n      const depth1 = W(y*0.08,{wave:'sine',t:t,seed:591,range:[0,1]});\n      stroke(255*depth1,100,255*(1-depth1)); point(x1,y);\n      stroke(255*(1-depth1),100,255*depth1); point(x2,y);\n      if (y%6===0) { stroke(255,80); line(x1,y,x2,y); }\n    }\n  }"
+    },
+    {
+      "id": "v02-64",
+      "version": "v02",
+      "index": 64,
+      "row": 6,
+      "row_name": "Pixel",
+      "title": "Perlin + Wave Blend",
+      "description": "Perlin noise blended with valleys wave — cloud-terrain texture",
+      "tags": [
+        "pixel",
+        "noise",
+        "texture"
+      ],
+      "waves_used": [
+        "valleys"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const n = noise(x*0.08,y*0.08,t*0.3);\n      const w = W((x+y)*0.02,{wave:'valleys',t:t,seed:640,range:[0,1]});\n      fill((n*0.5+w*0.5)*255); rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v02-65",
+      "version": "v02",
+      "index": 65,
+      "row": 6,
+      "row_name": "Pixel",
+      "title": "XOR Scroll",
+      "description": "XOR bitwise pattern scrolled by saw-up wave — retro texture",
+      "tags": [
+        "pixel",
+        "bitwise"
+      ],
+      "waves_used": [
+        "triangle",
+        "saw up"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    const off = floor(W(t,{wave:'saw up',seed:650,range:[0,50]}));\n    const hShift = W(t,{wave:'triangle',seed:651,range:[0,100]});\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const v=((x+off)^y)%256;\n      fill(v, v*0.6+hShift, 255-v); rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v02-70",
+      "version": "v02",
+      "index": 70,
+      "row": 7,
+      "row_name": "Typography",
+      "title": "Four-Wave Interference",
+      "description": "Three wave sources summed per pixel — complex interference",
+      "tags": [
+        "composition",
+        "interference",
+        "pixel"
+      ],
+      "waves_used": [
+        "sine",
+        "square",
+        "triangle"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    const cx1=15,cy1=15,cx2=35,cy2=15,cx3=25,cy3=38;\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const v1=W(dist(x,y,cx1,cy1)*0.1,{wave:'sine',t:t,seed:700,range:[-1,1]});\n      const v2=W(dist(x,y,cx2,cy2)*0.1,{wave:'triangle',t:t,seed:701,range:[-1,1]});\n      const v3=W(dist(x,y,cx3,cy3)*0.1,{wave:'square',t:t*0.5,seed:702,range:[-1,1]});\n      fill(map(v1+v2+v3,-3,3,0,255),100,map(v1+v2+v3,-3,3,200,50));\n      rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v02-71",
+      "version": "v02",
+      "index": 71,
+      "row": 7,
+      "row_name": "Typography",
+      "title": "Fog Mountains",
+      "description": "5 silhouette layers with different wave types — atmospheric depth",
+      "tags": [
+        "composition",
+        "landscape",
+        "depth"
+      ],
+      "waves_used": [
+        "sharp peaks",
+        "mountain peaks",
+        "valleys",
+        "bumpy sine",
+        "noise"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke();\n    const waves = ['valleys','mountain peaks','noise','bumpy sine','sharp peaks'];\n    for(let layer=0;layer<5;layer++){\n      fill(20+layer*20, 40+layer*25, 60+layer*30, map(layer,0,4,80,240));\n      beginShape(); vertex(0,50);\n      for(let x=0;x<=50;x+=2){\n        const y = 10+layer*8 + W(x*0.04,{wave:waves[layer],t:t*0.2+layer*0.5,seed:710+layer,range:[-8,8]});\n        vertex(x,y);\n      }\n      vertex(50,50); endShape(CLOSE);\n    }\n  }"
+    },
+    {
+      "id": "v02-72",
+      "version": "v02",
+      "index": 72,
+      "row": 7,
+      "row_name": "Typography",
+      "title": "Wave Oscilloscope",
+      "description": "Two waves form a Lissajous curve — x from wobble, y from batman",
+      "tags": [
+        "composition",
+        "lissajous"
+      ],
+      "waves_used": [
+        "batman",
+        "wobble sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noFill(); stroke(0,255,100); strokeWeight(1);\n    beginShape();\n    for(let i=0;i<100;i++){\n      const u=i*0.05;\n      const x=25+W(u,{wave:'wobble sine',t:t,seed:720,range:[-20,20]});\n      const y=25+W(u,{wave:'batman',t:t,seed:721,range:[-20,20]});\n      vertex(x,y);\n    }\n    endShape();\n    stroke(0,255,100,30);strokeWeight(0.5);for(let y=0;y<50;y+=4)line(0,y,50,y);\n  }"
+    },
+    {
+      "id": "v02-80",
+      "version": "v02",
+      "index": 80,
+      "row": 8,
+      "row_name": "3D",
+      "title": "Isometric Wave Cubes",
+      "description": "3×3 isometric cubes — heights from mountain-peaks wave",
+      "tags": [
+        "3d",
+        "isometric"
+      ],
+      "waves_used": [
+        "mountain peaks"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for(let r=0;r<3;r++)for(let c=0;c<3;c++){\n      const h=W(r*3+c,{wave:'mountain peaks',seed:800,t:t,range:[4,18]});\n      const ix=12+(c-r)*8,iy=20+(c+r)*5-h;\n      fill(W(r*3+c,{seed:801,t:t,range:[120,200]}),180,255);\n      quad(ix,iy,ix+8,iy-4,ix,iy-8,ix-8,iy-4);\n      fill(60,100,W(r*3+c,{seed:802,t:t,range:[140,200]}));\n      quad(ix-8,iy-4,ix,iy,ix,iy+h*0.5,ix-8,iy+h*0.5-4);\n      fill(30,60,W(r*3+c,{seed:803,t:t,range:[100,160]}));\n      quad(ix,iy,ix+8,iy-4,ix+8,iy+h*0.5-4,ix,iy+h*0.5);\n    }\n  }"
+    },
+    {
+      "id": "v02-88",
+      "version": "v02",
+      "index": 88,
+      "row": 8,
+      "row_name": "3D",
+      "title": "Necker Cube Illusion",
+      "description": "Wireframe cube with wave-driven orientation flip — ambiguous 3D",
+      "tags": [
+        "3d",
+        "illusion",
+        "necker"
+      ],
+      "waves_used": [
+        "sine",
+        "noise"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for(let i=0;i<12;i++){\n      const z=W(i*0.3,{wave:'sine',t:t,seed:880+i,range:[0,1]});\n      const x=W(t,{wave:'noise',seed:884+i,range:[10,40]});\n      const y=W(t,{wave:'noise',seed:896+i,range:[10,40]});\n      fill(W(i,{seed:908+i,t:t,range:[100,255]}),150,255, z*200+30);\n      ellipse(x,y, 4+z*8);\n    }\n  }"
+    },
+    {
+      "id": "v02-95",
+      "version": "v02",
+      "index": 95,
+      "row": 9,
+      "row_name": "Advanced",
+      "title": "Kaleidoscope",
+      "description": "6-fold symmetry — bumpy sine drives dot radii per segment",
+      "tags": [
+        "advanced",
+        "kaleidoscope",
+        "radial"
+      ],
+      "waves_used": [
+        "sine",
+        "bumpy sine"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for(let seg=0;seg<6;seg++){\n      const base=seg*TWO_PI/6+W(t,{wave:'sine',seed:950,range:[0,0.3]});\n      for(let i=0;i<5;i++){\n        const r=W(i*0.5,{wave:'bumpy sine',t:t,seed:951+seg,range:[4,20]});\n        const a=base+i*0.2;\n        fill((seg*60+i*30)%256,W(i,{seed:955+seg,t:t,range:[100,200]}),240,180);\n        ellipse(25+cos(a)*r,25+sin(a)*r,W(i,{seed:960+seg,t:t,range:[2,6]}));\n      }\n    }\n  }"
+    },
+    {
+      "id": "v02-99",
+      "version": "v02",
+      "index": 99,
+      "row": 9,
+      "row_name": "Advanced",
+      "title": "All 34 Waves Scroll",
+      "description": "Every wave type plotted as a scrolling horizontal line — visual library",
+      "tags": [
+        "advanced",
+        "catalog",
+        "all-waves"
+      ],
+      "waves_used": [
+        "sine",
+        "wobble sine",
+        "triangle",
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 5,
+      "code": "(t) => {\n    noFill(); strokeWeight(1.5);\n    // Wave 1's output controls wave 2's frequency\n    const freq = W(t,{wave:'sine',seed:990,range:[0.02,0.15]});\n    // Wave 2's output controls wave 3's range\n    stroke(255,200,100);\n    beginShape();\n    for(let x=0;x<50;x++){\n      const mid = W(x*freq,{wave:'triangle',t:t,seed:991,range:[15,35]});\n      const final = W(x*0.08,{wave:'noise',t:t,seed:992,range:[mid-8,mid+8]});\n      vertex(x,final);\n    }\n    endShape();\n    // Second chain with different waves\n    stroke(100,200,255);\n    beginShape();\n    for(let x=0;x<50;x++){\n      const phase = W(t,{wave:'ramp',seed:993,range:[0,PI]});\n      const y = W(x*0.06,{wave:'wobble sine',t:t,seed:994,range:[10,40],phase:phase});\n      vertex(x,y);\n    }\n    endShape();\n  }"
+    },
+    {
+      "id": "v04-00",
+      "version": "v04",
+      "index": 0,
+      "row": 0,
+      "row_name": "Raw",
+      "title": "Batman Polar",
+      "description": "Batman wave radius vs angle — ear-shape trace",
+      "tags": [
+        "raw",
+        "polar"
+      ],
+      "waves_used": [
+        "batman"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noFill(); stroke(255,80,200); strokeWeight(1);\n    beginShape();\n    for(let a=0;a<=TWO_PI;a+=0.08){\n      const r=W(a*2,{wave:'batman',t:t,seed:0,range:[6,20]});\n      vertex(25+cos(a)*r,25+sin(a)*r);\n    }\n    endShape(CLOSE);\n  }"
+    },
+    {
+      "id": "v04-05",
+      "version": "v04",
+      "index": 5,
+      "row": 0,
+      "row_name": "Raw",
+      "title": "Phase Portrait",
+      "description": "Wobble vs meta sine as trajectory — phase-space plot",
+      "tags": [
+        "raw",
+        "trajectory"
+      ],
+      "waves_used": [
+        "wobble sine",
+        "meta sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noFill(); stroke(255,100,50); strokeWeight(0.8);\n    beginShape();\n    for(let i=0;i<80;i++){\n      const u=i*0.05+t*0.2;\n      vertex(W(u,{wave:'wobble sine',seed:50,range:[3,47]}),\n             W(u,{wave:'meta sine',seed:51,range:[3,47]}));\n    }\n    endShape();\n  }"
+    },
+    {
+      "id": "v04-10",
+      "version": "v04",
+      "index": 10,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Cardioid Heartbeat",
+      "description": "Heart-shape cardioid with sharp-peaks pulse",
+      "tags": [
+        "shape",
+        "organic",
+        "heartbeat"
+      ],
+      "waves_used": [
+        "sine",
+        "sharp peaks"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    const beat=W(t,{wave:'sharp peaks',seed:100,range:[0.7,1.2]});\n    fill(255,W(t,{seed:101,wave:'sine',range:[30,80]}),80);\n    beginShape();\n    for(let a=0;a<=TWO_PI;a+=0.05){\n      const r=13*beat*(1-sin(a))*0.45;\n      vertex(25+r*sin(a)*0.9,30-r*cos(a)*0.7);\n    }\n    endShape(CLOSE);\n  }"
+    },
+    {
+      "id": "v04-11",
+      "version": "v04",
+      "index": 11,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Wave-Driven Gear",
+      "description": "Gear teeth & depth controlled by wave — mechanical morph",
+      "tags": [
+        "shape",
+        "mechanical"
+      ],
+      "waves_used": [
+        "steps",
+        "bumpy sine",
+        "saw up"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noFill(); stroke(255,200,0); strokeWeight(1);\n    const teeth=floor(W(t*0.3,{wave:'steps',seed:110,range:[6,14.99]}));\n    const depth=W(t,{wave:'bumpy sine',seed:111,range:[2,6]});\n    translate(25,25); rotate(W(t,{wave:'saw up',seed:112,range:[0,TWO_PI]}));\n    beginShape();\n    for(let i=0;i<teeth*2;i++){\n      const a=i*PI/teeth;\n      const r=i%2===0?12+depth:12-depth;\n      vertex(cos(a)*r,sin(a)*r);\n    }\n    endShape(CLOSE);\n  }"
+    },
+    {
+      "id": "v04-15",
+      "version": "v04",
+      "index": 15,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Pac-Man Mouth",
+      "description": "Arc with mouth angle from half-sine wave",
+      "tags": [
+        "shape",
+        "iconic"
+      ],
+      "waves_used": [
+        "half sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    const mouth=W(t*2,{wave:'half sine',seed:150,range:[0.05,0.8]});\n    fill(255,220,0); noStroke();\n    arc(25,25,30,30,mouth*PI,TWO_PI-mouth*PI,PIE);\n    fill(0); ellipse(27,18,4,4);\n  }"
+    },
+    {
+      "id": "v04-19",
+      "version": "v04",
+      "index": 19,
+      "row": 1,
+      "row_name": "Shape",
+      "title": "Generative Eye",
+      "description": "Iris rings from noise wave, pupil dilates via smooth sine",
+      "tags": [
+        "shape",
+        "organic",
+        "eye"
+      ],
+      "waves_used": [
+        "noise",
+        "smooth solid sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    fill(240); ellipse(25,25,42,28);\n    for(let i=14;i>0;i--){\n      const h=W(i*0.3,{wave:'noise',t:t*0.5,seed:190,range:[15,45]});\n      const s=W(i*0.2,{seed:191,t:t,range:[60,100]});\n      colorMode(HSB,360,100,100); fill(h,s,70-i*3); colorMode(RGB);\n      ellipse(25,25,i*2,i*2);\n    }\n    const pupil=W(t,{wave:'smooth solid sine',seed:192,range:[4,10]});\n    fill(0); ellipse(25,25,pupil,pupil);\n    fill(255,180); ellipse(28,22,3,2);\n  }"
+    },
+    {
+      "id": "v04-21",
+      "version": "v04",
+      "index": 21,
+      "row": 2,
+      "row_name": "Color",
+      "title": "Stained Glass Voronoi",
+      "description": "Voronoi cells with wave-driven seeds and hues",
+      "tags": [
+        "color",
+        "voronoi",
+        "pattern"
+      ],
+      "waves_used": [
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    colorMode(HSB,360,100,100); noStroke();\n    const seeds=[];\n    for(let i=0;i<6;i++) seeds.push({\n      x:W(t,{seed:210+i,wave:'noise',range:[5,45]}),\n      y:W(t,{seed:216+i,wave:'noise',range:[5,45]}),\n      h:W(i,{seed:222+i,t:t,wave:'ramp',range:[0,360]})\n    });\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      let md=999,ms=null;\n      for(let s of seeds){const d=dist(x,y,s.x,s.y);if(d<md){md=d;ms=s;}}\n      fill(ms.h%360,80,max(30,90-md*2)); rect(x,y,2,2);\n    }\n    colorMode(RGB);\n  }"
+    },
+    {
+      "id": "v04-24",
+      "version": "v04",
+      "index": 24,
+      "row": 2,
+      "row_name": "Color",
+      "title": "Neon Tubes",
+      "description": "6 glowing tubes — hue from saw up, jitter from noise",
+      "tags": [
+        "color",
+        "neon",
+        "glow"
+      ],
+      "waves_used": [
+        "saw up",
+        "noise"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    for(let i=0;i<6;i++){\n      const y=8+i*7;\n      const hue=W(i,{wave:'saw up',t:t,seed:240,range:[0,255]});\n      for(let g=4;g>=0;g--){\n        stroke(hue,100+g*30,255,50-g*10); strokeWeight(1+g*1.5);\n        const y1=y+W(0,{wave:'noise',t:t+i,seed:241+i,range:[-2,2]});\n        const y2=y+W(1,{wave:'noise',t:t+i,seed:242+i,range:[-2,2]});\n        line(3,y1,47,y2);\n      }\n    }\n  }"
+    },
+    {
+      "id": "v04-26",
+      "version": "v04",
+      "index": 26,
+      "row": 2,
+      "row_name": "Color",
+      "title": "Thermal Map",
+      "description": "Squared-sine heat gradient with distance falloff",
+      "tags": [
+        "color",
+        "heat",
+        "pixel"
+      ],
+      "waves_used": [
+        "squared sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const heat=W((x+y*50)*0.003,{wave:'squared sine',t:t*0.4,seed:260,range:[0,1]});\n      const d=dist(x,y,25+W(t,{seed:261,range:[-8,8]}),25)*0.04;\n      const v=constrain(heat-d*0.3,0,1);\n      if(v<0.33) fill(0,0,v*3*255);\n      else if(v<0.66) fill(v*2*255,0,255-v*255);\n      else fill(255,(v-0.5)*500,0);\n      rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v04-30",
+      "version": "v04",
+      "index": 30,
+      "row": 3,
+      "row_name": "Motion",
+      "title": "Newton’s Cradle",
+      "description": "5-ball cradle — square wave toggles active side",
+      "tags": [
+        "motion",
+        "physics"
+      ],
+      "waves_used": [
+        "square",
+        "half sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    stroke(150); strokeWeight(0.5);\n    noFill();\n    const active=floor(W(t,{wave:'square',seed:300,range:[0,1.99]}));\n    for(let i=0;i<5;i++){\n      let ang=0;\n      if(i===0&&active===0) ang=W(t*3,{wave:'half sine',seed:301,range:[-0.6,0]});\n      if(i===4&&active===1) ang=W(t*3,{wave:'half sine',seed:302,range:[0,0.6]});\n      const bx=15+i*5+sin(ang)*15;\n      const by=10+cos(ang)*15;\n      line(15+i*5,5,bx,by);\n      fill(200); ellipse(bx,by,5,5); noFill();\n    }\n  }"
+    },
+    {
+      "id": "v04-33",
+      "version": "v04",
+      "index": 33,
+      "row": 3,
+      "row_name": "Motion",
+      "title": "Wave Trampoline",
+      "description": "Ball bouncing on bumpy-sine surface",
+      "tags": [
+        "motion",
+        "physics"
+      ],
+      "waves_used": [
+        "bumpy sine",
+        "triangle",
+        "saw up"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    // Wave surface\n    noFill(); stroke(100,100,255); strokeWeight(1);\n    beginShape();\n    for(let x=0;x<50;x++) vertex(x,35+W(x*0.06,{wave:'bumpy sine',t:t,seed:330,range:[-5,5]}));\n    endShape();\n    // Ball\n    const bx=W(t,{wave:'saw up',seed:331,range:[5,45]});\n    const surface=35+W(bx*0.06,{wave:'bumpy sine',t:t,seed:330,range:[-5,5]});\n    const bounce=abs(W(t*2,{wave:'triangle',seed:332,range:[-15,0]}));\n    noStroke(); fill(255,100,100);\n    ellipse(bx,surface-4-bounce,6,6);\n  }"
+    },
+    {
+      "id": "v04-35",
+      "version": "v04",
+      "index": 35,
+      "row": 3,
+      "row_name": "Motion",
+      "title": "Pendulum Cascade",
+      "description": "7 pendulums, lengths from ramp-up-sine — phase cascade",
+      "tags": [
+        "motion",
+        "physics",
+        "pendulum"
+      ],
+      "waves_used": [
+        "ramp up sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    stroke(200); strokeWeight(0.8);\n    for(let i=0;i<7;i++){\n      const len=W(i*0.3,{wave:'ramp up sine',t:t*0.1,seed:350,range:[12,35]});\n      const period=sqrt(len)*0.5;\n      const angle=0.5*sin(t*TWO_PI/period);\n      const bx=5+i*6.5+sin(angle)*len;\n      const by=3+cos(angle)*len;\n      line(5+i*6.5,3,bx,by);\n      noStroke();fill(W(i,{seed:351,t:t,range:[150,255]}),200,255);\n      ellipse(bx,by,4,4);stroke(200);strokeWeight(0.8);\n    }\n  }"
+    },
+    {
+      "id": "v04-36",
+      "version": "v04",
+      "index": 36,
+      "row": 3,
+      "row_name": "Motion",
+      "title": "Caterpillar",
+      "description": "Body segments wave-driven with eyes on first segment",
+      "tags": [
+        "motion",
+        "creature"
+      ],
+      "waves_used": [
+        "sine",
+        "bumpy sine"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for(let i=0;i<8;i++){\n      const x=5+i*5.5+W(t+i*0.3,{wave:'sine',seed:360,range:[-2,2]});\n      const y=25+W(t+i*0.3,{wave:'sine',seed:361,range:[-6,6]});\n      const sz=W(i*0.3,{wave:'bumpy sine',t:t,seed:362,range:[3,7]});\n      fill(50,W(i,{seed:363,t:t,range:[150,255]}),50);\n      ellipse(x,y,sz,sz);\n    }\n    // Eyes on first segment\n    fill(0); ellipse(8,22,2,2); ellipse(11,22,2,2);\n  }"
+    },
+    {
+      "id": "v04-39",
+      "version": "v04",
+      "index": 39,
+      "row": 3,
+      "row_name": "Motion",
+      "title": "Pinball",
+      "description": "Wave-driven ball with flippers and bumpers — pinball machine",
+      "tags": [
+        "motion",
+        "physics",
+        "pinball"
+      ],
+      "waves_used": [
+        "square",
+        "pulse",
+        "wobble sine",
+        "meta sine"
+      ],
+      "w_calls": 6,
+      "code": "(t) => {\n    const bx=W(t,{wave:'wobble sine',seed:390,range:[5,45]});\n    const by=W(t,{wave:'meta sine',seed:391,range:[5,40]});\n    noStroke();fill(200); ellipse(bx,by,5,5);\n    // Flippers\n    stroke(255,150,0);strokeWeight(2);\n    const fL=W(t*2,{wave:'pulse',seed:392,range:[-0.3,0.3]});\n    push();translate(15,44);rotate(fL);line(0,0,10,-3);pop();\n    push();translate(35,44);rotate(-fL);line(0,0,-10,-3);pop();\n    // Bumpers\n    noStroke();\n    fill(W(t*4,{seed:393,wave:'square',range:[60,255]}),0,0); ellipse(15,20,6,6);\n    fill(0,W(t*4,{seed:394,wave:'square',range:[60,255]}),0); ellipse(35,20,6,6);\n    fill(0,0,W(t*4,{seed:395,wave:'square',range:[60,255]})); ellipse(25,12,6,6);\n  }"
+    },
+    {
+      "id": "v04-40",
+      "version": "v04",
+      "index": 40,
+      "row": 4,
+      "row_name": "Pattern",
+      "title": "Wave Weave",
+      "description": "Warp and weft woven with sine and triangle waves — textile texture",
+      "tags": [
+        "pattern",
+        "weave",
+        "textile"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle",
+        "noise"
+      ],
+      "w_calls": 6,
+      "code": "(t) => {\n    strokeWeight(0.8);\n    for(let i=0;i<12;i++){\n      const y=i*4+W(i*0.3,{wave:'sine',t:t,seed:400,range:[-2,2]});\n      stroke(W(i,{seed:401,t:t,range:[100,255]}),100,150);\n      line(0,y,50,y+W(t,{seed:402+i,wave:'noise',range:[-3,3]}));\n    }\n    for(let i=0;i<12;i++){\n      const x=i*4+W(i*0.3,{wave:'triangle',t:t,seed:403,range:[-2,2]});\n      stroke(100,W(i,{seed:404,t:t,range:[100,255]}),150);\n      line(x,0,x+W(t,{seed:405+i,wave:'noise',range:[-3,3]}),50);\n    }\n  }"
+    },
+    {
+      "id": "v04-45",
+      "version": "v04",
+      "index": 45,
+      "row": 4,
+      "row_name": "Pattern",
+      "title": "Spirograph",
+      "description": "Hypotrochoid — d and r modulated by sine/triangle",
+      "tags": [
+        "pattern",
+        "curves",
+        "math"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noFill(); stroke(255,100,200); strokeWeight(0.6);\n    const R=16,d=W(t*0.2,{wave:'sine',seed:450,range:[6,14]});\n    const r=W(t*0.15,{wave:'triangle',seed:451,range:[3,8]});\n    beginShape();\n    for(let a=0;a<TWO_PI*5;a+=0.03){\n      const x=(R-r)*cos(a)+d*cos((R-r)/r*a);\n      const y=(R-r)*sin(a)-d*sin((R-r)/r*a);\n      vertex(25+x,25+y);\n    }\n    endShape();\n  }"
+    },
+    {
+      "id": "v04-48",
+      "version": "v04",
+      "index": 48,
+      "row": 4,
+      "row_name": "Pattern",
+      "title": "Domino Cascade",
+      "description": "8 dominoes tipping in sequence via ramp wave",
+      "tags": [
+        "pattern",
+        "physics"
+      ],
+      "waves_used": [
+        "ramp"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    for(let i=0;i<8;i++){\n      const tip=constrain(W(t-i*0.15,{wave:'ramp',seed:480,range:[-0.2,1.2]}),0,1)*HALF_PI;\n      push(); translate(4+i*6,40);rotate(-tip);\n      fill(W(i,{seed:481,t:t,range:[180,255]})); noStroke();\n      rect(-2,-15,4,15,1);\n      pop();\n    }\n  }"
+    },
+    {
+      "id": "v04-57",
+      "version": "v04",
+      "index": 57,
+      "row": 5,
+      "row_name": "Organic",
+      "title": "Jellyfish",
+      "description": "Pulsing bell + wave-drifting tentacles",
+      "tags": [
+        "organic",
+        "creature"
+      ],
+      "waves_used": [
+        "sine",
+        "half sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    const pulse=W(t*2,{wave:'half sine',seed:570,range:[0.8,1.2]});\n    // Bell\n    noStroke();fill(150,100,255,150);\n    arc(25,18,22*pulse,18*pulse,0,PI);\n    // Tentacles\n    stroke(150,100,255,100);strokeWeight(0.8);noFill();\n    for(let i=0;i<5;i++){\n      beginShape();\n      const bx=17+i*4;\n      for(let j=0;j<8;j++){\n        const dx=W(j*0.3,{wave:'sine',t:t+i,seed:571+i,range:[-3,3]});\n        vertex(bx+dx,18+j*4);\n      }\n      endShape();\n    }\n  }"
+    },
+    {
+      "id": "v04-59",
+      "version": "v04",
+      "index": 59,
+      "row": 5,
+      "row_name": "Organic",
+      "title": "Heartbeat EKG",
+      "description": "Half-sine + sharp-peaks PQRST complex on scanlines",
+      "tags": [
+        "organic",
+        "ekg",
+        "medical"
+      ],
+      "waves_used": [
+        "sharp peaks",
+        "noise",
+        "half sine"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noFill();stroke(0,255,100);strokeWeight(1.5);\n    beginShape();\n    for(let x=0;x<50;x++){\n      const phase=((x*0.04+t*0.8)%1);\n      let y=25;\n      if(phase<0.1) y+=W(phase*30,{wave:'half sine',seed:590,range:[0,3]});\n      else if(phase<0.2) y-=W((phase-0.1)*30,{wave:'sharp peaks',seed:591,range:[0,15]});\n      else if(phase<0.3) y+=W((phase-0.2)*30,{wave:'half sine',seed:592,range:[0,4]});\n      else y+=W(phase,{seed:593,wave:'noise',t:t,range:[-0.5,0.5]});\n      vertex(x,y);\n    }\n    endShape();\n    // Scanlines\n    stroke(0,255,100,20);strokeWeight(0.5);\n    for(let y=0;y<50;y+=4) line(0,y,50,y);\n  }"
+    },
+    {
+      "id": "v04-62",
+      "version": "v04",
+      "index": 62,
+      "row": 6,
+      "row_name": "Texture",
+      "title": "Woodgrain",
+      "description": "Triangle-wave ring pattern with offset — wood texture",
+      "tags": [
+        "texture",
+        "wood"
+      ],
+      "waves_used": [
+        "triangle"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const d=dist(x,y,25+W(y*0.02,{seed:620,t:t,range:[-5,5]}),25);\n      const ring=W(d*0.08,{wave:'triangle',t:t*0.1,seed:621,range:[0,1]});\n      fill(140+ring*60,80+ring*40,40+ring*20);\n      rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v04-63",
+      "version": "v04",
+      "index": 63,
+      "row": 6,
+      "row_name": "Texture",
+      "title": "Water Caustics",
+      "description": "Three overlapping sines — underwater light patterns",
+      "tags": [
+        "texture",
+        "water",
+        "interference"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const v1=W(x*0.08,{wave:'sine',t:t,seed:630,range:[-1,1]});\n      const v2=W(y*0.08,{wave:'sine',t:t*1.3,seed:631,range:[-1,1]});\n      const v3=W((x+y)*0.04,{wave:'sine',t:t*0.7,seed:632,range:[-1,1]});\n      const bright=map(v1+v2+v3,-3,3,30,220);\n      fill(bright*0.5,bright*0.8,bright);\n      rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v04-64",
+      "version": "v04",
+      "index": 64,
+      "row": 6,
+      "row_name": "Texture",
+      "title": "Fabric Weave",
+      "description": "Alternating displaced rows — checkered fabric texture",
+      "tags": [
+        "texture",
+        "weave",
+        "fabric"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2){\n      const dx=y%4===0?W(y*0.04,{wave:'sine',t:t,seed:640,range:[-3,3]}):0;\n      const dy=y%4===2?W(y*0.04,{wave:'sine',t:t,seed:641,range:[-3,3]}):0;\n      for(let x=0;x<50;x+=2){\n        const c=y%4===0?\n          color(W(x*0.04,{seed:642,t:t,range:[120,220]}),60,80):\n          color(60,W(x*0.04,{seed:643,t:t,range:[120,220]}),80);\n        fill(c);rect(x+dx,y+dy,2,2);\n      }\n    }\n  }"
+    },
+    {
+      "id": "v04-68",
+      "version": "v04",
+      "index": 68,
+      "row": 6,
+      "row_name": "Texture",
+      "title": "Marble Texture",
+      "description": "Sharp-peaks vein pattern with noise distortion",
+      "tags": [
+        "texture",
+        "marble"
+      ],
+      "waves_used": [
+        "sharp peaks",
+        "noise"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const vein=W(x*0.03+W(y*0.04,{wave:'noise',t:t*0.2,seed:680,range:[-2,2]}),\n                    {wave:'sharp peaks',t:t*0.1,seed:681,range:[0,1]});\n      const b=180+vein*70;\n      fill(b,b-20,b-10); rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v04-69",
+      "version": "v04",
+      "index": 69,
+      "row": 6,
+      "row_name": "Texture",
+      "title": "Pixelated Fire",
+      "description": "Noise heat source with y-based cooldown — flame sim",
+      "tags": [
+        "texture",
+        "fire",
+        "simulation"
+      ],
+      "waves_used": [
+        "noise"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const heat=W(x*0.06,{wave:'noise',t:t*2,seed:690+floor(y/10),range:[0,1]});\n      const cooldown=y/50;\n      const v=max(0,heat-cooldown*0.7);\n      if(v>0.5) fill(255,255*v,0);\n      else if(v>0.2) fill(255*v*2,0,0);\n      else fill(v*200,0,0);\n      rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v04-70",
+      "version": "v04",
+      "index": 70,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "Radar Sweep",
+      "description": "Rotating radar line with wave-positioned blips — green CRT scope",
+      "tags": [
+        "composition",
+        "radar"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    for(let y=0;y<50;y+=2)for(let x=0;x<50;x+=2){\n      const v=W(x*0.06,{wave:'sine',t:t,seed:700,range:[-1,1]})\n             +W(y*0.06,{wave:'sine',t:t*1.1,seed:701,range:[-1,1]})\n             +W((x-y)*0.04,{wave:'triangle',t:t*0.7,seed:702,range:[-1,1]})\n             +W(dist(x,y,25,25)*0.05,{wave:'sine',t:t*0.5,seed:703,range:[-1,1]});\n      fill(map(v,-4,4,0,255),100,map(v,-4,4,200,50)); rect(x,y,2,2);\n    }\n  }"
+    },
+    {
+      "id": "v04-71",
+      "version": "v04",
+      "index": 71,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "Layered Silhouettes",
+      "description": "6 mountain layers with 6 different wave types — depth",
+      "tags": [
+        "composition",
+        "landscape"
+      ],
+      "waves_used": [
+        "sharp peaks",
+        "mountain peaks",
+        "valleys",
+        "bumpy sine",
+        "wobble sine",
+        "noise"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke();\n    const wvs=['mountain peaks','valleys','noise','sharp peaks','bumpy sine','wobble sine'];\n    for(let l=0;l<6;l++){\n      fill(10+l*15,15+l*20,30+l*25,map(l,0,5,50,240));\n      beginShape();vertex(0,50);\n      for(let x=0;x<=50;x+=2)\n        vertex(x,8+l*7+W(x*0.04,{wave:wvs[l],t:t*(0.1+l*0.05),seed:710+l,range:[-10,10]}));\n      vertex(50,50);endShape(CLOSE);\n    }\n  }"
+    },
+    {
+      "id": "v04-74",
+      "version": "v04",
+      "index": 74,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "Radar Sweep",
+      "description": "Rotating sweep reveals wave-positioned blips",
+      "tags": [
+        "composition",
+        "radar",
+        "interactive"
+      ],
+      "waves_used": [
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    const sweepAngle=W(t,{wave:'ramp',seed:740,range:[0,TWO_PI]});\n    translate(25,25);\n    // Circles\n    noFill();stroke(0,100,0);strokeWeight(0.3);\n    for(let r=5;r<25;r+=5) ellipse(0,0,r*2,r*2);\n    // Blips\n    noStroke();\n    for(let i=0;i<12;i++){\n      const a=W(i*0.5,{wave:'noise',seed:741+i,t:0,range:[0,TWO_PI]});\n      const r=W(i*0.3,{seed:753+i,t:0,wave:'noise',range:[5,20]});\n      const angleDiff=abs(((a-sweepAngle+PI)%(TWO_PI))-PI);\n      const bright=max(0,1-angleDiff*2);\n      fill(0,255*bright,0,255*bright);\n      ellipse(cos(a)*r,sin(a)*r,3,3);\n    }\n    // Sweep line\n    stroke(0,255,0,200);strokeWeight(1);\n    line(0,0,cos(sweepAngle)*23,sin(sweepAngle)*23);\n  }"
+    },
+    {
+      "id": "v04-75",
+      "version": "v04",
+      "index": 75,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "5-Wave Overlay",
+      "description": "5 stacked waveforms — different wave types, colors",
+      "tags": [
+        "composition",
+        "waveforms"
+      ],
+      "waves_used": [
+        "stepped sine",
+        "batman",
+        "wobble sine",
+        "meta sine",
+        "noise"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noFill();strokeWeight(1);\n    const wvs=['batman','noise','wobble sine','stepped sine','meta sine'];\n    const cols=[[255,0,100],[0,255,150],[100,100,255],[255,200,0],[255,100,255]];\n    for(let i=0;i<5;i++){\n      stroke(cols[i][0],cols[i][1],cols[i][2],180);\n      beginShape();\n      for(let x=0;x<50;x++)\n        vertex(x,10+i*8+W(x*0.06,{wave:wvs[i],t:t+i*0.3,seed:750+i,range:[-4,4]}));\n      endShape();\n    }\n  }"
+    },
+    {
+      "id": "v04-76",
+      "version": "v04",
+      "index": 76,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "Beat Sequencer",
+      "description": "4×8 step sequencer — wave toggles on/off pattern",
+      "tags": [
+        "composition",
+        "sequencer",
+        "rhythm"
+      ],
+      "waves_used": [
+        "square"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    const step=floor((t*4)%8);\n    for(let r=0;r<4;r++)for(let c=0;c<8;c++){\n      const on=W((r*8+c)*0.15,{wave:'square',t:t*0.4,seed:760+r,range:[0,1]})>0.5;\n      const active=c===step&&on;\n      fill(active?color(255,W(r,{seed:764,t:t,range:[100,200]}),0):on?color(60):color(20));\n      rect(c*6+1,r*12+2,5,10,1);\n    }\n    // Playhead\n    stroke(255,255,0,100);strokeWeight(0.5);\n    line(step*6+3,0,step*6+3,50);\n  }"
+    },
+    {
+      "id": "v04-81",
+      "version": "v04",
+      "index": 81,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Voxel Landscape",
+      "description": "5×5 isometric voxel stacks with wave-driven heights",
+      "tags": [
+        "3d",
+        "voxel",
+        "isometric"
+      ],
+      "waves_used": [
+        "noise"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke();\n    for(let r=4;r>=0;r--)for(let c=0;c<5;c++){\n      const h=floor(W(r*5+c,{wave:'noise',t:t*0.3,seed:810,range:[1,4.99]}));\n      for(let layer=0;layer<h;layer++){\n        const ix=8+(c-r)*5,iy=25+(c+r)*3-layer*5;\n        fill(80+layer*30,140+layer*20,80+layer*20);\n        quad(ix,iy,ix+5,iy-2.5,ix,iy-5,ix-5,iy-2.5);\n        fill(50+layer*20,100+layer*15,50+layer*15);\n        quad(ix-5,iy-2.5,ix,iy,ix,iy+3,ix-5,iy+0.5);\n        fill(30+layer*15,70+layer*10,30+layer*10);\n        quad(ix,iy,ix+5,iy-2.5,ix+5,iy+0.5,ix,iy+3);\n      }\n    }\n  }"
+    },
+    {
+      "id": "v04-83",
+      "version": "v04",
+      "index": 83,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Rotating Donut",
+      "description": "Torus projected to 2D, rotated via sine wave — classic effect",
+      "tags": [
+        "3d",
+        "torus"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noStroke();\n    const R=14,r=5;\n    for(let a=0;a<TWO_PI;a+=0.15){\n      for(let b=0;b<TWO_PI;b+=0.3){\n        const x3=(R+r*cos(b))*cos(a);\n        const y3=(R+r*cos(b))*sin(a);\n        const z3=r*sin(b);\n        const rot=W(t,{wave:'sine',seed:830,range:[0,TWO_PI]});\n        const x2=x3*cos(rot)-z3*sin(rot);\n        const z2=x3*sin(rot)+z3*cos(rot);\n        const depth=map(z2,-20,20,40,255);\n        fill(W(a*2,{seed:831,t:t,range:[100,200]}),depth*0.7,depth,depth);\n        ellipse(25+x2*0.9,25+y3*0.9,map(z2,-20,20,0.5,2.5));\n      }\n    }\n  }"
+    },
+    {
+      "id": "v04-86",
+      "version": "v04",
+      "index": 86,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Parallax City",
+      "description": "Four layers of buildings scrolling at wave-driven speeds",
+      "tags": [
+        "spatial",
+        "parallax",
+        "city"
+      ],
+      "waves_used": [
+        "sine",
+        "noise"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    noStroke();\n    const spheres=[];\n    for(let i=0;i<15;i++){\n      const z=W(i*0.3,{wave:'sine',t:t+i,seed:860+i,range:[-1,1]});\n      spheres.push({\n        x:W(t*0.5,{wave:'noise',seed:870+i,range:[8,42]}),\n        y:W(t*0.4,{wave:'noise',seed:880+i,range:[8,42]}),z,i\n      });\n    }\n    spheres.sort((a,b)=>a.z-b.z);\n    for(let s of spheres){\n      const sz=map(s.z,-1,1,2,8);\n      fill(W(s.i,{seed:890+s.i,t:t,range:[100,255]}),150,255,map(s.z,-1,1,80,255));\n      ellipse(s.x,s.y,sz);\n    }\n  }"
+    },
+    {
+      "id": "v04-88",
+      "version": "v04",
+      "index": 88,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Planet with Ring",
+      "description": "Ringed planet — ring tilt from smooth-sine wave",
+      "tags": [
+        "3d",
+        "planet",
+        "cosmic"
+      ],
+      "waves_used": [
+        "smooth solid sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    // Ring (behind)\n    const tilt=W(t,{wave:'smooth solid sine',seed:880,range:[0.2,0.8]});\n    stroke(180,160,140);strokeWeight(1);noFill();\n    ellipse(25,25,38,38*tilt);\n    // Planet\n    noStroke();\n    for(let i=12;i>0;i--){\n      fill(W(i*0.3,{seed:881,t:t*0.2,range:[40,120]}),80+i*8,W(i*0.2,{seed:882,t:t,range:[80,150]}));\n      ellipse(25,25,i*2,i*2);\n    }\n    // Ring (in front) â€” brighter arc\n    noFill();stroke(200,180,160,200);strokeWeight(1.5);\n    arc(25,25,38,38*tilt,-0.3,PI+0.3);\n  }"
+    },
+    {
+      "id": "v04-89",
+      "version": "v04",
+      "index": 89,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Hologram Flicker",
+      "description": "Rotating square with wave-driven flicker and scanline",
+      "tags": [
+        "3d",
+        "hologram",
+        "glitch"
+      ],
+      "waves_used": [
+        "sine",
+        "up down noise"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    const flicker=W(t*4,{wave:'up down noise',seed:890,range:[0.2,1]});\n    const scanY=(t*40)%50;\n    // Holographic shape\n    noFill();stroke(0,200,255,200*flicker);strokeWeight(1);\n    push();translate(25,25);rotate(W(t,{seed:891,wave:'sine',range:[0,TWO_PI]}));\n    for(let i=0;i<3;i++){\n      const s=10+i*5;\n      rect(-s/2,-s/2,s,s);\n    }\n    pop();\n    // Scan line\n    stroke(0,200,255,80*flicker);strokeWeight(2);\n    line(0,scanY,50,scanY);\n  }"
+    },
+    {
+      "id": "v04-90",
+      "version": "v04",
+      "index": 90,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "All 34 Waves Stacked",
+      "description": "All wave formulas plotted as scrolling lines — visual index",
+      "tags": [
+        "advanced",
+        "catalog",
+        "all-waves"
+      ],
+      "waves_used": [
+        "classic sine",
+        "sine",
+        "sharp peaks",
+        "square",
+        "pulse",
+        "stepped sine",
+        "mountain peaks",
+        "valleys",
+        "zig-zag sine",
+        "batman",
+        "offset sine",
+        "steps down",
+        "steps",
+        "squared sine",
+        "bumpy sine",
+        "wobble sine",
+        "up down noise",
+        "meta sine",
+        "triangle",
+        "ramp",
+        "saw down",
+        "saw up",
+        "fade out",
+        "grow random",
+        "noise",
+        "fuzzy pulse",
+        "up down pulse",
+        "bald patch",
+        "fuzzy peak sine",
+        "ramp up sine",
+        "triangle sine",
+        "round linked sine",
+        "half sine",
+        "smooth solid sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    const all=['classic sine','sine','sharp peaks','square','pulse','stepped sine',\n      'mountain peaks','valleys','zig-zag sine','batman','offset sine','steps down','steps',\n      'squared sine','bumpy sine','wobble sine','up down noise','meta sine','triangle','ramp',\n      'saw down','saw up','fade out','grow random','noise','fuzzy pulse','up down pulse',\n      'bald patch','fuzzy peak sine','ramp up sine','triangle sine','round linked sine',\n      'half sine','smooth solid sine'];\n    noFill();strokeWeight(0.5);\n    const scroll=(t*5)%170;\n    for(let i=0;i<34;i++){\n      const y=i*5-scroll;if(y<-5||y>50)continue;\n      stroke((i*10)%256,180,220);\n      beginShape();\n      for(let x=0;x<50;x+=2)vertex(x,W(x*0.08,{wave:all[i],t:t,seed:i,range:[y,y+4]}));\n      endShape();\n    }\n  }"
+    },
+    {
+      "id": "v04-91",
+      "version": "v04",
+      "index": 91,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "Lorenz Attractor",
+      "description": "Chaotic Lorenz trajectory with wave-colored trail",
+      "tags": [
+        "advanced",
+        "chaos",
+        "attractor"
+      ],
+      "waves_used": [
+        "square",
+        "steps"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noStroke();\n    const pieces=['\\u265A','\\u265B','\\u265C','\\u265D','\\u265E','\\u265F'];\n    for(let r=0;r<6;r++)for(let c=0;c<6;c++){\n      fill((r+c)%2===0?60:30);rect(c*8+1,r*8+1,8,8);\n      const hasPiece=W((r*6+c)*0.12,{wave:'square',t:t*0.3,seed:910,range:[0,1]})>0.5;\n      if(hasPiece){\n        const pi=floor(W(r*6+c,{seed:911,t:t*0.2,wave:'steps',range:[0,5.99]}));\n        fill(W(r*6+c,{seed:912,t:t,wave:'square',range:[0,1]})>0.5?220:100);\n        textSize(6);textAlign(CENTER,CENTER);\n        text(pieces[pi],c*8+5,r*8+5);\n      }\n    }\n  }"
+    },
+    {
+      "id": "v04-93",
+      "version": "v04",
+      "index": 93,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "Seed Space",
+      "description": "5×5 grid of same wave with 25 different seeds",
+      "tags": [
+        "advanced",
+        "seeds"
+      ],
+      "waves_used": [
+        "sine",
+        "noise"
+      ],
+      "w_calls": 2,
+      "code": "(t) => {\n    noFill();stroke(255,200,100);strokeWeight(1);\n    let val=0;\n    beginShape();\n    for(let x=0;x<50;x++){\n      val=W(x*0.06+val*0.3,{wave:'sine',t:t,seed:930,range:[-1,1]});\n      vertex(x,25+val*18);\n    }\n    endShape();\n    // Second pass with different seed\n    stroke(100,200,255);\n    val=0;beginShape();\n    for(let x=0;x<50;x++){\n      val=W(x*0.06+val*0.5,{wave:'noise',t:t,seed:931,range:[-1,1]});\n      vertex(x,25+val*18);\n    }\n    endShape();\n  }"
+    },
+    {
+      "id": "v04-96",
+      "version": "v04",
+      "index": 96,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "Wave Conductor",
+      "description": "Wand position influences 3 sub-waves — interactive field",
+      "tags": [
+        "extremes",
+        "conductor",
+        "field"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle"
+      ],
+      "w_calls": 4,
+      "code": "(t) => {\n    const wx=W(t,{wave:'sine',seed:960,range:[5,45]});\n    const wy=W(t*0.7,{wave:'triangle',seed:961,range:[5,20]});\n    // Wand\n    noStroke();fill(255);ellipse(wx,wy,3,3);\n    stroke(200);strokeWeight(0.5);line(wx,wy,wx,wy+8);\n    // Sub-waves influenced by wand position\n    noFill();strokeWeight(1);\n    for(let i=0;i<3;i++){\n      stroke(W(i,{seed:962+i,t:t,range:[100,255]}),150,255);\n      beginShape();\n      for(let x=0;x<50;x++){\n        const influence=1/(1+dist(x,35+i*5,wx,wy)*0.1);\n        vertex(x,35+i*5+W(x*0.06,{wave:'sine',t:t,seed:965+i,range:[-5,5]})*influence*3);\n      }\n      endShape();\n    }\n  }"
+    },
+    {
+      "id": "v04-97",
+      "version": "v04",
+      "index": 97,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "FM Synthesis",
+      "description": "Wave 1 modulates wave 2’s frequency — FM oscilloscope",
+      "tags": [
+        "advanced",
+        "fm",
+        "synthesis"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 3,
+      "code": "(t) => {\n    noFill();strokeWeight(1.5);\n    stroke(200,100,255);\n    beginShape();\n    for(let x=0;x<50;x++){\n      const modulator=W(x*0.04,{wave:'sine',t:t,seed:970,range:[0.02,0.15]});\n      const carrier=W(x*modulator*3,{wave:'sine',t:t,seed:971,range:[-18,18]});\n      vertex(x,25+carrier);\n    }\n    endShape();\n    // Show modulator as ghost\n    stroke(200,100,255,40);strokeWeight(0.5);\n    beginShape();\n    for(let x=0;x<50;x++)\n      vertex(x,25+W(x*0.04,{wave:'sine',t:t,seed:970,range:[-18,18]}));\n    endShape();\n  }"
+    },
+    {
+      "id": "v04-99",
+      "version": "v04",
+      "index": 99,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "Grand Unified Wave",
+      "description": "Every property from a different wave type — polymorphic shape",
+      "tags": [
+        "advanced",
+        "chimera"
+      ],
+      "waves_used": [
+        "stepped sine",
+        "steps",
+        "bumpy sine",
+        "wobble sine",
+        "meta sine",
+        "triangle",
+        "saw up",
+        "ramp up sine",
+        "half sine"
+      ],
+      "w_calls": 9,
+      "code": "(t) => {\n    colorMode(HSB,360,100,100);\n    const n=floor(W(t*0.3,{wave:'steps',seed:990,range:[4,12.99]}));\n    for(let i=0;i<n;i++){\n      const x=W(t+i*0.5,{wave:'wobble sine',seed:991+i,range:[5,45]});\n      const y=W(t+i*0.5,{wave:'meta sine',seed:1001+i,range:[5,45]});\n      const sz=W(i*0.3,{wave:'bumpy sine',t:t,seed:1011+i,range:[3,12]});\n      const h=W(i,{wave:'triangle',t:t*0.5,seed:1021+i,range:[0,360]});\n      const s=W(t,{wave:'half sine',seed:1031+i,range:[50,100]});\n      const b=W(t*0.7,{wave:'ramp up sine',seed:1041+i,range:[50,100]});\n      const rot=W(t,{wave:'saw up',seed:1051+i,range:[0,TWO_PI]});\n      const sides=floor(W(i*0.5,{wave:'stepped sine',t:t*0.2,seed:1061+i,range:[3,6.99]}));\n      noStroke();fill(h%360,s,b);\n      push();translate(x,y);rotate(rot);\n      beginShape();\n      for(let j=0;j<sides;j++){\n        const a=j*TWO_PI/sides-HALF_PI;\n        vertex(cos(a)*sz,sin(a)*sz);\n      }\n      endShape(CLOSE);pop();\n    }\n    colorMode(RGB);\n  }"
+    },
+    {
+      "id": "v06-11",
+      "version": "v06",
+      "index": 11,
+      "row": 1,
+      "row_name": "Anatomy",
+      "title": "Oswald Baseline Dance",
+      "description": "Each Oswald letter on its own wave baseline",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "anatomy"
+      ],
+      "waves_used": [
+        "wobble sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    fill(20); noStroke(); textSize(9); textAlign(CENTER,BASELINE);\n    const word='Type';\n    for(let i=0;i<4;i++){\n      const bl=32+W(i*0.5+t,{wave:'wobble sine',seed:110,range:[-8,8]});\n      text(word[i],8+i*10,bl);\n    }\n    stroke(180); strokeWeight(0.5); line(3,32,47,32);\n  }"
+    },
+    {
+      "id": "v06-17",
+      "version": "v06",
+      "index": 17,
+      "row": 1,
+      "row_name": "Anatomy",
+      "title": "X-Height Study",
+      "description": "Visual x-height vs caps — wave modulates proportions",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "anatomy"
+      ],
+      "waves_used": [
+        "fade out"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    const xh=W(t,{wave:'fade out',seed:170,range:[5,12]});\n    fill(40); noStroke(); textAlign(CENTER,CENTER);\n    textSize(xh); text('x',15,30);\n    textSize(xh*1.4); text('X',35,27);\n    stroke(160); strokeWeight(0.3);\n    const baseline=36;\n    line(3,baseline,47,baseline);\n    line(3,baseline-xh*1.5,47,baseline-xh*1.5);\n    fill(180); noStroke(); textSize(3); textAlign(RIGHT,TOP);\n    text('x-ht',47,2);\n  }"
+    },
+    {
+      "id": "v06-24",
+      "version": "v06",
+      "index": 24,
+      "row": 2,
+      "row_name": "Grayscale",
+      "title": "Fog Depth Word",
+      "description": "5 depth layers of same word — fog falloff",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "depth"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textSize(5); textAlign(CENTER,CENTER);\n    const word='DEPTH';\n    for(let layer=4;layer>=0;layer--){\n      const gray=map(layer,0,4,20,200);\n      const y=15+layer*6+W(layer*0.5,{wave:'sine',t:t,seed:240,range:[-3,3]});\n      const sz=map(layer,0,4,8,4);\n      fill(gray); textSize(sz);\n      text(word,25,y);\n    }\n  }"
+    },
+    {
+      "id": "v06-27",
+      "version": "v06",
+      "index": 27,
+      "row": 2,
+      "row_name": "Grayscale",
+      "title": "Emboss Effect",
+      "description": "Letter with wave-offset highlight + shadow — embossed",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "emboss"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textSize(16); textAlign(CENTER,CENTER);\n    const off=W(t,{wave:'sine',seed:270,range:[0.5,2]});\n    fill(200); text('E',25-off,25-off); // highlight\n    fill(80); text('E',25+off,25+off);  // shadow\n    fill(BG-20); text('E',25,25);       // face\n  }"
+    },
+    {
+      "id": "v06-67",
+      "version": "v06",
+      "index": 67,
+      "row": 6,
+      "row_name": "Pixel",
+      "title": "Halftone Dots",
+      "description": "Dot-size halftone — wave + distance controls density",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "halftone"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textAlign(CENTER,CENTER);\n    for(let r=0;r<10;r++)for(let c=0;c<10;c++){\n      const v=W((r*10+c)*0.04,{wave:'sine',t:t,seed:670,range:[0,1]});\n      const d=dist(c*5+2.5,r*5+2.5,25,25)*0.03;\n      const sz=constrain((v-d)*8,1,5);\n      fill(40); textSize(sz);\n      text('.',c*5+2.5,r*5+2.5);\n    }\n  }"
+    },
+    {
+      "id": "v06-71",
+      "version": "v06",
+      "index": 71,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "WAVE Layer Stack",
+      "description": "5 copies of WAVE at decreasing size and lighter gray",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "depth"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textAlign(CENTER,CENTER);\n    const words=['WAVE','WAVE','WAVE','WAVE','WAVE'];\n    for(let i=4;i>=0;i--){\n      const sz=6+i*3;\n      const y=25+W(i*0.5,{wave:'sine',t:t*0.5,seed:710+i,range:[-4,4]});\n      fill(map(i,0,4,30,190));\n      textSize(sz); text(words[i],25,y);\n    }\n  }"
+    },
+    {
+      "id": "v06-72",
+      "version": "v06",
+      "index": 72,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "Two-Column Text",
+      "description": "Wave-divided text columns with random chars",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "layout"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textSize(3); textAlign(LEFT,TOP); fill(60);\n    const w1=floor(W(t,{wave:'sine',seed:720,range:[15,35]}));\n    for(let y=3;y<48;y+=4){\n      let line1='',line2='';\n      for(let x=0;x<floor(w1/3);x++) line1+=String.fromCharCode(97+((y+x)%26));\n      for(let x=0;x<floor((45-w1)/3);x++) line2+=String.fromCharCode(97+((y+x+5)%26));\n      text(line1,2,y);\n      text(line2,w1+5,y);\n    }\n    stroke(140);strokeWeight(0.3);line(w1+2,0,w1+2,50);\n  }"
+    },
+    {
+      "id": "v06-74",
+      "version": "v06",
+      "index": 74,
+      "row": 7,
+      "row_name": "Composition",
+      "title": "Text + Reflection",
+      "description": "GRAY with mirrored reflection below baseline",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "reflection"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textSize(8); textAlign(CENTER,CENTER);\n    fill(30); text('GRAY',25,18);\n    // Reflection â€” lighter\n    push(); translate(25,W(t,{wave:'sine',seed:740,range:[34,40]}));\n    scale(1,-0.8); fill(180);\n    text('GRAY',0,0); pop();\n    stroke(160);strokeWeight(0.3);line(5,27,45,27);\n  }"
+    },
+    {
+      "id": "v06-87",
+      "version": "v06",
+      "index": 87,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Page Fold",
+      "description": "Text folding at wave-driven crease — mirrored part",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "fold"
+      ],
+      "waves_used": [
+        "triangle"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    noStroke(); textSize(5); textAlign(LEFT,TOP);\n    const foldX=W(t,{wave:'triangle',seed:870,range:[12,38]});\n    const word='FOLD';\n    for(let i=0;i<4;i++){\n      const cx=8+i*9;\n      if(cx+4<foldX){fill(40);text(word[i],cx,22);}\n      else{fill(140);text(word[i],foldX-(cx-foldX)-4,22);}\n    }\n    stroke(120);strokeWeight(0.5);line(foldX,5,foldX,45);\n  }"
+    },
+    {
+      "id": "v06-97",
+      "version": "v06",
+      "index": 97,
+      "row": 9,
+      "row_name": "Extremes",
+      "title": "Infinite Char Scroll",
+      "description": "Endless wave-generated character rain",
+      "tags": [
+        "grayscale",
+        "oswald",
+        "matrix"
+      ],
+      "waves_used": [
+        "noise"
+      ],
+      "w_calls": 1,
+      "code": "(t) => {\n    fill(60); noStroke(); textSize(3); textAlign(LEFT,TOP);\n    const scroll=(t*12)%200;\n    for(let y=-5;y<55;y+=4){\n      let line='';\n      for(let c=0;c<14;c++){\n        const idx=floor(W((y+scroll)*0.02+c*0.1,{wave:'noise',seed:970,t:0,range:[0,25.99]}));\n        line+=String.fromCharCode(65+idx);\n      }\n      text(line,1,y);\n    }\n  }"
+    },
+    {
+      "id": "v07-00",
+      "version": "v07",
+      "index": 0,
+      "row": 0,
+      "row_name": "Living",
+      "title": "Cell Division",
+      "description": "Mitotic cell with wobbly membrane and chromosomes — smooth-sine split",
+      "tags": [
+        "living",
+        "cell",
+        "biology"
+      ],
+      "waves_used": [
+        "bumpy sine",
+        "wobble sine",
+        "noise",
+        "smooth solid sine"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  // Cell division / mitosis\n  noStroke();\n  let split = W(25, {wave:'smooth solid sine', t:t*0.4, range:[0,1], seed:42, frequency:0.5});\n  let sepX = split * 14;\n  stroke(80, 220, 120, 80); strokeWeight(1.5); noFill();\n  let membraneWobble = W(t*50, {wave:'bumpy sine', t:t, range:[0,2], seed:7, frequency:2});\n  if (split < 0.5) {\n    ellipse(25, 25, 28 + membraneWobble, 26 + membraneWobble);\n  } else {\n    let pinch = map(split, 0.5, 1, 0, 12);\n    beginShape();\n    for (let a = 0; a < TWO_PI; a += 0.1) {\n      let r = 14 + W(a*10, {wave:'wobble sine', t:t, range:[-1,1], seed:3, frequency:3});\n      let px = 25 + cos(a) * (r + abs(cos(a)) * sepX * 0.5);\n      let py = 25 + sin(a) * max(4, r - sin(a*2) * pinch);\n      vertex(px, py);\n    }\n    endShape(CLOSE);\n  }\n  fill(60, 180, 255, 180); noStroke();\n  let cx1 = 25 - sepX * 0.4, cx2 = 25 + sepX * 0.4;\n  for (let i = 0; i < 4; i++) {\n    let wobble = W(i*10, {wave:'noise', t:t, range:[-2,2], seed:i+10, frequency:1.5});\n    ellipse(cx1 + wobble, 22 + i*2, 3, 2);\n    if (split > 0.3) ellipse(cx2 + wobble, 22 + i*2, 3, 2);\n  }\n}"
+    },
+    {
+      "id": "v07-01",
+      "version": "v07",
+      "index": 1,
+      "row": 0,
+      "row_name": "Living",
+      "title": "Swimming Paramecium",
+      "description": "Ciliated creature drifting — zig-zag cilia, meta-sine path",
+      "tags": [
+        "living",
+        "creature"
+      ],
+      "waves_used": [
+        "zig-zag sine",
+        "offset sine",
+        "bumpy sine",
+        "meta sine",
+        "half sine"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  // Swimming paramecium\n  let swimX = W(25, {wave:'meta sine', t:t*0.7, range:[8,42], seed:99, frequency:0.6});\n  let swimY = W(25, {wave:'offset sine', t:t*0.5, range:[12,38], seed:55, frequency:0.8});\n  stroke(100, 200, 180, 120); strokeWeight(0.7);\n  for (let i = 0; i < 16; i++) {\n    let a = (TWO_PI / 16) * i;\n    let ciliaWave = W(i*5, {wave:'zig-zag sine', t:t*2, range:[4,9], seed:i, frequency:3});\n    line(swimX + cos(a)*6, swimY + sin(a)*5, swimX + cos(a)*ciliaWave, swimY + sin(a)*ciliaWave);\n  }\n  noStroke(); fill(40, 160, 140, 200);\n  let bodyW = W(swimY, {wave:'bumpy sine', t:t, range:[10,14], seed:33, frequency:1});\n  ellipse(swimX, swimY, bodyW, bodyW * 0.7);\n  fill(80, 100, 180, 200); ellipse(swimX - 1, swimY, 4, 3.5);\n  fill(100, 220, 200, 100);\n  let vacPulse = W(25, {wave:'half sine', t:t*2, range:[1,3], seed:22, frequency:2});\n  ellipse(swimX + 3, swimY - 1, vacPulse, vacPulse);\n}"
+    },
+    {
+      "id": "v07-03",
+      "version": "v07",
+      "index": 3,
+      "row": 0,
+      "row_name": "Living",
+      "title": "Growing Tendrils",
+      "description": "Plant tendrils with grow-random length — adds leaves when tall",
+      "tags": [
+        "living",
+        "growth",
+        "plant"
+      ],
+      "waves_used": [
+        "grow random",
+        "noise",
+        "half sine"
+      ],
+      "w_calls": 3,
+      "code": "(t, fc) => {\n  // Growing tendrils\n  stroke(60, 180, 50); strokeWeight(1.2); noFill();\n  for (let i = 0; i < 6; i++) {\n    let seed = i * 100, ph = i * 0.7;\n    beginShape();\n    let px = 25, py = 48; vertex(px, py);\n    let growLen = W(i * 8, {wave:'grow random', t:t*0.5, range:[3, 12], seed:seed, frequency:0.3, phase:ph});\n    for (let s = 0; s < growLen; s++) {\n      let bend = W(s * 10, {wave:'noise', t:t*0.3, range:[-6, 6], seed:seed+s, frequency:1.5});\n      px += bend * 0.5; py -= 3.5;\n      strokeWeight(map(s, 0, growLen, 2, 0.3)); vertex(px, py);\n    }\n    endShape();\n    if (growLen > 6) {\n      fill(80, 200, 60, 150); noStroke();\n      let leafSize = W(i*5, {wave:'half sine', t:t, range:[1.5, 3.5], seed:seed+200, frequency:1});\n      ellipse(px - 2, py, leafSize, leafSize * 0.6);\n      ellipse(px + 2, py - 1, leafSize * 0.8, leafSize * 0.5);\n      stroke(60, 180, 50);\n    }\n  }\n}"
+    },
+    {
+      "id": "v07-04",
+      "version": "v07",
+      "index": 4,
+      "row": 0,
+      "row_name": "Living",
+      "title": "Bacteria Petri Dish",
+      "description": "Wave-noise positioned rod bacteria in a petri dish — beige background",
+      "tags": [
+        "living",
+        "bacteria",
+        "petri"
+      ],
+      "waves_used": [
+        "sine",
+        "sharp peaks",
+        "saw up",
+        "noise"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  // Bacteria colony / petri dish\n  background(240, 235, 220);\n  noFill(); stroke(200, 190, 170); strokeWeight(2); ellipse(25, 25, 46, 46);\n  noStroke();\n  for (let i = 0; i < 20; i++) {\n    let bx = W(i * 7, {wave:'noise', t:t*0.2, range:[6, 44], seed:i*31, frequency:0.5});\n    let by = W(i * 11, {wave:'noise', t:t*0.2, range:[6, 44], seed:i*31+500, frequency:0.5});\n    if (dist(bx, by, 25, 25) > 21) continue;\n    let sz = W(i*3, {wave:'sharp peaks', t:t, range:[1.5, 4], seed:i*13, frequency:1.2});\n    let ang = W(i*5, {wave:'saw up', t:t*0.5, range:[0, TWO_PI], seed:i*17, frequency:0.8});\n    push(); translate(bx, by); rotate(ang);\n    fill(180, 200, 80, 180); ellipse(0, 0, sz * 2, sz * 0.8);\n    stroke(180, 200, 80, 100); strokeWeight(0.4);\n    line(sz, 0, sz + 3, W(i*3, {wave:'sine', t:t*3, range:[-2,2], seed:i, frequency:4}));\n    noStroke(); pop();\n  }\n}"
+    },
+    {
+      "id": "v07-06",
+      "version": "v07",
+      "index": 6,
+      "row": 0,
+      "row_name": "Living",
+      "title": "DNA Double Helix",
+      "description": "Animated helix with depth-colored strands and lerp rungs",
+      "tags": [
+        "living",
+        "dna"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 3,
+      "code": "(t, fc) => {\n  // DNA double helix\n  strokeWeight(1.8); noFill();\n  let yOff = (t * 15) % 10;\n  for (let y = -5; y < 55; y += 2.5) {\n    let yy = y + yOff;\n    let twist = W(yy, {wave:'sine', t:t, range:[-10, 10], seed:1, frequency:1.2, phase:0});\n    let twist2 = W(yy, {wave:'sine', t:t, range:[-10, 10], seed:1, frequency:1.2, phase:PI});\n    let depth1 = W(yy, {wave:'sine', t:t, range:[0, 1], seed:1, frequency:1.2, phase: HALF_PI});\n    stroke(lerpColor(color(100, 150, 255), color(255, 100, 150), depth1));\n    strokeWeight(map(depth1, 0, 1, 1, 2.5)); point(25 + twist, yy);\n    stroke(lerpColor(color(255, 100, 150), color(100, 150, 255), depth1));\n    strokeWeight(map(depth1, 0, 1, 2.5, 1)); point(25 + twist2, yy);\n    if (int(y) % 5 === 0) { stroke(100, 255, 180, 80); strokeWeight(0.6); line(25 + twist, yy, 25 + twist2, yy); }\n  }\n}"
+    },
+    {
+      "id": "v07-07",
+      "version": "v07",
+      "index": 7,
+      "row": 0,
+      "row_name": "Living",
+      "title": "Mitosis Split",
+      "description": "Nucleus dividing — ramp wave drives separation distance",
+      "tags": [
+        "living",
+        "mitosis",
+        "cell"
+      ],
+      "waves_used": [
+        "ramp",
+        "triangle sine",
+        "round linked sine"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  // Mitosis splitting\n  let phase = W(25, {wave:'ramp', t:t*0.15, range:[0, 1], seed:88, frequency:0.2});\n  let sep = phase * 18;\n  stroke(200, 200, 100, 60); strokeWeight(0.4);\n  for (let i = 0; i < 8; i++) {\n    let offsetY = W(i*7, {wave:'triangle sine', t:t, range:[-6, 6], seed:i*19, frequency:1});\n    line(25 - sep * 0.5, 25 + offsetY, 25 + sep * 0.5, 25 - offsetY * 0.5);\n  }\n  noStroke(); fill(40, 140, 80, 160);\n  let wobL = W(10, {wave:'round linked sine', t:t, range:[8, 12], seed:44, frequency:1.5});\n  let wobR = W(20, {wave:'round linked sine', t:t, range:[8, 12], seed:45, frequency:1.5});\n  ellipse(25 - sep * 0.5, 25, wobL, wobL * (1 - phase * 0.2));\n  ellipse(25 + sep * 0.5, 25, wobR, wobR * (1 - phase * 0.2));\n  fill(60, 100, 180, 200);\n  ellipse(25 - sep * 0.5, 25, 4, 4); ellipse(25 + sep * 0.5, 25, 4, 4);\n  if (phase < 0.8) { stroke(40, 140, 80, map(phase, 0, 0.8, 160, 0)); strokeWeight(map(phase, 0, 0.8, 4, 0.5)); line(25 - sep * 0.3, 25, 25 + sep * 0.3, 25); }\n}"
+    },
+    {
+      "id": "v07-09",
+      "version": "v07",
+      "index": 9,
+      "row": 0,
+      "row_name": "Living",
+      "title": "Pulsing Heart",
+      "description": "True cardioid heart with sharp-peaks beat and vein network",
+      "tags": [
+        "living",
+        "heart",
+        "organ"
+      ],
+      "waves_used": [
+        "sharp peaks",
+        "mountain peaks"
+      ],
+      "w_calls": 2,
+      "code": "(t, fc) => {\n  // Heartbeat / pulsing organ\n  let beat = W(25, {wave:'sharp peaks', t:t*1.5, range:[0, 1], seed:12, frequency:1.2});\n  stroke(120, 20, 20, 100); strokeWeight(0.8);\n  for (let i = 0; i < 8; i++) {\n    let a = (TWO_PI / 8) * i;\n    let veinLen = W(i*10, {wave:'mountain peaks', t:t, range:[12, 22], seed:i*60, frequency:0.7});\n    beginShape();\n    for (let s = 0; s < 6; s++) { let frac = s / 5; vertex(25 + cos(a) * veinLen * frac, 25 + sin(a) * veinLen * frac); }\n    endShape();\n  }\n  noStroke(); let sz = 12 + beat * 6;\n  fill(180, 30, 30);\n  beginShape();\n  for (let a = 0; a < TWO_PI; a += 0.1) { let r = sz * 0.4; vertex(25 + r * 16 * pow(sin(a), 3) / 16, 24 - r * (13 * cos(a) - 5 * cos(2*a) - 2 * cos(3*a) - cos(4*a)) / 16); }\n  endShape(CLOSE);\n  fill(255, 50, 50, beat * 100); ellipse(25, 24, sz * 1.2, sz * 1.1);\n}"
+    },
+    {
+      "id": "v07-10",
+      "version": "v07",
+      "index": 10,
+      "row": 1,
+      "row_name": "Optical",
+      "title": "Moiré Lines",
+      "description": "Two line grids rotating at different rates — interference",
+      "tags": [
+        "optical",
+        "moire"
+      ],
+      "waves_used": [
+        "saw up"
+      ],
+      "w_calls": 2,
+      "code": "(t, fc) => {\n  background(255); stroke(0); strokeWeight(0.6);\n  let rot1 = W(25, {wave:'saw up', t:t*0.1, range:[0, 0.5], seed:10, frequency:0.15});\n  let rot2 = W(25, {wave:'saw up', t:t*0.1, range:[0, 0.5], seed:20, frequency:0.12, phase:1});\n  push(); translate(25, 25); rotate(rot1);\n  for (let x = -35; x < 35; x += 3) line(x, -35, x, 35);\n  pop();\n  push(); translate(25, 25); rotate(rot2);\n  for (let x = -35; x < 35; x += 3) line(x, -35, x, 35);\n  pop();\n}"
+    },
+    {
+      "id": "v07-12",
+      "version": "v07",
+      "index": 12,
+      "row": 1,
+      "row_name": "Optical",
+      "title": "Afterimage Flash",
+      "description": "Square-wave toggled flash with fade-out afterimage ghost",
+      "tags": [
+        "optical",
+        "afterimage",
+        "flash"
+      ],
+      "waves_used": [
+        "square",
+        "triangle",
+        "fade out"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  let flashCycle = W(25, {wave:'square', t:t*0.4, range:[0, 1], seed:33, frequency:0.5});\n  if (flashCycle > 0.5) {\n    background(0); noStroke();\n    let sz = W(25, {wave:'triangle', t:t, range:[10, 22], seed:44, frequency:1});\n    fill(0, 255, 0); ellipse(25, 25, sz, sz);\n    fill(255, 0, 255); rect(5, 5, 10, 10); rect(35, 35, 10, 10);\n  } else {\n    background(128); noStroke();\n    let ghostAlpha = W(25, {wave:'fade out', t:t*0.8, range:[120, 20], seed:55, frequency:0.5});\n    let sz = W(25, {wave:'triangle', t:t, range:[10, 22], seed:44, frequency:1});\n    fill(255, 128, 255, ghostAlpha); ellipse(25, 25, sz, sz);\n    fill(128, 255, 128, ghostAlpha * 0.7); rect(5, 5, 10, 10); rect(35, 35, 10, 10);\n  }\n}"
+    },
+    {
+      "id": "v07-13",
+      "version": "v07",
+      "index": 13,
+      "row": 1,
+      "row_name": "Optical",
+      "title": "Wave-Thick Rings",
+      "description": "25 concentric rings with wave-modulated thickness and black/white",
+      "tags": [
+        "optical",
+        "rings",
+        "op-art"
+      ],
+      "waves_used": [
+        "pulse",
+        "stepped sine"
+      ],
+      "w_calls": 2,
+      "code": "(t, fc) => {\n  background(255); noFill();\n  for (let r = 1; r < 26; r++) {\n    let thick = W(r * 4, {wave:'stepped sine', t:t*0.5, range:[0.5, 3], seed:r, frequency:1 + r*0.05});\n    let bw = W(r * 3, {wave:'pulse', t:t*0.3, range:[0, 255], seed:r*7, frequency:0.8, phase: r*0.2});\n    stroke(bw); strokeWeight(thick); ellipse(25, 25, r * 2, r * 2);\n  }\n}"
+    },
+    {
+      "id": "v07-15",
+      "version": "v07",
+      "index": 15,
+      "row": 1,
+      "row_name": "Optical",
+      "title": "Zoetrope Horse",
+      "description": "Step-wave selects gait frame of trotting stick-horse",
+      "tags": [
+        "optical",
+        "animation",
+        "zoetrope"
+      ],
+      "waves_used": [
+        "batman",
+        "steps"
+      ],
+      "w_calls": 2,
+      "code": "(t, fc) => {\n  background(245, 235, 210);\n  let frame = floor(W(25, {wave:'steps', t:t*0.8, range:[0, 5.99], seed:15, frequency:0.7}));\n  noStroke(); fill(40, 30, 20);\n  push(); translate(25, 30);\n  ellipse(0, -3, 18, 8); ellipse(10, -9, 6, 5);\n  strokeWeight(1.5); stroke(40, 30, 20);\n  let legPhases = [\n    [[-5,-1,-7,8],[0,-1,2,8],[5,1,7,8],[8,1,4,8]],\n    [[-5,1,-3,8],[0,-1,4,8],[5,-1,8,8],[8,1,6,8]],\n    [[-5,1,-8,8],[0,1,0,8],[5,1,3,8],[8,-1,10,8]],\n    [[-5,-1,-4,8],[0,1,-2,8],[5,-1,6,8],[8,1,3,8]],\n    [[-5,1,-6,8],[0,-1,3,8],[5,1,9,8],[8,-1,5,8]],\n    [[-5,-1,-5,8],[0,1,1,8],[5,1,5,8],[8,-1,7,8]],\n  ];\n  for (let leg of legPhases[constrain(frame, 0, 5)]) line(leg[0], 1, leg[2], leg[3]);\n  let tailWag = W(25, {wave:'batman', t:t*2, range:[-3, 3], seed:77, frequency:2});\n  noFill(); stroke(40, 30, 20); strokeWeight(1); line(-9, -3, -13, -6 + tailWag);\n  pop();\n  noStroke(); fill(40, 30, 20, 50);\n  for (let i = 0; i < 5; i++) { rect(2 + i * 10, 1, 4, 3, 1); rect(2 + i * 10, 46, 4, 3, 1); }\n}"
+    },
+    {
+      "id": "v07-21",
+      "version": "v07",
+      "index": 21,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Complementary Blobs",
+      "description": "Two complementary-hue blobs with smooth-sine blend",
+      "tags": [
+        "chromatic",
+        "color-theory"
+      ],
+      "waves_used": [
+        "sine",
+        "ramp",
+        "smooth solid sine"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  colorMode(HSB, 360, 100, 100, 100); background(0, 0, 10);\n  let hue1 = W(0.5, {wave: 'ramp', t: t * 0.2, range: [0, 360], seed: 21});\n  let hue2 = (hue1 + 180) % 360;\n  let s1 = W(0.3, {wave: 'sine', t: t, range: [8, 22], seed: 22});\n  let s2 = W(0.7, {wave: 'sine', t: t, range: [8, 22], seed: 23, phase: PI});\n  noStroke();\n  fill(hue1, 85, 95, 70); ellipse(18, 25, s1, s1);\n  fill(hue2, 85, 95, 70); ellipse(32, 25, s2, s2);\n  let blend = W(0.5, {wave: 'smooth solid sine', t: t * 1.3, range: [0, 1], seed: 24});\n  fill(lerpColor(color(hue1, 85, 95), color(hue2, 85, 95), blend)); ellipse(25, 25, 8, 8);\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-22",
+      "version": "v07",
+      "index": 22,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Triadic Rotation",
+      "description": "3 triadic-hue ellipses orbiting around center",
+      "tags": [
+        "chromatic",
+        "triadic"
+      ],
+      "waves_used": [
+        "sine",
+        "ramp",
+        "saw up"
+      ],
+      "w_calls": 3,
+      "code": "(t, fc) => {\n  colorMode(HSB, 360, 100, 100, 100); background(0, 0, 5);\n  let baseAngle = W(0.5, {wave: 'saw up', t: t * 0.15, range: [0, TWO_PI], seed: 30});\n  let baseHue = W(0.5, {wave: 'ramp', t: t * 0.25, range: [0, 360], seed: 31});\n  noStroke();\n  for (let i = 0; i < 3; i++) {\n    let angle = baseAngle + i * TWO_PI / 3;\n    let r = W(i / 3, {wave: 'sine', t: t, range: [10, 18], seed: 32 + i});\n    fill((baseHue + i * 120) % 360, 90, 95, 80);\n    ellipse(25 + cos(angle) * r, 25 + sin(angle) * r, 14, 14);\n  }\n  fill(0, 0, 100, 50); ellipse(25, 25, 5, 5);\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-23",
+      "version": "v07",
+      "index": 23,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Chromatic Aberration",
+      "description": "RGB rings with wave-driven offsets and additive blend",
+      "tags": [
+        "chromatic",
+        "aberration"
+      ],
+      "waves_used": [
+        "sine",
+        "wobble sine"
+      ],
+      "w_calls": 3,
+      "code": "(t, fc) => {\n  background(0); blendMode(ADD);\n  let offR = W(0.2, {wave: 'wobble sine', t: t, range: [-3, 3], seed: 40});\n  let offB = W(0.8, {wave: 'wobble sine', t: t, range: [-3, 3], seed: 41, phase: PI});\n  noFill(); strokeWeight(1.5);\n  for (let i = 0; i < 5; i++) {\n    let r = 6 + i * 5;\n    let wave_r = W(i / 5, {wave: 'sine', t: t, range: [-2, 2], seed: 42});\n    stroke(255, 0, 0, 180); ellipse(25 + offR, 25, r + wave_r, r + wave_r);\n    stroke(0, 255, 0, 180); ellipse(25, 25, r + wave_r, r + wave_r);\n    stroke(0, 0, 255, 180); ellipse(25 + offB, 25, r + wave_r, r + wave_r);\n  }\n  blendMode(BLEND);\n}"
+    },
+    {
+      "id": "v07-24",
+      "version": "v07",
+      "index": 24,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Classic Color Wheel",
+      "description": "Six hue segments with sharp-peaks, pulse and triangle modulation",
+      "tags": [
+        "chromatic",
+        "color-wheel"
+      ],
+      "waves_used": [
+        "classic sine",
+        "sharp peaks",
+        "pulse",
+        "triangle"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  colorMode(HSB, 360, 100, 100, 100); background(0, 0, 8); noStroke();\n  for (let r = 0; r < 6; r++) for (let c = 0; c < 6; c++) {\n    let idx = r * 6 + c;\n    let h = W(idx / 36, {wave: 'classic sine', t: t * 0.8, range: [0, 360], seed: idx + 50});\n    let b = W(idx / 36, {wave: 'sharp peaks', t: t * 1.2, range: [40, 100], seed: idx + 100});\n    let sz = W(idx / 36, {wave: 'pulse', t: t, range: [4, 8], seed: idx + 150});\n    fill(h, 80, b, 85);\n    push(); translate(r * 8.3 + 5, c * 8.3 + 5);\n    rotate(W(idx / 36, {wave: 'triangle', t: t * 0.5, range: [-0.3, 0.3], seed: idx + 200}));\n    beginShape(); vertex(0, -sz/2); vertex(sz/2, 0); vertex(0, sz/2); vertex(-sz/2, 0); endShape(CLOSE);\n    pop();\n  }\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-26",
+      "version": "v07",
+      "index": 26,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Horizontal Color Flow",
+      "description": "Zig-zag distorted color bands with sine-moved highlight",
+      "tags": [
+        "chromatic",
+        "bands",
+        "gradient"
+      ],
+      "waves_used": [
+        "sine",
+        "valleys"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  colorMode(HSB, 360, 100, 100); noStroke();\n  let steps = 10, sz = 5;\n  let h00 = W(0.0, {wave: 'sine', t: t * 0.3, range: [0, 90], seed: 260});\n  let h10 = W(0.3, {wave: 'sine', t: t * 0.3, range: [90, 180], seed: 261});\n  let h01 = W(0.6, {wave: 'sine', t: t * 0.3, range: [180, 270], seed: 262});\n  let h11 = W(0.9, {wave: 'sine', t: t * 0.3, range: [270, 360], seed: 263});\n  for (let r = 0; r < steps; r++) for (let c = 0; c < steps; c++) {\n    let u = c / 9, v = r / 9;\n    let h = lerp(lerp(h00, h10, u), lerp(h01, h11, u), v) % 360;\n    let s = W((r * steps + c) / 100, {wave: 'valleys', t: t, range: [60, 100], seed: 265});\n    fill(h, s, 95); rect(c * sz, r * sz, sz + 0.5, sz + 0.5);\n  }\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-27",
+      "version": "v07",
+      "index": 27,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Sunset Stripes",
+      "description": "Horizontal color stripes with zig-zag distortion — sunset",
+      "tags": [
+        "chromatic",
+        "sunset",
+        "stripes"
+      ],
+      "waves_used": [
+        "sine",
+        "zig-zag sine",
+        "offset sine",
+        "half sine"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  colorMode(HSB, 360, 100, 100, 100); noStroke();\n  for (let y = 0; y < 50; y++) {\n    let ny = y / 50;\n    let distort = W(ny, {wave: 'zig-zag sine', t: t, range: [-5, 5], seed: 270});\n    let hue = map(y + distort, 0, 50, 0, 240);\n    let sat = W(ny, {wave: 'offset sine', t: t * 0.8, range: [60, 100], seed: 271});\n    let bri = W(ny, {wave: 'half sine', t: t * 1.2, range: [70, 100], seed: 272});\n    fill(constrain(hue, 0, 240), sat, bri); rect(0, y, 50, 1);\n  }\n  let hy = W(0.5, {wave: 'sine', t: t * 0.4, range: [5, 45], seed: 273});\n  fill(0, 0, 100, 40); ellipse(25, hy, 20, 6);\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-29",
+      "version": "v07",
+      "index": 29,
+      "row": 2,
+      "row_name": "Chromatic",
+      "title": "Gradient Mesh Bilinear",
+      "description": "createGrid interpolated as smooth gradient with wave cursor",
+      "tags": [
+        "chromatic",
+        "gradient",
+        "mesh"
+      ],
+      "waves_used": [
+        "sine",
+        "batman",
+        "squared sine",
+        "ramp"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  colorMode(HSB, 360, 100, 100, 100); background(0, 0, 10); noStroke();\n  let baseH = W(0.5, {wave: 'ramp', t: t * 0.15, range: [0, 360], seed: 300});\n  let hues = [baseH, (baseH + 150) % 360, (baseH + 210) % 360];\n  let sz = 10;\n  for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) {\n    let idx = r * 5 + c;\n    let bri = W(idx / 25, {wave: 'batman', t: t, range: [50, 100], seed: 301 + idx});\n    let sat = W(idx / 25, {wave: 'squared sine', t: t * 0.8, range: [50, 100], seed: 330 + idx});\n    fill(hues[idx % 3], sat, bri, 90);\n    let pad = W(idx / 25, {wave: 'sine', t: t * 1.3, range: [0.5, 2], seed: 360 + idx});\n    rect(c * sz + pad, r * sz + pad, sz - pad * 2, sz - pad * 2, 2);\n  }\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-40",
+      "version": "v07",
+      "index": 40,
+      "row": 4,
+      "row_name": "Textile",
+      "title": "Woven Threads",
+      "description": "Stepped-sine spaced horizontal and square-wave vertical weave",
+      "tags": [
+        "textile",
+        "weave",
+        "threads"
+      ],
+      "waves_used": [
+        "sine",
+        "square",
+        "stepped sine"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(30, 25, 20);\n  let spacing = W(t, {wave:'stepped sine', t:t, range:[4,7], seed:40, frequency:0.3});\n  for (let y = 0; y < 50; y += spacing) {\n    stroke(180, 140, 90, 200); strokeWeight(spacing * 0.4);\n    line(0, y + W(y, {wave:'sine', t:t, range:[-1,1], seed:401, frequency:0.8}), 50, y - W(y, {wave:'sine', t:t, range:[-1,1], seed:401, frequency:0.8}));\n  }\n  for (let x = 0; x < 50; x += spacing) {\n    let over = W(x + t * 10, {wave:'square', t:t, range:[0,1], seed:403, frequency:1.2});\n    stroke(140, 90, 60, over > 0.5 ? 220 : 120); strokeWeight(spacing * 0.35);\n    let weftShift = W(x, {wave:'sine', t:t, range:[-1,1], seed:402, frequency:0.6});\n    line(x + weftShift, 0, x - weftShift, 50);\n  }\n}"
+    },
+    {
+      "id": "v07-44",
+      "version": "v07",
+      "index": 44,
+      "row": 4,
+      "row_name": "Textile",
+      "title": "Lace Pattern",
+      "description": "Noise-positioned lace rings with bumpy-sine wavy threads",
+      "tags": [
+        "textile",
+        "lace"
+      ],
+      "waves_used": [
+        "sine",
+        "bumpy sine",
+        "noise"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  background(250, 245, 240); noFill(); stroke(180, 160, 140, 150); strokeWeight(0.5);\n  for (let i = 0; i < 12; i++) {\n    let cx = W(i, {wave:'noise', t:t, range:[5,45], seed:44, frequency:0.3});\n    let cy = W(i + 50, {wave:'noise', t:t, range:[5,45], seed:441, frequency:0.3});\n    let r = W(i * 3, {wave:'sine', t:t, range:[4,12], seed:442, frequency:0.5});\n    for (let p = 0; p < 6; p++) { let a = (p / 6) * TWO_PI + t * 0.3; ellipse(cx + cos(a) * r, cy + sin(a) * r, r * 0.8, r * 0.8); }\n    ellipse(cx, cy, r * 0.5, r * 0.5);\n  }\n  stroke(200, 180, 160, 80);\n  for (let y = 0; y < 50; y += 4) {\n    let amp = W(y, {wave:'bumpy sine', t:t, range:[0,3], seed:443, frequency:0.7});\n    beginShape(); for (let x = 0; x < 50; x += 2) vertex(x, y + sin(x * 0.5 + t) * amp); endShape();\n  }\n}"
+    },
+    {
+      "id": "v07-49",
+      "version": "v07",
+      "index": 49,
+      "row": 4,
+      "row_name": "Textile",
+      "title": "Embroidery Cross-Stitch",
+      "description": "Wave-picked X stitches in a cross-stitch pattern",
+      "tags": [
+        "textile",
+        "embroidery"
+      ],
+      "waves_used": [
+        "sine",
+        "noise"
+      ],
+      "w_calls": 6,
+      "code": "(t, fc) => {\n  background(25, 45, 70);\n  stroke(180, 160, 120, 40); strokeWeight(0.3);\n  for (let i = 0; i < 20; i++) {\n    let x1 = W(i, {wave:'noise', t:t*0.1, range:[0,50], seed:49, frequency:0.5});\n    let y1 = W(i+30, {wave:'noise', t:t*0.1, range:[0,50], seed:491, frequency:0.5});\n    line(x1, y1, x1 + W(i*2, {wave:'noise', t:t*0.1, range:[-15,15], seed:492, frequency:0.8}), y1 + W(i*3, {wave:'noise', t:t*0.1, range:[-15,15], seed:493, frequency:0.8}));\n  }\n  noStroke();\n  for (let cy = 8; cy < 50; cy += 16) for (let cx = 8; cx < 50; cx += 16) {\n    let rad = W(cx+cy, {wave:'sine', t:t, range:[3,6], seed:494, frequency:0.35});\n    let dye = W(cx*cy, {wave:'sine', t:t, range:[0,1], seed:495, frequency:0.3});\n    fill(lerpColor(color(30, 60, 100), color(160, 120, 40), dye));\n    for (let a = 0; a < TWO_PI; a += 0.3) { let r = rad * (a / TWO_PI); ellipse(cx + cos(a+t*0.5)*r, cy + sin(a+t*0.5)*r, 1.5, 1.5); }\n    fill(180, 160, 100, 100); ellipse(cx, cy, 2, 2);\n  }\n}"
+    },
+    {
+      "id": "v07-51",
+      "version": "v07",
+      "index": 51,
+      "row": 5,
+      "row_name": "Fluid",
+      "title": "Spore Diffusion",
+      "description": "Noise drifting spore field with wave-driven size and opacity",
+      "tags": [
+        "fluid",
+        "spores",
+        "diffusion"
+      ],
+      "waves_used": [
+        "sine",
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  background(5, 5, 10, 50); noStroke();\n  for (let i = 0; i < 30; i++) {\n    let baseY = W(i, {wave:'ramp', t:t, range:[55, -10], seed:51, frequency:0.15 + i * 0.005});\n    let drift = W(i+baseY, {wave:'noise', t:t, range:[-8, 8], seed:511, frequency:0.3});\n    let cx = 25 + drift + W(i, {wave:'sine', t:t, range:[-5,5], seed:512, frequency:0.4});\n    let sz = W(i+baseY*0.5, {wave:'sine', t:t, range:[2,10], seed:513, frequency:0.3});\n    fill(180, 180, 200, max(0, map(baseY, 55, -10, 60, 5)));\n    ellipse(cx, baseY, sz, sz * 1.3);\n  }\n}"
+    },
+    {
+      "id": "v07-52",
+      "version": "v07",
+      "index": 52,
+      "row": 5,
+      "row_name": "Fluid",
+      "title": "Ink Spreading",
+      "description": "Noise-driven ink blot expanding in liquid",
+      "tags": [
+        "fluid",
+        "ink",
+        "organic"
+      ],
+      "waves_used": [
+        "sine",
+        "noise"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  background(20, 50, 80); noFill();\n  for (let r = 2; r < 35; r += 2.5) {\n    let ripplePhase = W(r, {wave:'sine', t:t, range:[-1,1], seed:52, frequency:0.8});\n    let wobble = W(r*5, {wave:'noise', t:t, range:[-0.5,0.5], seed:521, frequency:0.5});\n    stroke(100+ripplePhase*40, 160+ripplePhase*30, 220, map(r, 2, 35, 180, 20));\n    strokeWeight(0.8+ripplePhase*0.3); ellipse(25+wobble, 25+wobble, r*2, r*2);\n  }\n  noStroke(); fill(200, 230, 255, 40);\n  ellipse(W(t, {wave:'sine', t:t, range:[15,35], seed:522, frequency:0.6}), W(t, {wave:'sine', t:t, range:[15,35], seed:523, frequency:0.45}), 4, 2);\n}"
+    },
+    {
+      "id": "v07-53",
+      "version": "v07",
+      "index": 53,
+      "row": 5,
+      "row_name": "Fluid",
+      "title": "Lava Lamp",
+      "description": "Slow ramp+noise blobs floating up — sine hue cycling",
+      "tags": [
+        "fluid",
+        "lava",
+        "blobs"
+      ],
+      "waves_used": [
+        "sine",
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 6,
+      "code": "(t, fc) => {\n  background(240, 238, 230, 30); noStroke();\n  for (let i = 0; i < 15; i++) {\n    let age = W(i, {wave:'ramp', t:t, range:[0,1], seed:53, frequency:0.1 + i * 0.002});\n    let cx = 25 + W(i*7, {wave:'noise', t:t, range:[-15,15], seed:531, frequency:0.2});\n    let cy = 25 + W(i*11, {wave:'noise', t:t, range:[-15,15], seed:532, frequency:0.2});\n    let spread = age * 18;\n    for (let j = 0; j < 8; j++) {\n      let a = (j/8)*TWO_PI + W(j+i, {wave:'noise', t:t, range:[-1,1], seed:533, frequency:0.5});\n      let r = spread * W(j+i*3, {wave:'noise', t:t, range:[0.3,1], seed:534, frequency:0.4});\n      let sz = W(j*i, {wave:'sine', t:t, range:[2,6], seed:535, frequency:0.3}) * age;\n      fill(20, 10, 40, 30 * (1 - age * 0.5)); ellipse(cx+cos(a)*r, cy+sin(a)*r, sz, sz);\n    }\n  }\n}"
+    },
+    {
+      "id": "v07-55",
+      "version": "v07",
+      "index": 55,
+      "row": 5,
+      "row_name": "Fluid",
+      "title": "Whirlpool",
+      "description": "Spiral vortex with wave-driven rotation speed",
+      "tags": [
+        "fluid",
+        "whirlpool",
+        "spiral"
+      ],
+      "waves_used": [
+        "sine"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(40, 10, 30); noStroke();\n  fill(60, 15, 40, 30); rect(5, 0, 40, 50, 15);\n  for (let i = 0; i < 5; i++) {\n    let by = W(i, {wave:'sine', t:t, range:[5,45], seed:55+i, frequency:0.12+i*0.02});\n    let bx = 25 + W(i*5, {wave:'sine', t:t, range:[-8,8], seed:551, frequency:0.18});\n    let sz = W(i+t, {wave:'sine', t:t, range:[6,14], seed:552, frequency:0.2});\n    let stretch = W(by+i, {wave:'sine', t:t, range:[0.7,1.4], seed:553, frequency:0.3});\n    let warm = W(i*3, {wave:'sine', t:t, range:[0,1], seed:554, frequency:0.15});\n    fill(lerpColor(color(220, 60, 20, 180), color(250, 180, 30, 160), warm));\n    ellipse(bx, by, sz, sz * stretch);\n    fill(lerpColor(color(220, 60, 20, 30), color(250, 180, 30, 20), warm));\n    ellipse(bx, by, sz * 1.8, sz * stretch * 1.8);\n  }\n}"
+    },
+    {
+      "id": "v07-58",
+      "version": "v07",
+      "index": 58,
+      "row": 5,
+      "row_name": "Fluid",
+      "title": "Flow Field Vectors",
+      "description": "Noise-driven vector field arrows — flow visualization",
+      "tags": [
+        "fluid",
+        "flow-field",
+        "vectors"
+      ],
+      "waves_used": [
+        "sine",
+        "noise"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(15, 30, 60); strokeWeight(1); noFill();\n  for (let i = 0; i < 25; i++) {\n    let startY = W(i, {wave:'noise', t:t*0.3, range:[0,50], seed:58, frequency:0.3});\n    let speed = W(i*7, {wave:'sine', t:t, range:[0.5,2], seed:581, frequency:0.2});\n    let curl = W(i*3, {wave:'noise', t:t, range:[-0.08,0.08], seed:582, frequency:0.4});\n    let depth = W(startY, {wave:'sine', t:t, range:[0,1], seed:583, frequency:0.3});\n    stroke(40+depth*80, 100+depth*80, 180+depth*50, 60+depth*80);\n    beginShape();\n    let cy = startY;\n    for (let x = 0; x < 50; x += 2) { cy += curl + W(x+i*10, {wave:'sine', t:t, range:[-0.5,0.5], seed:584, frequency:0.7}); curveVertex(x-(t*speed*10)%50+50, cy); }\n    endShape();\n  }\n}"
+    },
+    {
+      "id": "v07-60",
+      "version": "v07",
+      "index": 60,
+      "row": 6,
+      "row_name": "Glitch",
+      "title": "Pixel Sort Lines",
+      "description": "Sharp-peaks threshold pixel sorting — row-by-row gradient",
+      "tags": [
+        "glitch",
+        "pixel-sort"
+      ],
+      "waves_used": [
+        "sine",
+        "sharp peaks",
+        "saw up",
+        "noise",
+        "fuzzy pulse",
+        "ramp up sine"
+      ],
+      "w_calls": 6,
+      "code": "(t, fc) => {\n  let intensity = W(25, {wave:'ramp up sine', t:t, range:[0,1], frequency:0.3});\n  let sortLine = W(25, {wave:'saw up', t:t, range:[0,50], frequency:0.7});\n  background(0); noStroke();\n  for (let y = 0; y < 50; y += 2) {\n    let hue = W(y, {wave:'sine', t:t, range:[0,360], seed:60, frequency:0.5});\n    let bright = W(y, {wave:'sharp peaks', t:t, range:[40,255], seed:61});\n    let xOff = abs(y - sortLine) < 15 * intensity ? W(y, {wave:'noise', t:t, range:[-20, 20], seed:62, frequency:2}) * intensity : 0;\n    colorMode(HSB, 360, 255, 255); fill(hue, 200, bright);\n    rect(xOff, y, 50 - abs(xOff) * 0.5, 2);\n  }\n  colorMode(RGB);\n  let tearY = W(0, {wave:'fuzzy pulse', t:t, range:[0,50], frequency:1.2, seed:63});\n  fill(255, 0, 100, 180); rect(0, tearY, 50, intensity * 8);\n}"
+    },
+    {
+      "id": "v07-66",
+      "version": "v07",
+      "index": 66,
+      "row": 6,
+      "row_name": "Glitch",
+      "title": "VHS Tracking",
+      "description": "Horizontal scan distortion with glitch bands — retro VHS",
+      "tags": [
+        "glitch",
+        "vhs",
+        "scanline"
+      ],
+      "waves_used": [
+        "sine",
+        "steps down",
+        "steps",
+        "ramp",
+        "saw up"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(0); noStroke();\n  let bitShift = floor(W(25, {wave:'steps', t:t, range:[0, 7], frequency:0.3}));\n  let opType = floor(W(25, {wave:'steps down', t:t, range:[0, 3], frequency:0.15}));\n  for (let y = 0; y < 50; y += 5) for (let x = 0; x < 50; x += 5) {\n    let ix = floor(x/5), iy = floor(y/5);\n    let a = ix*25+floor(W(iy, {wave:'ramp', t:t, range:[0,255], seed:120}));\n    let b = iy*25+floor(W(ix, {wave:'saw up', t:t*0.7, range:[0,255], seed:121}));\n    let result;\n    if (opType===0) result=(a^b)&255; else if(opType===1) result=(a&b)<<bitShift&255;\n    else if(opType===2) result=(a|b)>>bitShift&255; else result=(~(a^b))&255;\n    let hue = W(result, {wave:'sine', t:t*0.5, range:[0,360], seed:122});\n    colorMode(HSB, 360, 255, 255); fill(hue, 200, result); rect(x, y, 5, 5);\n  }\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-68",
+      "version": "v07",
+      "index": 68,
+      "row": 6,
+      "row_name": "Glitch",
+      "title": "Data Corruption",
+      "description": "Square-wave triggered pixel corruption blocks — data loss",
+      "tags": [
+        "glitch",
+        "corruption"
+      ],
+      "waves_used": [
+        "sine",
+        "steps",
+        "bumpy sine",
+        "noise",
+        "fuzzy pulse"
+      ],
+      "w_calls": 6,
+      "code": "(t, fc) => {\n  background(0); noStroke();\n  let quality = W(25, {wave:'bumpy sine', t:t, range:[2, 10], frequency:0.3});\n  let blockSize = max(2, floor(quality));\n  for (let by = 0; by < 50; by += blockSize) for (let bx = 0; bx < 50; bx += blockSize) {\n    let baseVal = W(by+bx*0.5, {wave:'sine', t:t, range:[0,255], seed:150, frequency:0.4});\n    let quantStep = max(1, floor(W(bx, {wave:'steps', t:t, range:[16,64], seed:151, frequency:0.2})));\n    let quantized = floor(baseVal/quantStep)*quantStep;\n    let rBleed = W(bx, {wave:'noise', t:t, range:[-30,30], seed:152, frequency:2});\n    let gBleed = W(by, {wave:'noise', t:t, range:[-20,20], seed:153, frequency:2});\n    fill(constrain(quantized+rBleed,0,255), constrain(quantized+gBleed,0,255), constrain(quantized-rBleed*0.5,0,255));\n    rect(bx, by, blockSize, blockSize);\n  }\n  stroke(255, 0, 0, W(25, {wave:'fuzzy pulse', t:t, range:[0,60], frequency:0.8})); strokeWeight(0.5);\n  for (let g = 0; g < 50; g += blockSize) { line(g, 0, g, 50); line(0, g, 50, g); }\n}"
+    },
+    {
+      "id": "v07-69",
+      "version": "v07",
+      "index": 69,
+      "row": 6,
+      "row_name": "Glitch",
+      "title": "Compression Artifacts",
+      "description": "Wave-driven blocky pixel degradation — JPEG glitch",
+      "tags": [
+        "glitch",
+        "compression"
+      ],
+      "waves_used": [
+        "sine",
+        "square",
+        "pulse",
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 12,
+      "code": "(t, fc) => {\n  let mode = floor(W(25, {wave:'noise', t:t, range:[0, 4], seed:160, frequency:1.5}));\n  background(0); noStroke();\n  if (mode < 1) { for (let y = 0; y < 50; y += 2) { let xOff = W(y, {wave:'noise', t:t*4, range:[-15,15], seed:161+y, frequency:4}); fill(W(y, {wave:'sine', t:t, range:[50,255], seed:162})); rect(xOff, y, 50, 2); } }\n  else if (mode < 2) { let r = W(0, {wave:'square', t:t*3, range:[0,255], seed:163}); let g = W(1, {wave:'pulse', t:t*2.5, range:[0,255], seed:164}); background(r, g, W(2, {wave:'square', t:t*4, range:[0,255], seed:165})); fill(255-r, 255-g, 128); textSize(20); textAlign(CENTER,CENTER); textFont('monospace'); text('!', 25, 25); }\n  else if (mode < 3) { for (let x = 0; x < 50; x += 3) { fill(W(x, {wave:'sine', t:t, range:[100,255], seed:167})*0.3, W(x, {wave:'sine', t:t, range:[100,255], seed:167}), W(x, {wave:'sine', t:t, range:[100,255], seed:167})*0.7); rect(x, W(x, {wave:'noise', t:t*3, range:[-10,10], seed:166+x, frequency:3}), 3, 50); } }\n  else { for (let y = 0; y < 50; y++) { let xOff = (y%2===0)?W(y, {wave:'noise', t:t*6, range:[-5,5], seed:169, frequency:5}):0; fill(W(y, {wave:'ramp', t:t, range:[0,255], seed:170})); rect(xOff, y, 50, 1); } }\n}"
+    },
+    {
+      "id": "v07-70",
+      "version": "v07",
+      "index": 70,
+      "row": 7,
+      "row_name": "Typographic",
+      "title": "Letter Architecture",
+      "description": "Big letter with anatomy labels — baseline, x-height, ascender",
+      "tags": [
+        "typographic",
+        "anatomy"
+      ],
+      "waves_used": [
+        "sine",
+        "steps",
+        "triangle"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  background(10); fill(255); noStroke(); textFont('monospace'); textAlign(CENTER, CENTER);\n  let chars = STATE[70].chars;\n  for (let row = 0; row < 5; row++) for (let col = 0; col < 5; col++) {\n    let idx = row*5+col;\n    let sz = W(idx, {wave:'sine', t:t, range:[4, 14], seed:200+idx, frequency:0.3+idx*0.02});\n    let rot = W(idx, {wave:'triangle', t:t, range:[-0.5, 0.5], seed:210+idx, frequency:0.2});\n    let charIdx = floor(W(idx, {wave:'steps', t:t, range:[0, chars.length-0.01], seed:220+idx, frequency:0.1}));\n    push(); translate(col*10+5, row*10+5); rotate(rot); textSize(sz);\n    fill(W(idx, {wave:'sine', t:t, range:[100,255], seed:230+idx, frequency:0.5}), 200, 255);\n    text(chars[constrain(charIdx,0,chars.length-1)], 0, 0); pop();\n  }\n}"
+    },
+    {
+      "id": "v07-73",
+      "version": "v07",
+      "index": 73,
+      "row": 7,
+      "row_name": "Typographic",
+      "title": "Symbol Constellation",
+      "description": "Unicode symbols arranged as constellation — wave picks and moves",
+      "tags": [
+        "typographic",
+        "symbol"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  background(15, 5, 25); noStroke(); textAlign(CENTER, CENTER);\n  let syms = STATE[73].symbols;\n  for (let i = 0; i < 14; i++) {\n    let angle = W(i, {wave:'sine', t:t, range:[0, TWO_PI], seed:280+i, frequency:0.2+i*0.01});\n    let radius = W(i, {wave:'triangle', t:t, range:[5, 22], seed:290+i, frequency:0.15});\n    let sz = W(i, {wave:'sine', t:t, range:[6, 16], seed:300+i, frequency:0.3});\n    let hue = W(i, {wave:'sine', t:t, range:[0, 360], seed:310+i, frequency:0.25});\n    colorMode(HSB, 360, 255, 255); fill(hue, 200, 240); textSize(sz);\n    text(syms[i % syms.length], 25+cos(angle)*radius, 25+sin(angle)*radius);\n  }\n  colorMode(RGB);\n}"
+    },
+    {
+      "id": "v07-75",
+      "version": "v07",
+      "index": 75,
+      "row": 7,
+      "row_name": "Typographic",
+      "title": "ASCII Density Ramp",
+      "description": "Steps-wave density gradient rendered as ASCII chars",
+      "tags": [
+        "typographic",
+        "ascii",
+        "ramp"
+      ],
+      "waves_used": [
+        "sine",
+        "square",
+        "steps",
+        "triangle"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(255); noStroke(); fill(0);\n  let seed = floor(W(25, {wave:'steps', t:t, range:[0,100], frequency:0.1, seed:330}));\n  for (let x = 3; x < 47; x++) {\n    let isBar = W(x, {wave:'square', t:t*0.3, range:[0,1], seed:340+x+seed, frequency:1.5});\n    if (isBar > 0.5) { let barH = W(x, {wave:'sine', t:t, range:[25,38], seed:360, frequency:0.2}); rect(x, 5, max(1,1), barH); }\n  }\n  fill(0); textFont('monospace'); textSize(5); textAlign(CENTER,CENTER);\n  let numStr = '';\n  for (let i = 0; i < 8; i++) numStr += floor(W(i, {wave:'steps', t:t*0.3, range:[0,9.99], seed:370+i+seed, frequency:0.1})).toString();\n  text(numStr, 25, 46);\n  let laserX = W(0, {wave:'triangle', t:t, range:[3,47], frequency:0.7});\n  stroke(255,0,0,150); strokeWeight(0.5); line(laserX, 3, laserX, 45);\n}"
+    },
+    {
+      "id": "v07-84",
+      "version": "v07",
+      "index": 84,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Depth Fog",
+      "description": "Bumpy-sine noise field with smooth-sine fog — atmospheric",
+      "tags": [
+        "spatial",
+        "fog",
+        "depth"
+      ],
+      "waves_used": [
+        "sine",
+        "bumpy sine",
+        "triangle",
+        "noise",
+        "smooth solid sine"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(20, 25, 40);\n  let fogDensity = W(0, {wave:'smooth solid sine', t:t, range:[0.03, 0.08], seed:840, frequency:0.12});\n  noStroke();\n  for (let z = 10; z >= 0; z--) {\n    let zNorm = z/10, fog = 1-exp(-fogDensity*z*z*10), scale = 1/(1+zNorm*2);\n    let xOff = W(z, {wave:'sine', t:t, range:[-5,5], seed:841+z, frequency:0.2+z*0.02});\n    let yOff = W(z, {wave:'triangle', t:t, range:[-3,3], seed:845+z, frequency:0.15});\n    let bx=25+xOff, by=25+yOff+zNorm*8, sz=8*scale;\n    fill(lerp(80,20,fog), lerp(180,25,fog), lerp(255,40,fog), lerp(255,60,fog));\n    rectMode(CENTER); rect(bx, by, sz, sz, 1);\n    fill(lerp(80,20,fog), lerp(180,25,fog), lerp(255,40,fog), lerp(255,60,fog)*0.3); circle(bx, by, sz*2);\n  }\n  rectMode(CORNER);\n  for (let i = 0; i < 8; i++) { fill(20,25,40,30); ellipse(W(i, {wave:'noise', t:t, range:[0,50], seed:850+i, frequency:0.05}), W(i, {wave:'bumpy sine', t:t, range:[25,50], seed:855+i, frequency:0.08}), 20, 8); }\n}"
+    },
+    {
+      "id": "v07-85",
+      "version": "v07",
+      "index": 85,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Depth Fog Spheres",
+      "description": "Depth-sorted dots with wave-driven z — atmospheric perspective",
+      "tags": [
+        "spatial",
+        "depth"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle",
+        "half sine"
+      ],
+      "w_calls": 3,
+      "code": "(t, fc) => {\n  background(30, 25, 20);\n  let lightX = W(0, {wave:'sine', t:t, range:[10,40], seed:850, frequency:0.2});\n  let lightY = W(0, {wave:'triangle', t:t, range:[5,15], seed:851, frequency:0.15});\n  noStroke();\n  for (let r = 20; r > 0; r--) { fill(255,220,100,map(r,0,20,40,0)); circle(lightX,lightY,r); }\n  let objects = [{x:15,y:35,w:8,h:10},{x:30,y:30,w:6,h:15},{x:40,y:38,w:7,h:8}];\n  for (let i = 0; i < objects.length; i++) {\n    let o = objects[i];\n    let bounce = W(i, {wave:'half sine', t:t, range:[0,4], seed:852+i, frequency:0.3+i*0.1});\n    let oy = o.y-bounce, dx=o.x-lightX, dy=oy-lightY, dist2=sqrt(dx*dx+dy*dy), shadowLen=map(dist2,0,50,0.5,3);\n    fill(0,0,0,60); beginShape(); vertex(o.x-o.w/2,48); vertex(o.x+o.w/2,48); vertex(o.x+o.w/2+dx*shadowLen*0.5,48+abs(dy)*shadowLen*0.3); vertex(o.x-o.w/2+dx*shadowLen*0.5,48+abs(dy)*shadowLen*0.3); endShape(CLOSE);\n    fill(map(dist2,0,40,255,120), map(dist2,0,40,255,120)*0.7, map(dist2,0,40,255,120)*0.4);\n    rect(o.x-o.w/2, oy, o.w, 48-oy, 1);\n  }\n}"
+    },
+    {
+      "id": "v07-88",
+      "version": "v07",
+      "index": 88,
+      "row": 8,
+      "row_name": "Spatial",
+      "title": "Impossible Triangle",
+      "description": "Penrose tribar with ramp-wave rotation — impossible geometry",
+      "tags": [
+        "spatial",
+        "impossible",
+        "penrose"
+      ],
+      "waves_used": [
+        "sine",
+        "triangle",
+        "ramp"
+      ],
+      "w_calls": 6,
+      "code": "(t, fc) => {\n  background(0);\n  let drift = W(0, {wave:'ramp', t:t, range:[0,1], seed:880, frequency:0.3}); noFill();\n  for (let i = 0; i < 10; i++) {\n    let zf = ((i/10+drift)%1), sz=map(zf,0,1,2,35), alpha=map(zf,0,1,255,20);\n    let rot = W(i, {wave:'sine', t:t, range:[-0.3,0.3], seed:881+i, frequency:0.2, phase:i*0.5});\n    let hue = W(i, {wave:'ramp', t:t, range:[0,360], seed:882, frequency:0.12, phase:i*0.3});\n    stroke(127+127*sin(radians(hue)), 127+127*sin(radians(hue+120)), 127+127*sin(radians(hue+240)), alpha);\n    strokeWeight(map(zf,0,1,0.3,1.5));\n    let wobX = W(0, {wave:'sine', t:t, range:[-3,3], seed:885, frequency:0.18})*(1-zf);\n    let wobY = W(0, {wave:'triangle', t:t, range:[-3,3], seed:886, frequency:0.15})*(1-zf);\n    beginShape(); for (let s=0;s<=6;s++) { let a=s*TWO_PI/6+rot; vertex(25+wobX+cos(a)*sz, 25+wobY+sin(a)*sz); } endShape();\n  }\n  noStroke(); fill(255,255,255,W(0, {wave:'sine', t:t, range:[100,255], seed:888, frequency:0.5})); circle(25, 25, 3);\n}"
+    },
+    {
+      "id": "v07-92",
+      "version": "v07",
+      "index": 92,
+      "row": 9,
+      "row_name": "Cosmic",
+      "title": "Solar System",
+      "description": "4 planets orbiting with wave-modulated speeds",
+      "tags": [
+        "cosmic",
+        "solar-system"
+      ],
+      "waves_used": [
+        "sine",
+        "ramp"
+      ],
+      "w_calls": 3,
+      "code": "(t, fc) => {\n  background(0, 0, 10); noStroke();\n  let sunPulse = W(0, {wave:'sine', t:t, range:[3,5], seed:920, frequency:0.5});\n  for (let r=sunPulse+4;r>0;r--) { fill(255,200,50,map(r,0,sunPulse+4,255,0)); circle(25,25,r*2); }\n  let planets = STATE[92].planets;\n  stroke(255,255,255,15); strokeWeight(0.3); noFill();\n  for (let p of planets) ellipse(25,25,p.dist*2,p.dist*2);\n  noStroke();\n  for (let i=0;i<planets.length;i++) {\n    let p=planets[i];\n    let angle = W(i, {wave:'ramp', t:t, range:[0, TWO_PI], seed:921+i, frequency:0.05*p.speed});\n    let ecc = W(i, {wave:'sine', t:t, range:[0.9,1.1], seed:925+i, frequency:0.1});\n    fill(p.r,p.g,p.b); circle(25+cos(angle)*p.dist*ecc, 25+sin(angle)*p.dist*ecc*0.6, p.size);\n    fill(p.r,p.g,p.b,40); circle(25+cos(angle)*p.dist*ecc, 25+sin(angle)*p.dist*ecc*0.6, p.size*3);\n  }\n}"
+    },
+    {
+      "id": "v07-94",
+      "version": "v07",
+      "index": 94,
+      "row": 9,
+      "row_name": "Cosmic",
+      "title": "Aurora Borealis",
+      "description": "Mountain-peaks curtain with wobble + smooth sine — aurora",
+      "tags": [
+        "cosmic",
+        "aurora"
+      ],
+      "waves_used": [
+        "sine",
+        "mountain peaks",
+        "wobble sine",
+        "smooth solid sine"
+      ],
+      "w_calls": 4,
+      "code": "(t, fc) => {\n  background(5, 5, 20); noStroke();\n  for (let i=0;i<15;i++) { fill(255,255,255,100+sin(t*2+i)*50); circle((i*17+7)%50, (i*23+3)%25, 1); }\n  noFill();\n  for (let curtain=0;curtain<4;curtain++) {\n    let baseY = 10+curtain*5;\n    for (let x=0;x<50;x++) {\n      let h = W(x+curtain*50, {wave:'sine', t:t, range:[5,20], seed:941+curtain, frequency:0.1+curtain*0.03, phase:x*0.1});\n      let waveY = W(x, {wave:'wobble sine', t:t, range:[-3,3], seed:942+curtain, frequency:0.15, phase:x*0.15+curtain});\n      let intensity = W(x+curtain*30, {wave:'smooth solid sine', t:t, range:[0,1], seed:943+curtain, frequency:0.08, phase:x*0.05});\n      let y1 = baseY+waveY;\n      for (let dy=0;dy<h;dy++) { let fade=1-dy/h; stroke(lerp(20,100,curtain/4), lerp(80,255,intensity)*fade, (120+100*(1-fade)), 40*intensity*fade); point(x, y1+dy); }\n    }\n  }\n  fill(5,5,10); noStroke(); beginShape(); vertex(0,50);\n  for (let x=0;x<=50;x+=2) vertex(x, W(x, {wave:'mountain peaks', t:0, range:[40,46], seed:949, frequency:0.3, phase:x*0.2}));\n  vertex(50,50); endShape(CLOSE);\n}"
+    },
+    {
+      "id": "v07-97",
+      "version": "v07",
+      "index": 97,
+      "row": 9,
+      "row_name": "Cosmic",
+      "title": "Solar Eclipse",
+      "description": "Sharp-peaks corona with moon sliding across sun",
+      "tags": [
+        "cosmic",
+        "eclipse"
+      ],
+      "waves_used": [
+        "sine",
+        "sharp peaks",
+        "noise"
+      ],
+      "w_calls": 5,
+      "code": "(t, fc) => {\n  background(0, 0, 5);\n  let moonOffset = W(0, {wave:'sine', t:t, range:[-12,12], seed:970, frequency:0.06});\n  let moonY = W(0, {wave:'sine', t:t, range:[-3,3], seed:971, frequency:0.08});\n  let coronaIntensity = map(abs(moonOffset), 0, 12, 1, 0.1);\n  for (let a=0;a<TWO_PI;a+=0.08) {\n    let rayLen = W(a*10, {wave:'noise', t:t, range:[8,20], seed:972, frequency:0.1, phase:a})*coronaIntensity;\n    stroke(255,200,100,60*coronaIntensity); strokeWeight(W(a*5, {wave:'sine', t:t, range:[0.5,2], seed:973, frequency:0.2, phase:a*3}));\n    line(25+cos(a)*9, 25+sin(a)*9, 25+cos(a)*(9+rayLen), 25+sin(a)*(9+rayLen));\n  }\n  noStroke();\n  for (let r=14;r>7;r--) { fill(255,180,50,map(r,7,14,80,0)*coronaIntensity); circle(25,25,r*2); }\n  fill(255,220,100); circle(25,25,16);\n  fill(10,10,15); circle(25+moonOffset, 25+moonY, 17);\n  if (abs(moonOffset) < 2) {\n    let diamond = W(0, {wave:'sharp peaks', t:t, range:[0,255], seed:975, frequency:0.8});\n    fill(255,255,255,diamond*coronaIntensity); circle(25+moonOffset*-1.1+8.5, 25+moonY, 2);\n    for (let i=0;i<4;i++) { let ba=(i/4)*PI-HALF_PI; fill(255,255,200,diamond*0.5); circle(25+cos(ba)*8.5, 25+sin(ba)*8.5, 1); }\n  }\n}"
+    },
+    {
+      "id": "v07-99",
+      "version": "v07",
+      "index": 99,
+      "row": 9,
+      "row_name": "Cosmic",
+      "title": "Galaxy Finale",
+      "description": "50 stars in spiral galaxy with sparks — grand finale",
+      "tags": [
+        "cosmic",
+        "galaxy",
+        "finale"
+      ],
+      "waves_used": [
+        "sine",
+        "sharp peaks",
+        "wobble sine",
+        "ramp",
+        "noise"
+      ],
+      "w_calls": 11,
+      "code": "(t, fc) => {\n  background(2, 1, 8);\n  let st=STATE[99];\n  let energy = W(0, {wave:'sine', t:t, range:[0,1], seed:991, frequency:0.15});\n  let pulse = W(0, {wave:'sharp peaks', t:t, range:[0,1], seed:992, frequency:0.25});\n  noStroke();\n  for (let i=0;i<20;i++) {\n    let hue = W(i, {wave:'sine', t:t, range:[0,1], seed:995, frequency:0.04, phase:i*0.5});\n    fill(lerp(60,200,hue), 30+hue*40, lerp(180,80,hue), 15+energy*15);\n    circle(W(i, {wave:'noise', t:t, range:[0,50], seed:993+i, frequency:0.03}), W(i, {wave:'noise', t:t, range:[0,50], seed:994+i*2, frequency:0.025}), 12+energy*5);\n  }\n  let armRot = W(0, {wave:'ramp', t:t, range:[0, TWO_PI], seed:996, frequency:0.05});\n  for (let arm=0;arm<3;arm++) for (let i=0;i<40;i++) {\n    let d=i*0.5+2, angle=arm*TWO_PI/3+armRot+d*0.35;\n    let spread = W(i+arm*40, {wave:'noise', t:t, range:[-1.5,1.5], seed:997+arm, frequency:0.06, phase:i*0.1});\n    let px=25+cos(angle)*d+cos(angle+HALF_PI)*spread, py=25+sin(angle)*d*0.65+sin(angle+HALF_PI)*spread*0.65;\n    if(px<-2||px>52||py<-2||py>52) continue;\n    let bright = 120+135*energy*sin(i*0.2+t);\n    fill(255, lerp(180,255,energy), map(d,2,22,200,255), bright*map(d,2,22,0.8,0.2));\n    circle(px, py, map(d,2,22,2,0.8));\n  }\n  for (let p of st.pts) {\n    let orbitSpeed = W(p.a*10, {wave:'sine', t:t, range:[0.5,2], seed:998, frequency:0.1, phase:p.a});\n    p.a += 0.01*orbitSpeed*p.s;\n    let wobble = W(p.r, {wave:'wobble sine', t:t, range:[0.8,1.2], seed:999, frequency:0.2});\n    let hShift = (p.h+t*30)%360;\n    fill(127+127*cos(radians(hShift)), 127+127*cos(radians(hShift-120)), 127+127*cos(radians(hShift-240)), 160+energy*80);\n    circle(25+cos(p.a)*p.r*wobble, 25+sin(p.a)*p.r*0.6*wobble, 1.5+pulse*1.5);\n  }\n  if (pulse > 0.7) {\n    for (let a=0;a<TWO_PI;a+=PI/8) {\n      stroke(255,220,150,(pulse-0.7)*800); strokeWeight(0.6);\n      let rayLen = W(a*5, {wave:'noise', t:t, range:[5,pulse*22], seed:1000, frequency:0.3, phase:a});\n      line(25+cos(a)*3, 25+sin(a)*3, 25+cos(a)*rayLen, 25+sin(a)*rayLen);\n    }\n    noStroke();\n  }\n  let coreHue = W(0, {wave:'ramp', t:t, range:[0,360], seed:1001, frequency:0.08});\n  for (let r=8;r>0;r--) { fill(127+127*sin(radians(coreHue)), 127+127*sin(radians(coreHue+120)), 127+127*sin(radians(coreHue+240)), map(r,0,8,100+pulse*155,0)); circle(25, 25, r*(1+energy*0.5)); }\n  fill(255,255,255,200+pulse*55); circle(25, 25, 2.5);\n  if (fc%3===0&&st.sparks.length<15) { let sa=random(TWO_PI); st.sparks.push({x:25,y:25,vx:cos(sa)*(1+energy*2),vy:sin(sa)*(1+energy*2),life:1}); }\n  for (let i=st.sparks.length-1;i>=0;i--) {\n    let sp=st.sparks[i]; sp.x+=sp.vx;sp.y+=sp.vy;sp.vx*=0.96;sp.vy*=0.96;sp.life-=0.03;\n    if(sp.life<=0||sp.x<-2||sp.x>52||sp.y<-2||sp.y>52){st.sparks.splice(i,1);continue;}\n    fill(255,220,150,sp.life*255); circle(sp.x,sp.y,sp.life*2.5);\n  }\n}"
+    }
+  ]
+}
