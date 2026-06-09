@@ -58,7 +58,7 @@
   <script>
     var ITEMS = [
       { url: 'library/', n: '★', title: 'Frame Library', star: true, kind: 'browser',
-        desc: 'Gecureerde browser door alle frames - zoek, filter en kopieer de code van elk frame.',
+        desc: 'Volledige browser door élk zelfstandig frame uit alle versies (670+) - zoek, filter op versie/golftype/tag en kopieer de code van elk frame.',
         tags: ['browser', 'zoeken', 'frames', 'code'] },
       { url: 'p5.wavesX100_v01/', n: 'v01', title: 'Technique Showcase', kind: 'versie',
         desc: 'p5.js zelf getoond: shape-primitieven, math-curven, kleur, golven, patronen, particles, pixels, typografie, 3D. p5.waves in ~35% van de frames.',
@@ -99,7 +99,8 @@
         var tagEls = c.tags.map(function (t) { return '<em>#' + esc(t) + '</em>'; }).join('');
         var hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.desc).toLowerCase();
         var status = c.star ? '<span class="card-status">★ browser</span>' : '';
-        return '<a class="collection-card" href="' + esc(c.url) + '"'
+        var cls = 'collection-card' + (c.star ? ' collection-card--wide' : '');
+        return '<a class="' + cls + '" href="' + esc(c.url) + '"'
           + ' data-title="' + esc(c.title) + '"'
           + ' data-tags="' + esc(c.tags.join(' ')) + '"'
           + ' data-search="' + esc(hay) + '">'

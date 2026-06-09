@@ -223,7 +223,7 @@
   <header>
     <a href="../" class="back-link">← terug naar versies</a>
     <h1>Frame Library</h1>
-    <p class="subtitle">50×50 kleine getuigen van grote wiskunde — gecureerde p5.waves frames, elk een miniatuur demonstratie van wat één library kan wanneer je hem als motor gebruikt.</p>
+    <p class="subtitle">50×50 kleine getuigen van grote wiskunde — élk zelfstandig p5.waves frame uit alle x100-versies, elk een miniatuur demonstratie van wat één library kan wanneer je hem als motor gebruikt.</p>
     <div class="filters">
       <label>versie</label>
       <select id="f-version">
@@ -430,12 +430,13 @@
   function renderFrameToGraphics(fn, g, t, fc) {
     // List of p5 drawing functions the frames use
     const redirects = [
-      'fill','stroke','noFill','noStroke','strokeWeight','background',
-      'ellipse','circle','rect','line','point','triangle','quad','arc',
-      'beginShape','vertex','curveVertex','bezierVertex','endShape','bezier',
-      'push','pop','translate','rotate','scale','shearX','shearY','resetMatrix',
-      'rectMode','ellipseMode','textSize','textAlign','textFont','textStyle','text',
-      'colorMode','color','lerpColor','blendMode',
+      'fill','stroke','noFill','noStroke','strokeWeight','strokeCap','strokeJoin','background',
+      'ellipse','circle','square','rect','line','point','triangle','quad','arc',
+      'beginShape','vertex','curveVertex','bezierVertex','quadraticVertex','endShape','bezier','curve',
+      'beginContour','endContour',
+      'push','pop','translate','rotate','scale','shearX','shearY','resetMatrix','applyMatrix',
+      'rectMode','ellipseMode','textSize','textAlign','textFont','textStyle','textLeading','text',
+      'colorMode','color','lerpColor','blendMode','erase','noErase',
       'sin','cos','tan','atan2','sqrt','pow','exp','abs','floor','ceil','round',
       'map','lerp','constrain','dist','min','max','random','noise','nf','int','radians','degrees',
       'second','minute','hour'

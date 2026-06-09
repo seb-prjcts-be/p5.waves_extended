@@ -21,9 +21,16 @@ p5.wavesX100/
 ├── p5.wavesX100_v04/           ← Wildly creative edition
 │   ├── index.html
 │   └── sketch.js
-└── p5.wavesX100_v07/           ← 100 Tiny Worlds (thematic)
-    ├── index.html
-    └── sketch.js
+├── p5.wavesX100_v05..v06/     ← B&W typografie + Oswald grayscale
+├── p5.wavesX100_v07/           ← 100 Tiny Worlds (thematic)
+│   ├── index.html
+│   └── sketch.js
+└── library/                    ← Frame Library (frame-browser, zoek/filter/kopieer)
+    ├── index.html              ← laadt frames-library.json, live previews via mini-p5-runtime
+    ├── build-library.mjs       ← GENERATOR: scant alle versies → frames-library.json (+_all_frames.json)
+    ├── frames-library.json     ← GEGENEREERD - niet handmatig bewerken
+    ├── _all_frames.json        ← GEGENEREERD - ruwe per-versie dump
+    └── README.md               ← hoe regenereren / nieuwe versie toevoegen
 ```
 
 ## Regels
@@ -116,3 +123,4 @@ Thematische rijen. ~11.800 W() calls per render. Elke frame gebruikt p5.waves me
 - 2026-04-01: createGraphics() crasht in sommige preview-omgevingen (101 canvas contexts), daarom single-canvas + clip approach
 - 2026-04-01: Skill `/p5-grid` aangemaakt in `~/.claude/commands/p5-grid.md`
 - 2026-04-01: Toekomstidee v2 skill: global emergent layer (flow field, tide, pulse) die over alle 100 frames heen werkt
+- 2026-06-09: Frame Library nu VOLLEDIG (670 frames, alle 7 versies) i.p.v. gecureerde 111. `build-library.mjs` is de herhaalbare generator: nieuwe versie = map `p5.wavesX100_vNN/` droppen + `node build-library.mjs`. Extractie draait elk frame in een p5-stub (waves_used = unie van source-literals + runtime-capture op meerdere t; w_calls = call-sites; titel uit comments). Closure/loop-frames (row0 van v02/v03/v06, 30 stuks) worden bewust overgeslagen: niet zelfstandig kopieerbaar/preview-baar. `DRAW_FNS` in script ⇄ `redirects` in index.html synchroon houden (script logt onbekende ids). Geverifieerd in browser: 670/670 compileren, 0 ReferenceErrors.

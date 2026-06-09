@@ -132,6 +132,9 @@
 }
 .collection-card[hidden] { display: none; }
 
+/* Frame Library: volle breedte van het 3-koloms raster */
+.collection-card--wide { grid-column: 1 / -1; }
+
 .collection-card .card-index {
   font-family: 'Consolas', monospace;
   font-size: 0.72rem;

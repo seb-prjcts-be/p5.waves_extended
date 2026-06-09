@@ -13,7 +13,7 @@ p5.waves_extended/
 ├── x100/             ← GEHARMONISEERD onderzoek #4: volledig gekopieerd (892 KB)
 │   ├── index.html        ← Kit-launcher: 7 versie-kaarten + Frame Library, #navbar + zoek + #tags
 │   ├── back.js           ← "← X100"-knop, geïnjecteerd in alle 7 versie-pagina's + library
-│   ├── library/          ← frame-browser (zoek/filter/kopieer) - eigen chrome behouden
+│   ├── library/          ← frame-browser (zoek/filter/kopieer) - VOLLEDIG (670 frames, alle 7 versies); frames-library.json GEGENEREERD door build-library.mjs (zie library/README.md)
 │   └── p5.wavesX100_v01..v07/  ← 7×100-frame grids (p5 1.x + p5.waves v2.1.0, ongewijzigd = de kunst)
 ├── audio/            ← GEHARMONISEERD onderzoek #2: volledig gekopieerd (8,5 MB, geluid incl.)
 │   ├── index.html        ← Kit-index, 12 concepten uit inline data, #navbar + zoek + #tags
