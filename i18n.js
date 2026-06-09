@@ -33,9 +33,9 @@
       'noresults.item': 'Geen item gevonden voor deze filter.',
 
       /* --- x100 kit-index --- */
-      'x100.doc.title': 'X100 - Grids · p5.waves extended',
+      'x100.doc.title': 'x100 - Grids · p5.waves extended',
       'x100.tag': 'x100 · honderd-frame grids',
-      'x100.title': 'X100 - <span class="accent">Grids</span>',
+      'x100.title': 'x100 - <span class="accent">Grids</span>',
       'x100.desc': 'Een doorlopend onderzoek naar wat de p5.waves library kan, verteld in honderden kleine 50×50 animaties - telkens een 10×10 raster van 100 frames. Zeven versies, elk een eigen lens. Zoek of klik een trefwoord om op thema te filteren.',
 
       /* --- audio kit-index --- */
@@ -103,9 +103,9 @@
       'noresults.item': 'No item found for this filter.',
 
       /* --- x100 kit index --- */
-      'x100.doc.title': 'X100 - Grids · p5.waves extended',
+      'x100.doc.title': 'x100 - Grids · p5.waves extended',
       'x100.tag': 'x100 · hundred-frame grids',
-      'x100.title': 'X100 - <span class="accent">Grids</span>',
+      'x100.title': 'x100 - <span class="accent">Grids</span>',
       'x100.desc': 'An ongoing exploration of what the p5.waves library can do, told in hundreds of tiny 50×50 animations - each a 10×10 grid of 100 frames. Seven versions, each its own lens. Search or click a keyword to filter by theme.',
 
       /* --- audio kit index --- */
