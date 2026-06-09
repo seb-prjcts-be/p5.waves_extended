@@ -21,8 +21,8 @@ p5.waves_extended/
 │   └── concepten/        ← 12 live audio×waves concepten (eigen donkere chrome = de instrumenten)
 ├── daily/            ← GEHARMONISEERD onderzoek #1: VOLLEDIGE kopie (360 MB, incl. mp4/png-exports) zodat origineel weg kan
 │   ├── index.html        ← Data-gedreven kit-index uit campaign/manifest.json (#navbar + zoek + #tags)
-│   ├── campaign/manifest.json ← databron (94 studies)
-│   └── 2026…/            ← 94 sketch-mappen (live p5-sketches, eigen chrome NOG niet geharmoniseerd)
+│   ├── campaign/manifest.json ← databron (85 studies; gegenereerd door campaign/build.mjs uit de mappen)
+│   └── 2026…/            ← 85 sketch-mappen (live p5-sketches, eigen chrome NOG niet geharmoniseerd)
 ├── style.css         ← Verbatim kopie van p5.waves/docs/style.css (canonieke huisstijl)
 ├── extended.css      ← Platform-kit: zoekbalk, #tag-chips, kaarten, view-shell/terug-balk
 ├── i18n.js           ← Gedeelde NL/EN-taallaag (toggle in nav, localStorage 'pwx-lang', chrome only)
@@ -42,7 +42,7 @@ p5.waves_extended/
 | # | Kaart | Bron-map | Inhoud |
 |---|-------|----------|--------|
 | 01 | X100 - Grids | p5.wavesX100 | 7 versies × 100-frame grids |
-| 02 | Daily - Studies | daily_p5.waves | 98 gedateerde, geannoteerde sketches |
+| 02 | Daily - Studies | daily_p5.waves | 85 gedateerde, geannoteerde sketches |
 | 03 | Audio × Waves | p5.wavs | 11 audio×waves research-concepten |
 
 ## Architectuur (beslist 2026-06-08)
@@ -58,6 +58,7 @@ p5.waves_extended/
 - Library-docs: index.html (hero-showcase) + docs/{about,examples,guide,periodicity,waves}.html + docs/curation-engine/. p5.waves-bron lokaal = dev `p5.waves.js`; live/CDN = v3.3.0.
 
 ## Notities
+- 2026-06-09: 🔪 DAILY-CURATIE na 3-assen agent-audit (93→85). Verwijderd: a_to_b, one_or_zero, row_plus_col, breath, thirty-four (dubbel van thirty_four_waves), not_an_ocean + 2 zwakke "daily" (radiale ringen 5/5, binaire weave 5/5). Reden = as 1 (toont code de slimheid van de lib?): library gereduceerd tot domme lookup. **As 3 (3.3.0-compat) bleek non-issue:** géén study roept echt `createGrid`/`waveRow`/`waveCol` aan — enkel in commentaar; alles draait op 3.3.0. NIET gesneden: de ~25 studies die identiek 8/7/10 scoren zijn artistiek verschillend (variatie, geen redundantie). Manifest hand-gefilterd (consistent met latere `build.mjs`-run); telling is runtime-dynamisch. Rapport: `daily/docs/audit_3axis_2026-06-09.md`. Nog niet gecommit. De 9 sterke "daily"-genoemde studies HERNOEMD naar betekenisvolle slugs (horizon, petals, current, faults, caustics, hatch, nodes, interval, bearings) — map-rename + manifest-entry + embedded `window.__P5WAVES_PROMO__` in elke study-index.html gepatcht. Bewust GEEN `build.mjs` gedraaid: die zou de geharmoniseerde root `daily/index.html` (navbar+i18n) overschrijven met de oude campagne-catalogus. Geen "daily"-slug meer over; alles 200.
 - 2026-06-08: ✅ LIVE GEDEPLOYD → **https://seb-prjcts-be.github.io/p5.waves_extended/** (GH-Pages, bron main /root, https enforced). `git init` + 408 bestanden + push gedaan; Pages via gh-api geactiveerd (eerste build draaide). Root `.gitignore` sluit `.claude/` + `.htaccess` uit. **LET OP `audio/.gitignore`:** blokkeert ALLE mp3 (Roni-veiligheidsslot) MAAR met expliciete uitzondering `!sound/brunk_akoxylo.mp3` + `!sound/demo-loop.wav` → die twee gaan WEL mee; nieuwe muziek toevoegen = nieuwe `!`-regel nodig anders ontbreekt het geluid live. Te checken na build: site bereikbaar + audio speelt (brunk-mp3 geserveerd).
 - 2026-06-08: 🚀 DEPLOY-TARGET = `https://github.com/seb-prjcts-be/p5.waves_extended.git` → GH-Pages `seb-prjcts-be.github.io/p5.waves_extended/`. Lokaal NOG GEEN git-repo / geen `.gitignore`. **Grootte-check meegevallen:** hele project = **28 MB** (daily 22 / audio 5,3 / x100 0,9), en **0 png-exports** gevonden in `daily/.../export/` → de oude "honderden MB png/mp4"-zorg is achterhaald (mp4 al gewist). Niks groots meer uit te sluiten. Klaar om te pushen na: git init + remote + minimale `.gitignore` (OS-rommel) — nog NIET gedaan (publiceren = expliciete go van Seb nodig).
 - 2026-06-09 (GEPLAND): 🔍 Streng testen op **relevantie & impact van de lib**. Per collectie/concept kritisch nagaan: gebruikt het p5.waves écht betekenisvol (relevantie) en landt het visueel/conceptueel (impact), of is het vulling? Mogelijk de `/evaluate` (cc-evaluate) skill inzetten als kader. Uitkomst = punch-list wat blijft / aanscherpen / sneuvelt.
