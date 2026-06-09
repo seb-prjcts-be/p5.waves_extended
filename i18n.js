@@ -24,6 +24,7 @@
       'nav.collections': 'Collecties',
       'nav.about': 'Over',
       'nav.overview': 'Overzicht',
+      'nav.specimens': 'Specimens',
       'lang.toggle': 'EN',            // label van de knop in NL-modus
 
       /* --- gedeeld: filter/zoek (alle kit-index'en) --- */
@@ -56,6 +57,10 @@
       'filter.studies': 'studies',
       'noresults.study': 'Geen studie gevonden voor deze filter.',
 
+      /* --- full_curation kit-index (Visual Vocabulary) --- */
+      'curation.doc.title': 'Visual Vocabulary · p5.waves extended',
+      'curation.foot.note': 'Elk specimen is een klein, herbruikbaar codefragment - kopieer een kaart in <a href="https://editor.p5js.org/" target="_blank" rel="noopener">editor.p5js.org</a> en het draait.',
+
       /* --- landing: hero --- */
       'doc.title': 'p5.waves extended - experimenten, per thema doorzoekbaar',
       'hero.badge': 'uitbreiding op de p5.waves library',
@@ -79,9 +84,12 @@
       'card.daily.status': '98 sketches',
       'card.daily.count': '98 gedateerde sketches',
       'card.daily.desc': 'Een dagelijkse reeks geannoteerde studies - threshold, shift, morph, grid-logica - met verwijzingen naar Riley, Molnár, LeWitt, Kelly.',
-      'card.audio.status': '11 concepten',
-      'card.audio.count': '11 research-concepten',
+      'card.audio.status': '12 concepten',
+      'card.audio.count': '12 research-concepten',
       'card.audio.desc': 'Geluid en waves die elkaar sturen: FFT als tijddriver, spectrum naar amplitude, beat-getriggerde shifts, Chladni-patronen, sonificatie.',
+      'card.curation.status': '26 specimens',
+      'card.curation.count': '26 herbruikbare specimens',
+      'card.curation.desc': 'Een doorzoekbare bibliotheek van kleine, herbruikbare p5.waves-fragmenten. Elk specimen leeft van het golf-dialect zelf - waveName, shift, mix, wild mode - niet van een toevallig bewegende waarde.',
 
       /* --- landing: about --- */
       'about.tag': 'over dit platform',
@@ -94,6 +102,7 @@
       'nav.collections': 'Collections',
       'nav.about': 'About',
       'nav.overview': 'Overview',
+      'nav.specimens': 'Specimens',
       'lang.toggle': 'NL',            // button label in EN mode
 
       /* --- shared: filter/search (all kit indexes) --- */
@@ -126,6 +135,10 @@
       'filter.studies': 'studies',
       'noresults.study': 'No study found for this filter.',
 
+      /* --- full_curation kit index (Visual Vocabulary) --- */
+      'curation.doc.title': 'Visual Vocabulary · p5.waves extended',
+      'curation.foot.note': 'Each specimen is a small, reusable code snippet - copy any card into <a href="https://editor.p5js.org/" target="_blank" rel="noopener">editor.p5js.org</a> and it runs.',
+
       /* --- landing: hero --- */
       'doc.title': 'p5.waves extended - experiments, searchable by theme',
       'hero.badge': 'an extension of the p5.waves library',
@@ -149,9 +162,12 @@
       'card.daily.status': '98 sketches',
       'card.daily.count': '98 dated sketches',
       'card.daily.desc': 'A daily series of annotated studies - threshold, shift, morph, grid logic - with references to Riley, Molnár, LeWitt, Kelly.',
-      'card.audio.status': '11 concepts',
-      'card.audio.count': '11 research concepts',
+      'card.audio.status': '12 concepts',
+      'card.audio.count': '12 research concepts',
       'card.audio.desc': 'Sound and waves driving each other: FFT as a time driver, spectrum to amplitude, beat-triggered shifts, Chladni patterns, sonification.',
+      'card.curation.status': '26 specimens',
+      'card.curation.count': '26 reusable specimens',
+      'card.curation.desc': 'A searchable library of small, reusable p5.waves snippets. Each specimen lives off the wave dialect itself - waveName, shift, mix, wild mode - not off a value that merely happens to move.',
 
       /* --- landing: about --- */
       'about.tag': 'about this platform',
